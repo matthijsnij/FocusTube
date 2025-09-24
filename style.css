@@ -1,0 +1,110 @@
+/* STYLE OF THE LANDING PAGE */
+
+/* Reset default spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #000;          /* pure black background */
+    height: 100vh;                   /* full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    text-align: center;
+    color: #fff;                     /* white text */
+  }
+  
+  .container h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search {
+    width: 300px;
+    max-width: 80%;
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+  }
+
+  /* STYLE OF RESULTS PAGE */
+  /* Container for all videos */
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* space between video cards */
+    margin-top: 20px;
+  }
+  
+  /* Individual video card */
+  .video-item {
+    background-color: #111; /* dark card */
+    color: #fff;
+    width: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+  }
+  
+  .video-item:hover {
+    transform: scale(1.03);
+  }
+  
+  .video-item img {
+    width: 100%;
+    display: block;
+  }
+  
+  .video-item h3 {
+    font-size: 1rem;
+    margin: 10px;
+  }
+  
+  .video-item p {
+    font-size: 0.85rem;
+    margin: 0 10px 10px 10px;
+    color: #ccc;
+  }
+  
+  .video-item a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Container for the results page */
+.results-container {
+    display: flex;
+    flex-direction: column; /* stack title, loading, results vertically */
+    align-items: center;    /* center horizontally */
+    width: 100%;
+    padding: 20px;
+}
+
+/* Search title */
+#search-title {
+    color: white;
+    font-size: 24px;
+    margin: 20px 0 10px;
+    text-align: center;
+}
+
+/* Loading indicator */
+#results-loading {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+  
+  
