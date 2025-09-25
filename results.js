@@ -1,6 +1,40 @@
 const resultsContainer = document.getElementById('results');
 const searchTitle = document.getElementById('search-title');
 const loadingIndicator = document.getElementById('results-loading');
+const videoModal = document.getElementById('videoModal');
+const closeModalBtn = document.getElementById('closeModal');
+
+let player;
+
+// Called by YouTube API
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '390',
+    width: '640',
+    videoId: '' // initially empty
+  });
+}
+
+// Open modal + load video
+function openVideo(videoId) {
+  videoModal.style.display = 'flex';
+  player.loadVideoById(videoId);
+}
+
+// Close modal
+function closeVideo() {
+  videoModal.style.display = 'none';
+  if (player) player.stopVideo();
+}
+
+// Event listeners for closing modal
+closeModalBtn.addEventListener('click', closeVideo);
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeVideo();
+});
+videoModal.addEventListener('click', (e) => {
+  if (e.target === videoModal) closeVideo();
+});
 
 // Get the search query from URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -13,7 +47,7 @@ if (query) {
   searchTitle.innerText = `Results for "${query}"`;
 
   // Send query to n8n webhook
-  fetch('https://matthijsn.app.n8n.cloud/webhook/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
+  fetch('https://qmcaiprojects.app.n8n.cloud/webhook/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ search: query })
@@ -37,7 +71,8 @@ if (query) {
 
 // Function to display videos
 function displayVideos(videos) {
-videos.forEach(video => {
+  resultsContainer.innerHTML = ''; // clear old results
+  videos.forEach(video => {
     const videoId = video.id.videoId;
     const title = video.snippet.title;
     const thumbnail = video.snippet.thumbnails.medium.url;
@@ -46,12 +81,14 @@ videos.forEach(video => {
     const videoElement = document.createElement('div');
     videoElement.classList.add('video-item');
     videoElement.innerHTML = `
-    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">
-        <img src="${thumbnail}" alt="${title}">
-        <h3>${title}</h3>
-        <p>${channel}</p>
-    </a>
+      <img src="${thumbnail}" alt="${title}" style="cursor:pointer;">
+      <h3>${title}</h3>
+      <p>${channel}</p>
     `;
+
+    // When clicked → open modal player
+    videoElement.addEventListener('click', () => openVideo(videoId));
+
     resultsContainer.appendChild(videoElement);
-});
+  });
 }
