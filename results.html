@@ -5,9 +5,12 @@
 
 <!-- Document type declaration -->
 <!DOCTYPE html>
+
+<!-- Root element of the HTML document, with language set to English -->
 <html lang="en">
+
 <head>
-  <!-- Character encoding -->
+  <!-- Defines character encoding -->
   <meta charset="UTF-8">
 
   <!-- Ensure proper scaling on mobile devices -->
@@ -18,6 +21,38 @@
 
   <!-- Link to external CSS stylesheet for styling -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Internal CSS styles (specific to this page) -->
+  <style>
+    /* Basic modal styling (hidden by default) */
+    #videoModal {
+      display: none; /* Hidden until triggered */
+      position: fixed; /* Stays in place even when scrolling */
+      top: 0; left: 0; /* Covers the entire screen */
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); /* Semi-transparent dark overlay */
+      justify-content: center; /* Centers modal horizontally */
+      align-items: center; /* Centers modal vertically */
+      z-index: 1000; /* Keeps modal above other elements */
+    }
+
+    /* The video player area */
+    #player {
+      width: 80%;
+      height: 60%;
+      background: black; /* Black background before video loads */
+    }
+
+    /* Close button for the modal (the × symbol) */
+    #closeModal {
+      position: absolute; /* Fixed position inside the modal */
+      top: 20px; 
+      right: 40px; 
+      font-size: 24px; /* Larger text size */
+      color: white; 
+      cursor: pointer; /* Shows pointer on hover */
+    }
+  </style>
 
   <!-- Internal CSS for modal styling -->
   <style>
@@ -57,30 +92,29 @@
 <body>
   <!-- Main container for search results -->
   <div class="results-container">
-    <!-- Dynamic title showing search query -->
+    <!-- Title showing what the user searched for -->
     <h2 id="search-title"></h2>
 
     <!-- Loading indicator while fetching results -->
     <div id="results-loading">Finding the most relevant videos for you...</div>
 
-    <!-- Container where search results will be injected via JS -->
+    <!-- Where the search results (video thumbnails, links, etc.) will appear -->
     <div id="results"></div>
   </div>
 
-  <!-- Modal Player: hidden by default -->
+  <!-- Modal Player (appears when user clicks on a video) -->
   <div id="videoModal">
-    <!-- Close button -->
+    <!-- Close button (×) to exit the modal -->
     <span id="closeModal">&times;</span>
-    <!-- YouTube player will be embedded here -->
+
+    <!-- Video player will be embedded here (YouTube iframe) -->
     <div id="player"></div>
   </div>
 
-  <!-- Load YouTube IFrame API for embedding videos -->
+  <!-- Load the YouTube IFrame Player API (for embedding videos) -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
-  <!-- Custom JavaScript to fetch results and handle modal/video playback -->
+  <!-- Link to external JavaScript file that controls results & modal -->
   <script src="results.js"></script>
 </body>
 </html>
-
-

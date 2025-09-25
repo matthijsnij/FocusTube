@@ -113,4 +113,3 @@ function displayVideos(videos) {
     resultsContainer.appendChild(videoElement);
   });
 }
-
