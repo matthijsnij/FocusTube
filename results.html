@@ -1,52 +1,84 @@
+<!--
+  FocusTube Results Page
+  Purpose: Display search results for videos and play them in a modal.
+-->
+
+<!-- Document type declaration -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Character encoding -->
   <meta charset="UTF-8">
+
+  <!-- Ensure proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Page title shown in browser tab -->
   <title>FocusTube Results</title>
+
+  <!-- Link to external CSS stylesheet for styling -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Internal CSS for modal styling -->
   <style>
-    /* Basic modal styling */
+    /* Modal container: hidden by default, overlay for video player */
     #videoModal {
-      display: none; 
-      position: fixed; 
-      top: 0; left: 0; 
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8); 
-      justify-content: center; 
-      align-items: center;
-      z-index: 1000;
+      display: none;                /* Hide modal initially */
+      position: fixed;              /* Stay in viewport */
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      background: rgba(0,0,0,0.8); /* Semi-transparent background */
+      justify-content: center;      /* Center content horizontally */
+      align-items: center;          /* Center content vertically */
+      z-index: 1000;                /* Ensure modal is on top */
     }
+
+    /* Video player container inside modal */
     #player {
-      width: 80%;
-      height: 60%;
-      background: black;
+      width: 80%;                   /* 80% of viewport width */
+      height: 60%;                  /* 60% of viewport height */
+      background: black;            /* Fallback background color */
     }
+
+    /* Close button for modal */
     #closeModal {
-      position: absolute;
-      top: 20px; 
-      right: 40px; 
-      font-size: 24px; 
+      position: absolute;           /* Positioned relative to modal */
+      top: 20px;                    /* NOTE: might not work on smaller screens, but can easily be made relative using % or rem*/
+      right: 40px;                  /* NOTE: might not work on smaller screens, but can easily be made relative using % or rem*/
+      font-size: 24px;              /* Large X symbol */
       color: white; 
-      cursor: pointer;
+      cursor: pointer;              /* Shows that X is clickable */
     }
   </style>
 </head>
+
 <body>
+  <!-- Main container for search results -->
   <div class="results-container">
+    <!-- Dynamic title showing search query -->
     <h2 id="search-title"></h2>
+
+    <!-- Loading indicator while fetching results -->
     <div id="results-loading">Finding the most relevant videos for you...</div>
+
+    <!-- Container where search results will be injected via JS -->
     <div id="results"></div>
   </div>
 
-  <!-- Modal Player -->
+  <!-- Modal Player: hidden by default -->
   <div id="videoModal">
+    <!-- Close button -->
     <span id="closeModal">&times;</span>
+    <!-- YouTube player will be embedded here -->
     <div id="player"></div>
   </div>
 
-  <!-- Load YouTube API -->
+  <!-- Load YouTube IFrame API for embedding videos -->
   <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- Custom JavaScript to fetch results and handle modal/video playback -->
   <script src="results.js"></script>
 </body>
 </html>

@@ -1,24 +1,43 @@
-<!-- Structure and content -->
-<!-- Comment -->
+<!--
+  FocusTube Landing page
+  Purpose: Minimalistic landing page for searching videos
+-->
+
+<!-- Document type declaration -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Character encoding -->
   <meta charset="UTF-8">
+  
+  <!-- Ensure proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Page title shown in browser tab -->
   <title>FocusTube</title>
+  
+  <!-- Link to external CSS stylesheet for styling -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Main content area -->
   <main class="container">
+    <!-- Page heading -->
     <h1>What do you want to learn today?</h1>
+    
+    <!-- Search input for user queries -->
+    <!-- id = Unique identifier for JS targeting  -->
+     <!-- class = CSS class for styling -->
     <input
       type="text"
-      id="searchInput"
-      class="search"
+      id="searchInput"         
+      class="search"           
       placeholder="e.g. History of the Roman Empire, How to play guitar, Introduction to Machine learning, Italian cooking"
     >
   </main>
 
+  <!-- Link to external JavaScript file for interactivity -->
   <script src="script.js"></script>
 </body>
 </html>
+

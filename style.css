@@ -1,110 +1,124 @@
 /* STYLE OF THE LANDING PAGE */
 
-/* Reset default spacing */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    background-color: #000;          /* pure black background */
-    height: 100vh;                   /* full viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-  }
-  
-  .container {
-    text-align: center;
-    color: #fff;                     /* white text */
-  }
-  
-  .container h1 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .search {
-    width: 300px;
-    max-width: 80%;
-    padding: 0.8rem 1rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    outline: none;
-  }
+/* 
+CSS selectors
+- nothing     for html tags directly; body, div
+- .           for classes
+- #           for specific id's
+*/
 
-  /* STYLE OF RESULTS PAGE */
-  /* Container for all videos */
+/* Reset default spacing and set box-sizing */
+/* * is a universal selector, so this applies to everything on the page */
+* { 
+    margin: 0;               /* Remove default margin for all elements */
+    padding: 0;              /* Remove default padding */
+    box-sizing: border-box;  /* Include padding and border in element’s total width/height */
+}
+
+/* Body contains all visible content */
+body {
+    background-color: #000;  /* Pure black background for the page */
+    height: 100vh;           /* Full viewport height */
+    display: flex;           /* Use Flexbox for centering content */
+    justify-content: center; /* Center content horizontally */
+    align-items: center;     /* Center content vertically */
+    font-family: Arial, sans-serif; /* Default font, NOTE: Might want to change this to something a bit more neat/fancy */
+}
+
+/* Styling for container class */
+.container {
+    text-align: center;      /* Center-align all text inside container */
+    color: #fff;             /* White text color */
+}
+
+/* Styling for h1 elements inside containers */
+.container h1 {
+    font-size: 2rem;         /* Large heading size */
+    margin-bottom: 1.5rem;   /* Space below heading */
+}
+
+/* Styling for search bar */
+.search {
+    width: 300px;            /* Fixed width for input, NOTE: Might want to change to relative instead of fixed, currently quite narrow */
+    max-width: 80%;          /* Responsive max width w.r.t container width */
+    padding: 0.8rem 1rem;    /* Inner spacing for comfortable typing */
+    border: none;            /* No border */
+    border-radius: 6px;      /* Rounded corners */
+    font-size: 1rem;         /* Text size */
+    outline: none;           /* Remove default focus outline */
+}
+
+ /* STYLE OF RESULTS PAGE */
+
+/* Container for all videos */
 #results {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px; /* space between video cards */
-    margin-top: 20px;
-  }
+    display: flex;           /* Use Flexbox to arrange video cards */
+    flex-wrap: wrap;         /* Wrap cards to next line if necessary */
+    justify-content: center; /* Center all video cards horizontally, NOTE: Might want to show videos vertically, same as YT */
+    gap: 20px;               /* Space between video cards */
+    margin-top: 20px;        /* Space above the container */
+}
   
-  /* Individual video card */
-  .video-item {
-    background-color: #111; /* dark card */
-    color: #fff;
-    width: 300px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    transition: transform 0.2s;
-  }
+/* Individual video card */
+.video-item {
+    background-color: #111;  /* Dark card background */
+    color: #fff;             /* White text inside card */
+    width: 300px;            /* Fixed width for consistency, NOTE: again might need relative for different types of screens */
+    border-radius: 8px;      /* Rounded corners for card */
+    overflow: hidden;        /* Prevent content from spilling out */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5); /* Slight shadow for depth */
+    transition: transform 0.2s; /* Smooth scale effect on hover */
+}
   
-  .video-item:hover {
-    transform: scale(1.03);
-  }
+.video-item:hover { /* : indicates pseudo-class or special state */
+    transform: scale(1.03);  /* Slight zoom effect on hovering over the video with mouse */
+}
   
-  .video-item img {
-    width: 100%;
-    display: block;
-  }
+.video-item img {
+    width: 100%;             /* Make thumbnail fill card width */
+    display: block;          /* Remove default inline spacing */
+}
   
-  .video-item h3 {
-    font-size: 1rem;
-    margin: 10px;
-  }
+.video-item h3 {
+    font-size: 1rem;         /* Title size */
+    margin: 10px;            /* Space around title */
+}
   
-  .video-item p {
-    font-size: 0.85rem;
-    margin: 0 10px 10px 10px;
-    color: #ccc;
-  }
+.video-item p { /* NOTE: rename? <p> means paragraph */
+    font-size: 0.85rem;      /* Smaller font for channel name */
+    margin: 0 10px 10px 10px; /* Top:0, Sides:10px, Bottom:10px */
+    color: #ccc;             /* Lighter gray for secondary text */
+}
   
-  .video-item a {
-    text-decoration: none;
-    color: inherit;
-  }
+.video-item a { /* NOTE: rename? <a> means anchor/link, and does the link even show? */
+    text-decoration: none;   /* Remove underline from links */
+    color: inherit;          /* Keep same color as parent */
+}
 
-  /* Container for the results page */
+
+ /* Container for the all of results page */
 .results-container {
     display: flex;
-    flex-direction: column; /* stack title, loading, results vertically */
-    align-items: center;    /* center horizontally */
-    width: 100%;
-    padding: 20px;
+    flex-direction: column;  /* Stack title, loading, and videos vertically */
+    align-items: center;     /* Center horizontally */
+    width: 100%;             /* Full width of page */
+    padding: 20px;           /* Space inside container */
 }
 
 /* Search title */
 #search-title {
-    color: white;
-    font-size: 24px;
-    margin: 20px 0 10px;
-    text-align: center;
+    color: white;            /* White text for search term */
+    font-size: 24px;         /* Heading size */
+    margin: 20px 0 10px;     /* Top 20px, bottom 10px */
+    text-align: center;      /* Center text */
 }
 
 /* Loading indicator */
 #results-loading {
-    color: white;
-    font-size: 18px;
-    margin-bottom: 20px;
-    text-align: center;
+    color: white;            /* White text */
+    font-size: 18px;         /* Slightly smaller than heading */
+    margin-bottom: 20px;     /* Space below loading text */
+    text-align: center;      /* Center text */
 }
   
   
