@@ -16,6 +16,9 @@
   <!-- Ensure proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Roboto font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@200&display=swap" rel="stylesheet">
+
   <!-- Page title shown in browser tab -->
   <title>FocusTube Results</title>
 
@@ -90,6 +93,9 @@
 </head>
 
 <body>
+  <!-- Add logo to the page -->
+  <div id="header-placeholder"></div>
+
   <!-- Main container for search results -->
   <div class="results-container">
     <!-- Title showing what the user searched for -->
@@ -116,5 +122,7 @@
 
   <!-- Link to external JavaScript file that controls results & modal -->
   <script src="results.js"></script>
+  <!-- Link to external JavaScript which dynamically loads the logo -->
+  <script src="header.js"></script>
 </body>
 </html>

@@ -15,7 +15,10 @@
   
   <!-- Ensure proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
+  <!-- Roboto font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
   <!-- Page title shown in browser tab -->
   <title>FocusTube</title>
   
@@ -24,11 +27,14 @@
 </head>
 
 <body>
+  <!-- Add logo to the page -->
+  <div id="header-placeholder"></div>
+
   <!-- Main content area of the page -->
   <main class="container">
     
     <!-- Main heading of the page -->
-    <h1>What do you want to learn today?</h1>
+    <h1 id="search-title">What do you want to learn today?</h1>
 
     <!-- Text input field where the user types their search -->
     <!-- Specifies this is a text input -->
@@ -39,12 +45,20 @@
       type="text" 
       id="searchInput" 
       class="search" 
-      placeholder="e.g. History of the Roman Empire, How to play guitar, Introduction to Machine learning, Italian cooking" 
+      placeholder="e.g. History of the Roman Empire, How to play guitar, Python basics" 
     >
+    <!-- Filter button -->
+    <div class="filter-button">
+      <img src="../images/filter_icon_2.png" alt="Filter Icon" class="filter-icon">
+      <span>Filters</span>
+    </div>
   </main>
 
   <!-- Link to external JavaScript file for interactivity -->
   <script src="script.js"></script>
+  <!-- Link to external JavaScript which dynamically loads logo -->
+  <script src="header.js"></script>
+
 </body>
 </html>
 

@@ -22,30 +22,24 @@ body {
     display: flex;           /* Use Flexbox for centering content */
     justify-content: center; /* Center content horizontally */
     align-items: center;     /* Center content vertically */
-    font-family: Arial, sans-serif; /* Default font, NOTE: Might want to change this to something a bit more neat/fancy */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;   /* ExtraLight */
 }
 
 /* Styling for container class */
 .container {
-    text-align: center;      /* Center-align all text inside container */
-    color: #fff;             /* White text color */
+    text-align: center;
+    color: #fff;
+    width: 100%;       /* take full horizontal space */
+    max-width: 1200px; /* optional, limits very wide screens */
+    margin: 0 auto;
+    padding: 0 1rem;   /* small padding for mobile */
 }
 
 /* Styling for h1 elements inside containers */
 .container h1 {
     font-size: 2rem;         /* Large heading size */
     margin-bottom: 1.5rem;   /* Space below heading */
-}
-
-/* Styling for search bar */
-.search {
-    width: 300px;            /* Fixed width for input, NOTE: Might want to change to relative instead of fixed, currently quite narrow */
-    max-width: 80%;          /* Responsive max width w.r.t container width */
-    padding: 0.8rem 1rem;    /* Inner spacing for comfortable typing */
-    border: none;            /* No border */
-    border-radius: 6px;      /* Rounded corners */
-    font-size: 1rem;         /* Text size */
-    outline: none;           /* Remove default focus outline */
 }
 
  /* STYLE OF RESULTS PAGE */
@@ -105,12 +99,25 @@ body {
     padding: 20px;           /* Space inside container */
 }
 
-/* Search title */
+/* Search title (heading above search bar) */
 #search-title {
-    color: white;            /* White text for search term */
-    font-size: 24px;         /* Heading size */
-    margin: 20px 0 10px;     /* Top 20px, bottom 10px */
-    text-align: center;      /* Center text */
+    color: white;
+    font-size: 3.5rem;       /* increased from 24px */
+    margin: 30px 0 20px;     /* more spacing above and below */
+    text-align: center;
+}
+
+/* Search input field */
+.search {
+    width: 60%;              /* wider, nearly full page width */
+    max-width: 800px;        /* limits on large screens */
+    padding: 1rem 1.2rem;
+    border: none;
+    border-radius: 3rem;
+    font-size: 1.1rem;
+    outline: none;
+    background-color: #222;
+    color: #fff;
 }
 
 /* Loading indicator */
@@ -120,5 +127,21 @@ body {
     margin-bottom: 20px;     /* Space below loading text */
     text-align: center;      /* Center text */
 }
+
+/* Logo container */
+#header-placeholder {
+  position: fixed;       /* stay at top-left even when scrolling */
+  top: 10px;             /* small margin from top */
+  left: 10px;            /* small margin from left */
+  z-index: 1000;         /* stay above other elements */
+}
+
+/* Logo image */
+.logo {
+  height: 4rem;          /* bigger size */
+  width: auto;           /* keep aspect ratio */
+  cursor: pointer;       /* indicate clickable */
+}
+
   
   
