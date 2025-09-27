@@ -12,5 +12,21 @@ searchInput.addEventListener('keypress', function(event) {
   }
 });
 
+// Get the filter button and popup
+const filterButton = document.querySelector('.filter-button');
+const filterPopup = document.querySelector('.filter-popup');
+const closeButton = document.querySelector('.popup-close');
+
+// Toggle popup visibility when button is clicked
+filterButton.addEventListener('click', () => {
+  filterPopup.classList.toggle('show');
+});
+// Close button click
+closeButton.addEventListener('click', () => {
+  filterPopup.classList.remove('show');
+});
+
+
+
 
 

@@ -41,17 +41,28 @@
     <!-- Unique ID for JavaScript access -->
     <!-- Class name for CSS styling --> 
     <!-- Placeholder text gives examples of what the user can type -->
-    <input
-      type="text" 
-      id="searchInput" 
-      class="search" 
-      placeholder="e.g. History of the Roman Empire, How to play guitar, Python basics" 
-    >
-    <!-- Filter button -->
-    <div class="filter-button">
-      <img src="../images/filter_icon_2.png" alt="Filter Icon" class="filter-icon">
-      <span>Filters</span>
+    <div class="search-wrapper">
+      <input
+        type="text" 
+        id="searchInput" 
+        class="search" 
+        placeholder="e.g. History of the Roman Empire, How to play guitar, Python basics"
+      >
+      <!-- Filter icon for opening the filter popup menu -->
+      <div class="filter-button">
+        <img src="../images/filter_icon.png" alt="Filter Icon" class="filter-icon">
+      </div>
     </div>
+
+    <!-- Popup menu for filters (initially hidden) -->
+    <div id="filter-popup" class="filter-popup">
+
+      <!-- Close button -->
+      <button class="popup-close">&times;</button>
+      
+      <!-- Filter options content -->
+    </div>
+
   </main>
 
   <!-- Link to external JavaScript file for interactivity -->

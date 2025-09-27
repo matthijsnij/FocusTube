@@ -143,5 +143,70 @@ body {
   cursor: pointer;       /* indicate clickable */
 }
 
+.search-wrapper {
+  display: flex;
+  justify-content: center; /* centers the whole block */
+  align-items: center;     /* vertically aligns input + button */
+  gap: 0.5rem;               /* space between search bar and filter button */
+}
+
+/* Filter button */
+.filter-button {
+  display: flex;         /* instead of inline-flex */
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;   /* Thin */
+  cursor: pointer;
+  width: fit-content;    /* shrink to fit content */
+}
+
+
+.filter-button img.filter-icon {
+  width: 3rem;     /* scales with root font size */
+  height: auto;    /* keep proportions */
+}
+
+.filter-button:hover {
+  opacity: 0.8;                 /* subtle hover effect */
+}
+
+/* Filter popup container */
+.filter-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;      /* half of viewport width */
+  height: 50vh;     /* half of viewport height */
+  background-color: #111;
+  color: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: none;    /* hidden by default */
+  z-index: 1000;    /* above other elements */
+  overflow-y: auto; /* scroll if content exceeds height */
+}
+
+.filter-popup.show {
+  display: block;   /* shown when toggle is active */
+}
+
+.popup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+
+
+
   
   
