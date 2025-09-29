@@ -43,7 +43,7 @@ const typeFilter = document.querySelector('.filter-row.type-filter')
 const singleSelectFilters = document.querySelectorAll('.filter-row.single-select');
 const multiSelectFilters = document.querySelectorAll('.filter-row.multi-select');
 
-// Default filter selections
+// ------ Default filter selections
 // TYPE
 const typeButtons = typeFilter.querySelectorAll('.filter-option');
 typeButtons[0].classList.add('selected'); // Video by default
@@ -53,7 +53,7 @@ typeButtons[0].classList.add('selected'); // Video by default
 const sortButtons = singleSelectFilters[1].querySelectorAll('.filter-option')
 sortButtons[0].classList.add('selected') // Relevance by default
 
-// Type filter functionality
+// ------ Type filter functionality
 // All other filters depend on this filter, as Channel blocks other filters
 typeButtons.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -66,7 +66,7 @@ typeButtons.forEach(btn => {
   });
 });
 
-// Single-selection filters functionality
+// ------ Single-selection filters functionality
 singleSelectFilters.forEach(row => {
   const buttons = row.querySelectorAll('.filter-option');
 
@@ -79,14 +79,14 @@ singleSelectFilters.forEach(row => {
     });
   });
 });
-// Multi-selection filters functionality
+// ------ Multi-selection filters functionality
 multiSelectFilters.forEach(row => {
   const buttons = row.querySelectorAll('.filter-option');
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       // toggle 'selected' class on clicked button
-      btn.classList.toggle('selected');
+      btn.classList.toggle('selected'); // toggle alters between add and remove
     });
   });
 });

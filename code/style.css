@@ -203,6 +203,7 @@ body {
   display: block;   /* shown when toggle is active */
 }
 
+/* Close X for popup */
 .popup-close {
   position: absolute;
   top: 1rem;
@@ -221,7 +222,7 @@ body {
   background-color: rgba(0,0,0,0.5); /* semi-transparent black */
   opacity: 0;
   visibility: hidden;
-  z-index: 1050; /* lower than .filter-popup (1000) */
+  z-index: 1050; /* for layering, lower than .filter-popup (1100) */
   transition: opacity .2s ease, visibility .2s;
 }
 
@@ -238,13 +239,13 @@ body {
   justify-content: flex-start; /* align left */
   margin-bottom: 1rem;   /* space below title for filters content */
 }
-
+/* Heading style */
 .popup-title-container h2 {
   font-size: 1.5rem;     /* relative size */
   font-weight: 400;
   color: #fff;
 }
-
+/* Icon style */
 .popup-title-container img.popup-icon {
   width: 2.75rem;         /* relative to root font size */
   height: auto;          /* maintain aspect ratio */
@@ -257,19 +258,19 @@ body {
   align-items: center;            /* vertically center name and options */
   margin-bottom: 1rem;            /* space between filter rows */
 }
-
+/* Filter name / word style */
 .filter-name {
   font-size: 1.2rem;              /* relative size */
   color: #fff;
   font-weight: 300;
 }
-
+/* Styling between filter options */
 .filter-options {
   display: flex;
   gap: 0.5rem;          /* space between options */
   flex-wrap: wrap;       /* wrap if too many options */
 }
-
+/* Styling of a single filter option box */
 .filter-option {
   background-color: #222;  /* dark background for contrast */
   color: #fff;
@@ -280,18 +281,18 @@ body {
   font-size: 1rem;
   transition: background-color 0.2s;
 }
-
+/* Styling of a single filter button when disabled */
 .filter-option.disabled { /* indicates disabled */
   opacity: 0.5;
   pointer-events: none;
   transition: opacity 0.2s;
   cursor: not-allowed;
 }
-
+/* Hover effect */
 .filter-option:hover {
   background-color: #444;
 }
-
+/* Styling for a single filter button when selected */
 .filter-option.selected {
   background-color: #666;  /* indicates active selection */
 }
