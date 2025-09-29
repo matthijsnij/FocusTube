@@ -42,6 +42,15 @@ body {
     margin-bottom: 1.5rem;   /* Space below heading */
 }
 
+.page-content.hidden {
+  display: none;
+}
+
+.page-content h1 {
+  font-size: 2rem;         /* Large heading size */
+  margin-bottom: 1.5rem;   /* Space below heading */
+}
+
  /* STYLE OF RESULTS PAGE */
 
 /* Container for all videos */
@@ -179,14 +188,14 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50vw;      /* half of viewport width */
-  height: 50vh;     /* half of viewport height */
+  width: 40vw;      /* half of viewport width */
+  height: 40vh;     /* half of viewport height */
   background-color: #111;
   color: #fff;
   border-radius: 1rem;
   padding: 2rem;
   display: none;    /* hidden by default */
-  z-index: 1000;    /* above other elements */
+  z-index: 1100;    /* above other elements */
   overflow-y: auto; /* scroll if content exceeds height */
 }
 
@@ -204,6 +213,90 @@ body {
   font-size: 2rem;
   cursor: pointer;
 }
+
+/* Overlay for dimmed background during filter popup */
+.overlay {
+  position: fixed;
+  inset: 0; /* shorthand for top/right/bottom/left:0 */
+  background-color: rgba(0,0,0,0.5); /* semi-transparent black */
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1050; /* lower than .filter-popup (1000) */
+  transition: opacity .2s ease, visibility .2s;
+}
+
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Popup title */
+.popup-title-container {
+  display: flex;
+  align-items: center;   /* vertically center icon and text */
+  gap: 0.5rem;           /* space between icon and title */
+  justify-content: flex-start; /* align left */
+  margin-bottom: 1rem;   /* space below title for filters content */
+}
+
+.popup-title-container h2 {
+  font-size: 1.5rem;     /* relative size */
+  font-weight: 400;
+  color: #fff;
+}
+
+.popup-title-container img.popup-icon {
+  width: 2.75rem;         /* relative to root font size */
+  height: auto;          /* maintain aspect ratio */
+}
+
+/* Filter row */
+.filter-row {
+  display: flex;
+  justify-content: space-between; /* name left, options right */
+  align-items: center;            /* vertically center name and options */
+  margin-bottom: 1rem;            /* space between filter rows */
+}
+
+.filter-name {
+  font-size: 1.2rem;              /* relative size */
+  color: #fff;
+  font-weight: 300;
+}
+
+.filter-options {
+  display: flex;
+  gap: 0.5rem;          /* space between options */
+  flex-wrap: wrap;       /* wrap if too many options */
+}
+
+.filter-option {
+  background-color: #222;  /* dark background for contrast */
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.filter-option.disabled { /* indicates disabled */
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  cursor: not-allowed;
+}
+
+.filter-option:hover {
+  background-color: #444;
+}
+
+.filter-option.selected {
+  background-color: #666;  /* indicates active selection */
+}
+
+
 
 
 
