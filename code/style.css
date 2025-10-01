@@ -15,6 +15,8 @@ CSS selectors
     box-sizing: border-box;  /* Include padding and border in element’s total width/height */
 }
 
+/* ============================== LANDING PAGE SPECIFIC ============================= */
+
 /* Body contains all visible content */
 body.landing-page {
     background-color: #000;  /* Pure black background for the page */
@@ -26,6 +28,53 @@ body.landing-page {
     font-weight: 100;   /* ExtraLight */
 }
 
+body.landing-page #logo-placeholder {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+/* Styling for container class */
+.landing-container {
+    text-align: center;
+    color: #fff;
+    width: 100%;       /* take full horizontal space */
+    max-width: 1200px; /* optional, limits very wide screens */
+    margin: 0 auto;
+    padding: 0 1rem;   /* small padding for mobile */
+}
+
+.landing-container h1 {
+    font-size: 2rem;         /* Large heading size */
+    margin-bottom: 1.5rem;   /* Space below heading */
+}
+
+.landing-page-content.hidden {
+  display: none;
+}
+
+.landing-page-content h1 {
+  font-size: 2rem;         /* Large heading size */
+  margin-bottom: 1.5rem;   /* Space below heading */
+}
+
+/* Search title (heading above search bar) */
+#search-title {
+    color: white;
+    font-size: 3.5rem;       /* increased from 24px */
+    margin: 30px 0 20px;     /* more spacing above and below */
+    text-align: center;
+}
+
+.search-wrapper-landing {
+  display: flex;
+  justify-content: center; /* centers the whole block */
+  align-items: center;     /* vertically aligns input + button */
+  gap: 0.5rem;               /* space between search bar and filter button */
+}
+
+/* =================================== RESULTS PAGE SPECIFIC ================================== */
 body.results-page {
     background-color: #000;
     font-family: 'Roboto', sans-serif;
@@ -35,44 +84,9 @@ body.results-page {
     /* no flex centering here */
 }
 
-body.landing-page #logo-placeholder {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-}
-
 body.results-page #logo-placeholder {
     position: relative; /* participates in flex row of top bar */
 }
-
-
-/* Styling for container class */
-.container {
-    text-align: center;
-    color: #fff;
-    width: 100%;       /* take full horizontal space */
-    max-width: 1200px; /* optional, limits very wide screens */
-    margin: 0 auto;
-    padding: 0 1rem;   /* small padding for mobile */
-}
-
-/* Styling for h1 elements inside containers */
-.container h1 {
-    font-size: 2rem;         /* Large heading size */
-    margin-bottom: 1.5rem;   /* Space below heading */
-}
-
-.page-content.hidden {
-  display: none;
-}
-
-.page-content h1 {
-  font-size: 2rem;         /* Large heading size */
-  margin-bottom: 1.5rem;   /* Space below heading */
-}
-
- /* STYLE OF RESULTS PAGE */
 
 /* Container for all videos */
 #results {
@@ -119,7 +133,6 @@ body.results-page #logo-placeholder {
     color: inherit;          /* Keep same color as parent */
 }
 
-
  /* Container for the all of results page */
 .results-container {
     display: flex;
@@ -129,15 +142,22 @@ body.results-page #logo-placeholder {
     padding: 20px;           /* Space inside container */
 }
 
-/* Search title (heading above search bar) */
-#search-title {
-    color: white;
-    font-size: 3.5rem;       /* increased from 24px */
-    margin: 30px 0 20px;     /* more spacing above and below */
-    text-align: center;
+.search-wrapper-results {
+  flex: 1;                  /* take remaining space */
+  margin-left: 6rem;        /* space from logo */
+  display: flex;            /* keep input + button in row */
+  gap: 0.5rem;              /* spacing between input & filter button */
 }
 
-/* Search input field */
+.top-bar-results {
+  display: flex;
+  align-items: center;      /* vertical centering */
+  justify-content: space-between; /* logo left, search bar takes rest */
+  padding: 0.5rem 1rem;
+}
+
+/* ================================ COMBINED STYLING ================================== */
+/* Search bar */
 .search {
     width: 60%;              /* wider, nearly full page width */
     max-width: 800px;        /* limits on large screens */
@@ -157,21 +177,6 @@ body.results-page #logo-placeholder {
   cursor: pointer;       /* indicate clickable */
 }
 
-.search-wrapper-landing {
-  display: flex;
-  justify-content: center; /* centers the whole block */
-  align-items: center;     /* vertically aligns input + button */
-  gap: 0.5rem;               /* space between search bar and filter button */
-}
-
-.search-wrapper-results {
-  flex: 1;                  /* take remaining space */
-  margin-left: 6rem;        /* space from logo */
-  display: flex;            /* keep input + button in row */
-  gap: 0.5rem;              /* spacing between input & filter button */
-}
-
-
 /* Filter button */
 .filter-button {
   display: flex;         /* instead of inline-flex */
@@ -184,7 +189,6 @@ body.results-page #logo-placeholder {
   cursor: pointer;
   width: fit-content;    /* shrink to fit content */
 }
-
 
 .filter-button img.filter-icon {
   width: 3rem;     /* scales with root font size */
@@ -321,13 +325,6 @@ body.results-page #logo-placeholder {
   left: 2rem;
   right: 2rem;
   text-align: center;
-}
-
-.top-bar-results {
-  display: flex;
-  align-items: center;      /* vertical centering */
-  justify-content: space-between; /* logo left, search bar takes rest */
-  padding: 0.5rem 1rem;
 }
 
 
