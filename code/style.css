@@ -297,6 +297,17 @@ body {
   background-color: #666;  /* indicates active selection */
 }
 
+/* Filter tip */
+.filter-tip {
+  font-size: 1.2rem;        /* relative, matches other popup text */
+  color: #fff;            /* white to match popup */
+  margin-top: 2rem;       /* space above the sentence */
+  line-height: 1.2;       /* improves readability if multiple lines */
+  white-space: pre-wrap;  /* preserves line breaks if using \n in JS or HTML */
+  position: absolute;
+  bottom: 3rem;
+}
+
 
 
 
