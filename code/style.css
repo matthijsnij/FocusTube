@@ -16,7 +16,7 @@ CSS selectors
 }
 
 /* Body contains all visible content */
-body {
+body.landing-page {
     background-color: #000;  /* Pure black background for the page */
     height: 100vh;           /* Full viewport height */
     display: flex;           /* Use Flexbox for centering content */
@@ -25,6 +25,27 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;   /* ExtraLight */
 }
+
+body.results-page {
+    background-color: #000;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    margin: 0;
+    padding: 0;
+    /* no flex centering here */
+}
+
+body.landing-page #logo-placeholder {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+body.results-page #logo-placeholder {
+    position: relative; /* participates in flex row of top bar */
+}
+
 
 /* Styling for container class */
 .container {
@@ -129,22 +150,6 @@ body {
     color: #fff;
 }
 
-/* Loading indicator */
-#results-loading {
-    color: white;            /* White text */
-    font-size: 18px;         /* Slightly smaller than heading */
-    margin-bottom: 20px;     /* Space below loading text */
-    text-align: center;      /* Center text */
-}
-
-/* Logo container */
-#header-placeholder {
-  position: fixed;       /* stay at top-left even when scrolling */
-  top: 10px;             /* small margin from top */
-  left: 10px;            /* small margin from left */
-  z-index: 1000;         /* stay above other elements */
-}
-
 /* Logo image */
 .logo {
   height: 4rem;          /* bigger size */
@@ -152,12 +157,20 @@ body {
   cursor: pointer;       /* indicate clickable */
 }
 
-.search-wrapper {
+.search-wrapper-landing {
   display: flex;
   justify-content: center; /* centers the whole block */
   align-items: center;     /* vertically aligns input + button */
   gap: 0.5rem;               /* space between search bar and filter button */
 }
+
+.search-wrapper-results {
+  flex: 1;                  /* take remaining space */
+  margin-left: 6rem;        /* space from logo */
+  display: flex;            /* keep input + button in row */
+  gap: 0.5rem;              /* spacing between input & filter button */
+}
+
 
 /* Filter button */
 .filter-button {
@@ -301,12 +314,22 @@ body {
 .filter-tip {
   font-size: 1.2rem;        /* relative, matches other popup text */
   color: #fff;            /* white to match popup */
-  margin-top: 2rem;       /* space above the sentence */
   line-height: 1.2;       /* improves readability if multiple lines */
   white-space: pre-wrap;  /* preserves line breaks if using \n in JS or HTML */
   position: absolute;
   bottom: 3rem;
+  left: 2rem;
+  right: 2rem;
+  text-align: center;
 }
+
+.top-bar-results {
+  display: flex;
+  align-items: center;      /* vertical centering */
+  justify-content: space-between; /* logo left, search bar takes rest */
+  padding: 0.5rem 1rem;
+}
+
 
 
 

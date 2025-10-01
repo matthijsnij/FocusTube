@@ -2,7 +2,7 @@
 fetch('header.html')
   .then(response => response.text())
   .then(data => {
-    const placeholder = document.getElementById('header-placeholder');
+    const placeholder = document.getElementById('logo-placeholder');
     if (placeholder) {
       placeholder.innerHTML = data;
     }

@@ -26,9 +26,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="landing-page">
   <!-- Add logo to the page -->
-  <div id="header-placeholder"></div>
+  <div id="logo-placeholder"></div>
 
   <!-- Main content area of the page -->
   <main class="container">
@@ -42,7 +42,7 @@
       <!-- Unique ID for JavaScript access -->
       <!-- Class name for CSS styling --> 
       <!-- Placeholder text gives examples of what the user can type -->
-      <div class="search-wrapper">
+      <div class="search-wrapper-landing">
         
         <input
           type="text" 
@@ -56,82 +56,14 @@
         </div>
       </div>
     </div>
-
-    <!-- Overlay for dimmed effect when opening filters -->
-    <div class="overlay" aria-hidden="true"></div>
-
-    <!-- Popup menu for filters (initially hidden) -->
-    <div id="filter-popup" class="filter-popup">
-
-      <!-- Close button -->
-      <button class="popup-close">&times;</button>
-      
-      <!-- Popup title -->
-      <div class="popup-title-container">
-        <img src="../images/filter_icon_transparent.png" alt="Filter Icon" class="popup-icon">
-        <h2>Search filters</h2>
-      </div>
-
-      <!-- Filter options -->
-      <!-- Each filter is a separate "Filter row", which has its own "Filter options" -->
-
-      <!-- OPTION: Type -->
-      <div class="filter-row type-filter">
-        <span class="filter-name">Type</span>
-        <div class="filter-options">
-          <button type="button" class="filter-option">Video</button>
-          <button type="button" class="filter-option">Channel</button>
-        </div>
-      </div>
-
-      <!-- OPTION: Length -->
-      <!-- Only there if type is not channel -->
-      <div class="filter-row multi-select">
-        <span class="filter-name">Length</span>
-        <div class="filter-options">
-          <button type="button" class="filter-option">&lt;4 minutes</button>
-          <button type="button" class="filter-option">4-20 minutes</button>
-          <button type="button" class="filter-option">&gt;20 minutes</button>
-        </div>
-      </div>
-
-      <!-- OPTION: Upload date -->
-      <!-- Only there if type is not channel -->
-      <div class="filter-row single-select">
-        <span class="filter-name">Upload date</span>
-        <div class="filter-options">
-          <button type="button" class="filter-option">Today</button>
-          <button type="button" class="filter-option">This week</button>
-          <button type="button" class="filter-option">This month</button>
-          <button type="button" class="filter-option">This year</button>
-        </div>
-      </div>
-
-      <!-- OPTION: Sorting mechanism -->
-      <!-- Only there if type is not channel -->
-      <div class="filter-row single-select">
-        <span class="filter-name">Sort on</span>
-        <div class="filter-options">
-          <button type="button" class="filter-option">Relevance</button>
-          <button type="button" class="filter-option">Upload date</button>
-          <button type="button" class="filter-option">View count</button>
-          <button type="button" class="filter-option">Rating</button>
-        </div>
-      </div>
-
-      <p class="filter-tip">
-        Tip: find relevant channels for your search by setting the Type filter to "Channel". 
-        Note that this setting disables all other filters.
-      </p>
-    </div>
-
   </main>
 
   <!-- Link to external JavaScript file for interactivity -->
   <script src="script.js"></script>
   <!-- Link to external JavaScript which dynamically loads logo -->
   <script src="header.js"></script>
-
+  <!-- Link to external JavaScript which injects filter popup -->
+  <script src="filters.js"></script>
 </body>
 </html>
 

@@ -12,32 +12,6 @@ searchInput.addEventListener('keypress', function(event) {
   }
 });
 
-// ------------- OPENING AND CLOSING FILTER SELECTION POPUP ----------------
-const filterButton = document.querySelector('.filter-button');
-const filterPopup = document.querySelector('.filter-popup');
-const closeButton = document.querySelector('.popup-close');
-const overlay   = document.querySelector('.overlay');
-const pageContent = document.querySelector('.page-content'); // for removing page content when filter is open
-
-// Toggle popup visibility when button is clicked
-filterButton.addEventListener('click', () => {
-  filterPopup.classList.toggle('show');
-  overlay.classList.toggle('show');
-  pageContent.classList.add('hidden'); // hide page content
-});
-// Close button click
-closeButton.addEventListener('click', () => {
-  filterPopup.classList.remove('show');
-  overlay.classList.remove('show');
-  pageContent.classList.remove('hidden'); // show page content
-});
-// Clicking on overlay also closes
-overlay.addEventListener('click', () => {
-  filterPopup.classList.remove('show');
-  overlay.classList.remove('show');
-  pageContent.classList.remove('hidden'); // show page content
-});
-
 // ------------- FILTERING ------------
 const typeFilter = document.querySelector('.filter-row.type-filter')
 const singleSelectFilters = document.querySelectorAll('.filter-row.single-select');

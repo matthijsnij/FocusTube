@@ -92,18 +92,26 @@
   </style>
 </head>
 
-<body>
-  <!-- Add logo to the page -->
-  <div id="header-placeholder"></div>
+<body class="results-page">
+  <!-- Top bar with logo, search bar -->
+  <div class="top-bar-results">
+    <div id="logo-placeholder"></div>
+    <div class="search-wrapper-results">
+      <input
+          type="text" 
+          id="searchInput" 
+          class="search" 
+        >
+        <!-- Filter icon for opening the filter popup menu -->
+        <div class="filter-button">
+          <img src="../images/filter_icon.png" alt="Filter Icon" class="filter-icon">
+        </div>
+    </div>
+  </div>
+
 
   <!-- Main container for search results -->
   <div class="results-container">
-    <!-- Title showing what the user searched for -->
-    <h2 id="search-title"></h2>
-
-    <!-- Loading indicator while fetching results -->
-    <div id="results-loading">Finding the most relevant videos for you...</div>
-
     <!-- Where the search results (video thumbnails, links, etc.) will appear -->
     <div id="results"></div>
   </div>

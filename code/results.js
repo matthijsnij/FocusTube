@@ -1,8 +1,6 @@
 // ====== DOM ELEMENTS ======
 // References to key HTML elements
 const resultsContainer = document.getElementById('results');        // Container for video results
-const searchTitle = document.getElementById('search-title');        // Heading showing search term
-const loadingIndicator = document.getElementById('results-loading'); // "Loading..." text
 const videoModal = document.getElementById('videoModal');           // Modal overlay for video player
 const closeModalBtn = document.getElementById('closeModal');        // Close button inside modal
 
@@ -53,11 +51,14 @@ const urlParams = new URLSearchParams(window.location.search);
 const query = urlParams.get('search');   // Get ?search=... parameter
 console.log('Search query:', query); // NOTE: remove logging when moving to production
 
+// Display search query in search bar
+const searchInput = document.getElementById('searchInput');
+if (searchInput && query) {
+    searchInput.value = query;
+}
+
 // ====== FETCH AND DISPLAY VIDEOS ======
 if (query) {
-  // Show search term in page heading
-  searchTitle.innerText = `Results for "${query}"`; // NOTE: Maybe remove, instead just have the searchbar on top with the filled in search
-
   // Send search query to n8n webhook
   fetch('https://qmcaiprojects.app.n8n.cloud/webhook/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
     method: 'POST',
@@ -66,9 +67,6 @@ if (query) {
   })
   .then(response => response.json()) // Parse response as JSON
   .then(data => {
-    console.log('Full n8n response:', data);  // Log the full response for debugging, NOTE: remove logging when moving to production
-    loadingIndicator.style.display = 'none';   // Hide loading... text
-
     if (data.length === 0) {
       // No videos found
       resultsContainer.innerHTML = `<p>No videos found for "${query}".</p>`; // NOTE: this can be extended by mentioning different query, filters
@@ -80,7 +78,6 @@ if (query) {
   .catch(error => {
     // Handle network or fetch errors
     console.error('Error fetching videos:', error); // NOTE: remove logging when moving to production
-    loadingIndicator.style.display = 'none'; // Hide loading... text
     resultsContainer.innerHTML = `<p>Error fetching videos. Please try again later.</p>`;
   });
 }
