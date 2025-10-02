@@ -124,15 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // ====== FETCH AND DISPLAY VIDEOS ======
   const resultsContainer = document.getElementById('results');
   if (query && resultsContainer) {
-    fetch('https://qmcaiprojects.app.n8n.cloud/webhook/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
+    fetch('https://qmcaiprojects.app.n8n.cloud/webhook-test/02418312-059f-4186-aa87-bea9b72b4dea', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ search: query })
+      body: JSON.stringify({ search: query, filters: filtersParam })
     })
     .then(response => response.json())
     .then(data => {
       if (data.length === 0) {
-        resultsContainer.innerHTML = `<p>No videos found for "${query}".</p>`;
+        resultsContainer.innerHTML = `<p>No results found for "${query}".</p>`;
       } else {
         displayVideos(data);
       }
