@@ -179,6 +179,7 @@ body.results-page #logo-placeholder {
     color: #fff;
 }
 
+/* Position icon container */
 .search-icon {
   position: absolute;
   right: 1rem;
@@ -187,6 +188,7 @@ body.results-page #logo-placeholder {
   cursor: pointer;
 }
 
+/* Style button itself */
 .search-icon button {
   border: none;
   background: transparent; /* fully transparent */
@@ -198,6 +200,7 @@ body.results-page #logo-placeholder {
   cursor: pointer;
 }
 
+/* Control icon image size */
 .search-icon img {
   width: 2.5em;   
   height: 2.5em;
