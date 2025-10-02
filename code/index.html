@@ -43,13 +43,21 @@
       <!-- Class name for CSS styling --> 
       <!-- Placeholder text gives examples of what the user can type -->
       <div class="search-wrapper-landing">
-        
-        <input
-          type="text" 
-          id="searchInput" 
-          class="search" 
-          placeholder="e.g. History of the Roman Empire, How to play guitar, Python basics"
-        >
+        <div class="search-container">
+          <input
+            type="text" 
+            id="searchInput" 
+            class="search" 
+            placeholder="e.g. History of the Roman Empire, How to play guitar, Python basics"
+          >
+          <!-- Magnifying glass icon inside the input -->
+          <div class="search-icon">
+            <button type="button" id="searchButton">
+              <img src="../images/magnifying_glass_transparent.png" alt="Search">
+            </button>
+          </div>
+        </div>
+
         <!-- Filter icon for opening the filter popup menu -->
         <div class="filter-button">
           <img src="../images/filter_icon.png" alt="Filter Icon" class="filter-icon">

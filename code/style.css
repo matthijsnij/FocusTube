@@ -158,17 +158,49 @@ body.results-page #logo-placeholder {
 }
 
 /* ================================ COMBINED STYLING ================================== */
+/* Container holding input + magnifying icon */
+.search-container {
+  position: relative;   /* allows absolute positioning of icon */
+  width: 60%;
+  max-width: 800px;
+  display: flex;
+}
+
 /* Search bar */
 .search {
-    width: 60%;              /* wider, nearly full page width */
+    width: 100%;              
     max-width: 800px;        /* limits on large screens */
-    padding: 1rem 1.2rem;
+    padding: 1rem 3rem 1rem 1.2rem; /* extra right padding for icon */
     border: none;
     border-radius: 3rem;
     font-size: 1.1rem;
     outline: none;
     background-color: #222;
     color: #fff;
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.search-icon button {
+  border: none;
+  background: transparent; /* fully transparent */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search-icon img {
+  width: 2.5em;   
+  height: 2.5em;
 }
 
 /* Logo image */

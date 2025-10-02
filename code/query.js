@@ -18,18 +18,26 @@ function getCurrentFilters() {
 // Script for redirecting search query to results page
 const searchInput = document.getElementById('searchInput'); // Get the input field
 
-// Listen for key presses inside the input
-searchInput.addEventListener('keypress', function(event) {
-  if (event.key === 'Enter') { // Check if the Enter key was pressed
-    const query = searchInput.value.trim(); // Get and trim the input value
-    if (query) { // Only proceed if input is not empty
-      const filters = getCurrentFilters()
-      const filterParams = encodeURIComponent(JSON.stringify(filters));
-      // Redirect to results page with the query as a URL parameter and the filters
-      window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}`;
+// Search function, either via Enter of clicking the search icon
+function performSearch() {
+    const query = searchInput.value.trim();
+    if (query) {
+        const filters = getCurrentFilters();
+        const filterParams = encodeURIComponent(JSON.stringify(filters));
+        window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}`;
     }
-  }
+}
+
+// Existing Enter key listener
+searchInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        performSearch();
+    }
 });
+
+// New: click on magnifying glass button
+document.getElementById('searchButton').addEventListener('click', performSearch);
+
 
 
 
