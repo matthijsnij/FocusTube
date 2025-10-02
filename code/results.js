@@ -98,6 +98,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ======= INSERT FILTERS INTO POPUP =======
+  Object.entries(filtersFromURL).forEach(([filterKey, filterValues]) => {
+    // Make filterValues always an array for consistency
+    const values = Array.isArray(filterValues) ? filterValues : [filterValues];
+
+    // Find the row by its name
+    const row = Array.from(document.querySelectorAll('.filter-row')).find(r => {
+      return r.querySelector('.filter-name').textContent === filterKey;
+    });
+
+    if (!row) return; // skip if no row found
+
+    // Loop over all buttons in the row
+    const buttons = row.querySelectorAll('.filter-option');
+    buttons.forEach(btn => {
+      if (values.includes(btn.textContent)) {
+        btn.classList.add('selected'); // add active class to match landing page selection
+      } else {
+        btn.classList.remove('selected');
+      }
+    });
+  });
+
   // ====== FETCH AND DISPLAY VIDEOS ======
   const resultsContainer = document.getElementById('results');
   if (query && resultsContainer) {

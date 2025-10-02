@@ -68,23 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.querySelector('.overlay');
     const pageContent = document.querySelector('.landing-page-content');
 
-    if(filterButton && filterPopup && closeButton && overlay && pageContent){
+    if(filterButton && filterPopup && closeButton && overlay){
     filterButton.addEventListener('click', () => {
         filterPopup.classList.add('show');
         overlay.classList.add('show');
-        pageContent.classList.add('hidden');
+        if (pageContent) pageContent.classList.add('hidden');
     });
 
     closeButton.addEventListener('click', () => {
         filterPopup.classList.remove('show');
         overlay.classList.remove('show');
-        pageContent.classList.remove('hidden');
+        if (pageContent) pageContent.classList.remove('hidden');
     });
 
     overlay.addEventListener('click', () => {
         filterPopup.classList.remove('show');
         overlay.classList.remove('show');
-        pageContent.classList.remove('hidden');
+        if (pageContent) pageContent.classList.remove('hidden');
     });
     }
 

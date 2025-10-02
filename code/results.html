@@ -97,15 +97,24 @@
   <div class="top-bar-results">
     <div id="logo-placeholder"></div>
     <div class="search-wrapper-results">
-      <input
+      <div class="search-container">
+        <input
           type="text" 
           id="searchInput" 
           class="search" 
+          placeholder="Search for videos or channels"
         >
-        <!-- Filter icon for opening the filter popup menu -->
-        <div class="filter-button">
-          <img src="../images/filter_icon.png" alt="Filter Icon" class="filter-icon">
+        <!-- Magnifying glass icon inside the input -->
+        <div class="search-icon">
+          <button type="button" id="searchButton">
+            <img src="../images/magnifying_glass_transparent.png" alt="Search">
+          </button>
         </div>
+      </div>
+      <!-- Filter icon for opening the filter popup menu -->
+      <div class="filter-button">
+        <img src="../images/filter_icon.png" alt="Filter Icon" class="filter-icon">
+      </div>
     </div>
   </div>
 
@@ -128,9 +137,11 @@
   <!-- Load the YouTube IFrame Player API (for embedding videos) -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
-  <!-- Link to external JavaScript file that controls results & modal -->
+  <!-- Injects filter popup first -->
+  <script src="filters.js"></script>
+  <!-- Then results logic (search query, applying filters, videos) -->
   <script src="results.js"></script>
-  <!-- Link to external JavaScript which dynamically loads the logo -->
+  <!-- Header/logo script can be last -->
   <script src="header.js"></script>
 </body>
 </html>
