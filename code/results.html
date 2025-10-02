@@ -137,8 +137,11 @@
   <!-- Load the YouTube IFrame Player API (for embedding videos) -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
+  <!-- Insert all JS functionality needed for this page: NOTE Order is important here -->
   <!-- Injects filter popup first -->
   <script src="filters.js"></script>
+  <!-- Then query logic -->
+  <script src="query.js"></script>
   <!-- Then results logic (search query, applying filters, videos) -->
   <script src="results.js"></script>
   <!-- Header/logo script can be last -->
