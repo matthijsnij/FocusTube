@@ -46,42 +46,6 @@ videoModal.addEventListener('click', (e) => {
   if (e.target === videoModal) closeVideo();  // NOTE: Do we want this?
 });
 
-// ====== GET SEARCH QUERY FROM URL ======
-const urlParams = new URLSearchParams(window.location.search);
-const query = urlParams.get('search');   // Get ?search=... parameter
-console.log('Search query:', query); // NOTE: remove logging when moving to production
-
-// Display search query in search bar
-const searchInput = document.getElementById('searchInput');
-if (searchInput && query) {
-    searchInput.value = query;
-}
-
-// ====== FETCH AND DISPLAY VIDEOS ======
-if (query) {
-  // Send search query to n8n webhook
-  fetch('https://qmcaiprojects.app.n8n.cloud/webhook/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, // tells n8n that query is send as JSON
-    body: JSON.stringify({ search: query }) // send query as JSON
-  })
-  .then(response => response.json()) // Parse response as JSON
-  .then(data => {
-    if (data.length === 0) {
-      // No videos found
-      resultsContainer.innerHTML = `<p>No videos found for "${query}".</p>`; // NOTE: this can be extended by mentioning different query, filters
-    } else {
-      // Display the list of videos
-      displayVideos(data);
-    }
-  })
-  .catch(error => {
-    // Handle network or fetch errors
-    console.error('Error fetching videos:', error); // NOTE: remove logging when moving to production
-    resultsContainer.innerHTML = `<p>Error fetching videos. Please try again later.</p>`;
-  });
-}
-
 // ====== FUNCTION TO DISPLAY VIDEO RESULTS ======
 function displayVideos(videos) {
   resultsContainer.innerHTML = ''; // clear any previous results
@@ -110,3 +74,49 @@ function displayVideos(videos) {
     resultsContainer.appendChild(videoElement);
   });
 }
+
+// GETTING RESULTS
+document.addEventListener('DOMContentLoaded', () => {
+  // ====== GET SEARCH QUERY FROM URL ======
+  const urlParams = new URLSearchParams(window.location.search);
+  const query = urlParams.get('search');
+
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput && query) {
+      searchInput.value = query;
+  }
+
+  // ====== GET FILTERS FROM URL ======
+  const filtersParam = urlParams.get('filters');
+  let filtersFromURL = {};
+  if (filtersParam) {
+    try {
+      filtersFromURL = JSON.parse(filtersParam);
+      console.log('Filters from URL:', filtersFromURL);
+    } catch (e) {
+      console.error('Failed to parse filters from URL', e);
+    }
+  }
+
+  // ====== FETCH AND DISPLAY VIDEOS ======
+  const resultsContainer = document.getElementById('results');
+  if (query && resultsContainer) {
+    fetch('https://qmcaiprojects.app.n8n.cloud/webhook/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ search: query })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.length === 0) {
+        resultsContainer.innerHTML = `<p>No videos found for "${query}".</p>`;
+      } else {
+        displayVideos(data);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching videos:', error);
+      resultsContainer.innerHTML = `<p>Error fetching videos. Please try again later.</p>`;
+    });
+  }
+});

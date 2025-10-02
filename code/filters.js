@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterPopup = document.getElementById('filter-popup');
     const closeButton = filterPopup.querySelector('.popup-close');
     const overlay = document.querySelector('.overlay');
-    const pageContent = document.querySelector('.page-content');
+    const pageContent = document.querySelector('.landing-page-content');
 
     if(filterButton && filterPopup && closeButton && overlay && pageContent){
     filterButton.addEventListener('click', () => {
@@ -149,26 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to disable/enable all filters except type filter if that is chosen as "Channel"
     function updateFiltersState() {
-    const selectedTypeFilter = document.querySelector('.filter-row.type-filter .filter-option.selected'); // get selected type filter
-    const otherFilters = document.querySelectorAll('.filter-row:not(.type-filter)'); // get all other filters
+        const isChannel = document.querySelector('.type-filter .filter-option.selected')?.textContent.trim() === "Channel";
+        const otherFilters = document.querySelectorAll('.filter-row:not(.type-filter)');
 
-    // CASE: select Channel
-    if (selectedTypeFilter && selectedTypeFilter.textContent.trim() === "Channel") {
         otherFilters.forEach(row => {
-        row.querySelectorAll('.filter-option').forEach(btn => {
-            btn.classList.remove('selected'); // remove selected
-            btn.classList.add('disabled'); // faded + unclickable styling
+            row.querySelectorAll('.filter-option').forEach(btn => {
+            btn.classList.toggle('disabled', isChannel);
+            if (isChannel) btn.classList.remove('selected');
+            });
         });
-        });
-    } 
-    // CASE: select Video
-    else {
-        otherFilters.forEach(row => {
-        row.querySelectorAll('.filter-option').forEach(btn => {
-            btn.classList.remove('disabled');
-        });
-        });
-    }
+
+        // restore Sort on default when switching back to Video
+        if (!isChannel) {
+            const sortRow = document.querySelector('.filter-row.single-select:last-of-type');
+            const firstBtn = sortRow?.querySelector('.filter-option');
+            if (sortRow && !sortRow.querySelector('.selected') && firstBtn) {
+            firstBtn.classList.add('selected'); // Relevance
+            }
+        }
     }
 });
 

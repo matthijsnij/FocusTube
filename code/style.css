@@ -23,9 +23,10 @@ body.landing-page {
     height: 100vh;           /* Full viewport height */
     display: flex;           /* Use Flexbox for centering content */
     justify-content: center; /* Center content horizontally */
-    align-items: center;     /* Center content vertically */
+    align-items: flex-start;     /* Center content vertically */
     font-family: 'Roboto', sans-serif;
     font-weight: 100;   /* ExtraLight */
+    padding-top: 25rem;
 }
 
 body.landing-page #logo-placeholder {
@@ -62,7 +63,7 @@ body.landing-page #logo-placeholder {
 /* Search title (heading above search bar) */
 #search-title {
     color: white;
-    font-size: 3.5rem;       /* increased from 24px */
+    font-size: 4rem;       /* increased from 24px */
     margin: 30px 0 20px;     /* more spacing above and below */
     text-align: center;
 }
