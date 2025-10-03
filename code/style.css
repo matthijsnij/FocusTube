@@ -19,13 +19,15 @@ CSS selectors
 
 /* Body contains all visible content */
 body.landing-page {
-    background-color: #000; /* Pure black background for the page */
-    height: 100vh;           /* Full viewport height */
-    display: flex;           /* Use Flexbox for centering content */
-    justify-content: center; /* Center content horizontally */
-    align-items: center;     /* Center content vertically */
+    /* background: url("../images/Gradient background.jpg") no-repeat center center fixed; */
+    background-color: #111;
+    background-size: cover;  /* make sure it fills the screen */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Roboto', sans-serif;
-    font-weight: 100;   /* ExtraLight */
+    font-weight: 100;
     padding: 0;
 }
 
@@ -61,10 +63,23 @@ body.landing-page #logo-placeholder {
 }
 
 /* Search title (heading above search bar) */
-#search-title {
+/* #search-title {
     color: white;
-    font-size: 4rem;       /* increased from 24px */
-    margin: 30px 0 20px;     /* more spacing above and below */
+    font-size: 3rem;      
+    margin: 0 0 0;     
+    text-align: center;
+} */
+
+/* Logo image */
+#search-title {
+  height: 3.2rem;          /* bigger size */
+  width: auto;           /* keep aspect ratio */
+}
+
+#search-subtitle {
+    color: rgb(214, 214, 214);
+    font-size: 1.2rem;       /* increased from 24px */
+    margin: 10px 0 40px;     /* more spacing above and below */
     text-align: center;
 }
 
@@ -219,7 +234,7 @@ body.results-page #logo-placeholder {
 
 /* Logo image */
 .logo {
-  height: 4rem;          /* bigger size */
+  height: 6rem;          /* bigger size */
   width: auto;           /* keep aspect ratio */
   cursor: pointer;       /* indicate clickable */
 }
@@ -238,7 +253,7 @@ body.results-page #logo-placeholder {
 }
 
 .filter-button img.filter-icon {
-  width: 3rem;     /* scales with root font size */
+  width: 2rem;     /* scales with root font size */
   height: auto;    /* keep proportions */
 }
 
@@ -311,7 +326,7 @@ body.results-page #logo-placeholder {
 }
 /* Icon style */
 .popup-title-container img.popup-icon {
-  width: 2.75rem;         /* relative to root font size */
+  width: 2rem;         /* relative to root font size */
   height: auto;          /* maintain aspect ratio */
 }
 

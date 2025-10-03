@@ -10,7 +10,7 @@ const popupHTML = `
   
   <!-- Popup title -->
   <div class="popup-title-container">
-    <img src="../images/filter_icon_transparent.png" alt="Filter Icon" class="popup-icon">
+    <img src="../images/icons8-filter-96.png" alt="Filter Icon" class="popup-icon">
     <h2>Search filters</h2>
   </div>
 
