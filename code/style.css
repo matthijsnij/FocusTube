@@ -367,9 +367,6 @@ body.results-page #logo-placeholder {
   color: #fff;            /* white to match popup */
   line-height: 1.2;       /* improves readability if multiple lines */
   white-space: pre-wrap;  /* preserves line breaks if using \n in JS or HTML */
-  position: absolute;
-  bottom: 3rem;
-  left: 2rem;
-  right: 2rem;
+  margin-top: 1.5rem;
   text-align: center;
 }
