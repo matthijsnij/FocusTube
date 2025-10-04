@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ====== FETCH AND DISPLAY VIDEOS ======
   const resultsContainer = document.getElementById('results');
   if (query && resultsContainer) {
-    fetch('https://qmcaiprojects.app.n8n.cloud/webhook-test/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
+    fetch('https://qmcaiprojects.app.n8n.cloud/webhook/e5b9c679-ce6e-4530-a7b4-5339a122e2ea', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ search: query, filters: filtersParam })
