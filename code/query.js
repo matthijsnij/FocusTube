@@ -23,8 +23,9 @@ function performSearch() {
     const query = searchInput.value.trim();
     if (query) {
         const filters = getCurrentFilters();
+        const API_KEY = "AIzaSyDPxNfirzwZqgXCXza_jsRCL2G3nKn00VU" // add API key
         const filterParams = encodeURIComponent(JSON.stringify(filters));
-        window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}`;
+        window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}&key=${encodeURIComponent(API_KEY)}`;
     }
 }
 

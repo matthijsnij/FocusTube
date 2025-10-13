@@ -75,6 +75,72 @@ function displayVideos(videos) {
   });
 }
 
+// ============ FUNCTION FOR CREATING PAYLOAD FOR YOUTUBE API =================
+function createPayload(query, filters, key) {
+
+  // filters should be JSON object
+  // key should be string
+
+  // ===== Map Length filter to YouTube videoDuration =====
+  let videoDuration = null;
+  const length = filters["Length"]
+  if (length) {
+    if (filters["Length"] === "<4 minutes") {
+      videoDuration = "short";
+    } else if (filters["Length"] === "4-20 minutes") {
+      videoDuration = "medium";
+    } else if (filters["Length"] === ">20 minutes") {
+      videoDuration = "long";
+    }
+  }
+
+  // ===== Map Upload date to publishedAfter =====
+  let publishedAfter = null;
+  const uploadDate = filters["Upload date"];
+  const now = new Date();
+
+  if (uploadDate) {
+    switch (uploadDate) {
+      case "Today":
+        publishedAfter = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        break;
+      case "This week":
+        publishedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case "This month":
+        publishedAfter = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+        break;
+      case "This year":
+        publishedAfter = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+        break;
+    }
+
+    // Format as ISO without milliseconds
+    publishedAfter = publishedAfter.toISOString().split(".")[0] + "Z";
+  }
+
+  // ===== Map Sort on to YouTube order =====
+  let order = "relevance";
+  switch (filters["Sort on"]) {
+    case "Upload date": order = "date"; break;
+    case "View count": order = "viewCount"; break;
+    case "Rating": order = "rating"; break;
+    case "Relevance": order = "relevance"; break;
+  }
+
+  // ===== Return final payload =====
+  return {
+        q: query,
+        type: filters["Type"].toLowerCase(),
+        part: "snippet",
+        maxResults: 20,
+        order,
+        ...(videoDuration && { videoDuration }),
+        ...(publishedAfter && { publishedAfter }),
+        key: key
+      }
+}
+
 // GETTING RESULTS
 document.addEventListener('DOMContentLoaded', () => {
   // ====== GET SEARCH QUERY FROM URL ======
@@ -87,11 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ====== GET FILTERS FROM URL ======
-  const filtersParam = urlParams.get('filters');
+  const filtersParam = urlParams.get('filters'); // string
   let filtersFromURL = {};
   if (filtersParam) {
     try {
-      filtersFromURL = JSON.parse(filtersParam);
+      filtersFromURL = JSON.parse(filtersParam); // JSON object
       console.log('Filters from URL:', filtersFromURL);
     } catch (e) {
       console.error('Failed to parse filters from URL', e);
@@ -122,24 +188,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ====== FETCH AND DISPLAY VIDEOS ======
+  const apiKey = urlParams.get('key')
   const resultsContainer = document.getElementById('results');
-  if (query && resultsContainer) {
-    fetch('https://testmannetje1.app.n8n.cloud/webhook-test/02418312-059f-4186-aa87-bea9b72b4dea', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ search: query, filters: filtersParam })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.length === 0) {
-        resultsContainer.innerHTML = `<p>No results found for "${query}".</p>`;
-      } else {
-        displayVideos(data);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching videos:', error);
-      resultsContainer.innerHTML = `<p>Error fetching videos. Please try again later.</p>`;
-    });
+  if (query && resultsContainer && apiKey) {
+    const queryString = new URLSearchParams(createPayload(query, filtersFromURL, apiKey))
+
+    const url = `https://www.googleapis.com/youtube/v3/search?${queryString}`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        if (!data.items || data.items.length === 0) {
+          resultsContainer.innerHTML = `<p>No results found for "${query}".</p>`;
+        } else {
+          displayVideos(data.items);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching videos:', error);
+        resultsContainer.innerHTML = `<p>Error fetching videos. Please try again later.</p>`;
+      });
   }
 });
