@@ -23,7 +23,7 @@ const popupHTML = `
     </div>
   </div>
 
-  <div class="filter-row multi-select">
+  <div class="filter-row single-select" data-optional="true">
     <span class="filter-name">Length</span>
     <div class="filter-options">
       <button type="button" class="filter-option">&lt;4 minutes</button>
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // LENGTH; no selection by default
     // UPLOAD DATE; no selection by default
     // SORT
-    const sortButtons = singleSelectFilters[1].querySelectorAll('.filter-option')
+    const sortButtons = singleSelectFilters[2].querySelectorAll('.filter-option')
     sortButtons[0].classList.add('selected') // Relevance by default
 
     // ------ Type filter functionality

@@ -8,7 +8,7 @@ function getCurrentFilters() {
     const selectedButtons = [...row.querySelectorAll('.filter-option.selected')].map(btn => btn.textContent.trim());
 
     if (selectedButtons.length > 0) {
-      filters[filterName] = selectedButtons;
+      filters[filterName] = selectedButtons[0]; // NOTE: assumes all are single select
     }
   });
 
