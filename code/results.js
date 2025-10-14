@@ -191,10 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
     catch (e) { console.error('Failed to parse filters from URL', e); }
   }
 
+  // STORE ORIGINAL FILTERS
+  const originalFilters = { ...filtersFromURL } // shallow copy
+
   // SET SEARCH BAR QUERY
   const searchInputResults = document.getElementById('searchInput'); 
   if (searchInputResults && query) searchInputResults.value = query;
-
 
   // ======= INSERT FILTERS INTO POPUP =======
   Object.entries(filtersFromURL).forEach(([filterKey, filterValues]) => {
@@ -231,6 +233,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close modal when clicking outside the video player (on overlay)
   videoModal.addEventListener('click', (e) => {
     if (e.target === videoModal) closeVideo();  // NOTE: Do we want this?
+  });
+
+  // ===== DETECT FILTER CHANGES =====
+  document.querySelectorAll('.filter-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const currentFilters = getCurrentFilters(); 
+
+      const filtersChanged = JSON.stringify(currentFilters) !== JSON.stringify(originalFilters);
+      
+      if (filtersChanged) {
+        loadMoreButton.classList.add('disabled');
+        loadMoreButton.disabled = true;
+        loadMoreButton.textContent = "! Filter selection has changed. To load more, revert to your original filter selection. To search with new filters, use the search bar."
+      } else {
+        loadMoreButton.classList.remove('disabled');
+        loadMoreButton.disabled = false;
+        loadMoreButton.textContent = "Load more..."
+      }
+    });
   });
 
   // ====== LOAD MORE BUTTON CLICK ======

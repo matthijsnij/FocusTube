@@ -173,6 +173,11 @@ body.results-page #logo-placeholder {
   background: rgba(255, 255, 255, 0.1);
 }
 
+#loadMoreButton.disabled {
+  cursor: not-allowed;    /* shows the ‘forbidden’ cursor */
+  pointer-events: none;   /* prevents clicks */
+}
+
 /* ================================ COMBINED STYLING ================================== */
 /* Container holding input + magnifying icon */
 .search-container {
