@@ -238,6 +238,10 @@ body.results-page #logo-placeholder {
   height: 2.5em;
 }
 
+.search-icon:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
 /* Logo image */
 .logo {
   height: 4rem;          /* bigger size */
@@ -264,7 +268,7 @@ body.results-page #logo-placeholder {
 }
 
 .filter-button:hover {
-  opacity: 0.8;                 /* subtle hover effect */
+  transform: scale(1.1);                 /* subtle hover effect */
 }
 
 /* Filter popup container */
@@ -390,4 +394,21 @@ body.results-page #logo-placeholder {
   white-space: pre-wrap;  /* preserves line breaks if using \n in JS or HTML */
   margin-top: 1.5rem;
   text-align: center;
+}
+
+/* Settings button in top-right */
+.settings-button {
+  position: absolute;
+  top: 2rem;    /* adjust vertical spacing */
+  right: 2rem;  /* adjust horizontal spacing */
+  cursor: pointer;
+}
+
+.settings-button img {
+  width: 2rem;  /* normal icon size */
+  height: 2rem;
+}
+
+.settings-button:hover {
+  transform: scale(1.1);
 }
