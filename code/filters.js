@@ -1,4 +1,4 @@
-const popupHTML = `
+const filtersPopupHTML = `
 <!-- Overlay for dimmed effect when opening filters -->
 <div class="overlay" aria-hidden="true"></div>
 
@@ -10,7 +10,7 @@ const popupHTML = `
   
   <!-- Popup title -->
   <div class="popup-title-container">
-    <img src="../images/filter-icon-dik-transparent.png" alt="Filter Icon" class="popup-icon">
+    <img src="../images/filter-icon-dik-transparent.png" alt="" class="popup-icon">
     <h2>Search filters</h2>
   </div>
 
@@ -59,7 +59,7 @@ const popupHTML = `
 `;
 document.addEventListener('DOMContentLoaded', () => {
     // inject popup
-    document.body.insertAdjacentHTML('beforeend', popupHTML);
+    document.body.insertAdjacentHTML('beforeend', filtersPopupHTML);
 
     // opening/closing behaviour of popup
     const filterButton = document.querySelector('.filter-button');
