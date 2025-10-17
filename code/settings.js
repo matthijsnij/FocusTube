@@ -17,14 +17,24 @@ const settingsPopupHTML = `
   <!-- Settings content -->
   <div class="settings-row">
     <span class="settings-label">Theme</span>
-    <div class="settings-options">
-      <button type="button" class="settings-option">Light</button>
-      <button type="button" class="settings-option">Dark</button>
-    </div>
+    <select class="settings-dropdown">
+        <option value="standard-dark">Minimalist - Dark (default)</option>
+        <option value="standard-light">Minimalist - Light</option>
+    </select>
   </div>
 
   <!-- Add other settings rows here -->
-
+  <div class="settings-row">
+    <span class="settings-label">Language</span>
+    <select class="settings-dropdown">
+        <option value="english">English (default)</option>
+        <option value="spanish">Español</option>
+        <option value="french">Français</option>
+        <option value="german">Deutsch</option>
+        <option value="italian">Italiano</option>
+        <option value="dutch">Nederlands</option>
+    </select>
+  </div>
 </div>
 `;
 

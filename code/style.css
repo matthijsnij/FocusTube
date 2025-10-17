@@ -75,6 +75,39 @@ body.landing-page #logo-placeholder {
   gap: 0.5rem;               /* space between search bar and filter button */
 }
 
+.settings-dropdown {
+  width: 60%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.settings-dropdown:hover {
+  border-color: #555;
+  background-color: #222;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.settings-label {
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+
 /* =================================== RESULTS PAGE SPECIFIC ================================== */
 body.results-page {
     background-color: #000;
@@ -278,7 +311,8 @@ body.results-page #logo-placeholder {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40vw;      /* half of viewport width */
-  height: 40vh;     /* half of viewport height */
+  height: auto;     
+  max-height: 80vw;
   background-color: #111;
   color: #fff;
   border-radius: 1rem;
@@ -336,7 +370,7 @@ body.results-page #logo-placeholder {
 }
 /* Icon style */
 .popup-title-container img.popup-icon {
-  width: 2.75rem;         /* relative to root font size */
+  width: 2.5rem;         /* relative to root font size */
   height: auto;          /* maintain aspect ratio */
 }
 
