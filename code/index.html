@@ -40,7 +40,7 @@
 
     <div class="landing-page-content"> 
       <!-- Main heading of the page -->
-      <h1 id="search-title">What do you want to learn today?</h1>
+      <h1 id="search-title" data-i18n="search-sentence">What do you want to learn today?</h1>
 
       <!-- Text input field where the user types their search -->
       <!-- Specifies this is a text input -->
@@ -53,7 +53,6 @@
             type="text" 
             id="searchInput" 
             class="search" 
-            placeholder="e.g. History of the Roman Empire, How to play guitar, Python basics"
           >
           <!-- Magnifying glass icon inside the input -->
           <div class="search-icon">
@@ -77,6 +76,8 @@
   <script src="header.js"></script>
   <!-- Link to external JavaScript which injects filter popup -->
   <script src="filters.js"></script>
+  <!-- Link to external JavaScript which contains language manager logic -->
+  <script src="languageManager.js"></script>
   <!-- Link to external JavaScript which injects settings popup -->
   <script src="settings.js"></script>
   <!-- Link to external JavaScript which cycles suggestions -->

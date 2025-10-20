@@ -147,6 +147,7 @@ body.landing-page #logo-placeholder {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  gap: 3rem;
 }
 
 .settings-label {
@@ -251,7 +252,7 @@ body.results-page #logo-placeholder {
 }
 
 #loadMoreButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
 }
 
 #loadMoreButton.disabled {
@@ -358,7 +359,9 @@ body.results-page #logo-placeholder {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40vw;      /* half of viewport width */
+  width: max-content; 
+  padding: 2rem;
+  max-width: 95vw;        /* never overflow viewport */
   height: auto;     
   max-height: 80vw;
   background-color: #111;
@@ -425,15 +428,17 @@ body.results-page #logo-placeholder {
 /* Filter row */
 .filter-row {
   display: flex;
-  justify-content: space-between; /* name left, options right */
+  justify-content: flex-start; /* name left, options right */
   align-items: center;            /* vertically center name and options */
   margin-bottom: 1rem;            /* space between filter rows */
+  gap: 2rem;
 }
 /* Filter name / word style */
 .filter-name {
   font-size: 1.2rem;              /* relative size */
   color: #fff;
   font-weight: 300;
+  min-width: 14rem;
 }
 /* Styling between filter options */
 .filter-options {

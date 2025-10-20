@@ -124,7 +124,7 @@
     <div id="results"></div>
 
     <!-- Load more button -->
-    <button id="loadMoreButton" type="button" class="px-4 py-2 rounded shadow" style="display:none">
+    <button id="loadMoreButton" type="button" class="px-4 py-2 rounded shadow" style="display:none" data-i18n="loadmore-button">
       Load more...
     </button>
   </div>
@@ -146,6 +146,8 @@
   <script src="filters.js"></script>
   <!-- Then query logic -->
   <script src="query.js"></script>
+  <!-- Link to external JavaScript which contains language manager logic -->
+  <script src="languageManager.js"></script>
   <!-- Then results logic (search query, applying filters, videos) -->
   <script src="results.js"></script>
   <!-- Header/logo script can be last -->

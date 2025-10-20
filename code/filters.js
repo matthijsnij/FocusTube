@@ -11,50 +11,46 @@ const filtersPopupHTML = `
   <!-- Popup title -->
   <div class="popup-title-container">
     <img src="../images/filter-icon-dik-transparent.png" alt="" class="popup-icon">
-    <h2>Search filters</h2>
+    <h2 data-i18n="searchfilters-title">Search filters</h2>
   </div>
 
   <!-- Filter options -->
   <div class="filter-row type-filter">
-    <span class="filter-name">Type</span>
+    <span class="filter-name" data-i18n="typefilter-title">Type</span>
     <div class="filter-options">
-      <button type="button" class="filter-option">Video</button>
-      <button type="button" class="filter-option">Channel</button>
+      <button type="button" class="filter-option" data-i18n="typefilter-video">Video</button>
+      <button type="button" class="filter-option" data-i18n="typefilter-channel">Channel</button>
     </div>
   </div>
 
   <div class="filter-row single-select" data-optional="true">
-    <span class="filter-name">Length</span>
+    <span class="filter-name" data-i18n="lengthfilter-title">Length</span>
     <div class="filter-options">
-      <button type="button" class="filter-option">&lt;4 minutes</button>
-      <button type="button" class="filter-option">4-20 minutes</button>
-      <button type="button" class="filter-option">&gt;20 minutes</button>
+      <button type="button" class="filter-option" data-i18n="lengthfilter-4">&lt;4 minutes</button>
+      <button type="button" class="filter-option" data-i18n="lengthfilter-4-20">4-20 minutes</button>
+      <button type="button" class="filter-option" data-i18n="lengthfilter-20">&gt;20 minutes</button>
     </div>
   </div>
 
   <div class="filter-row single-select" data-optional="true">
-    <span class="filter-name">Upload date</span>
+    <span class="filter-name" data-i18n="datefilter-title">Upload date</span>
     <div class="filter-options">
-      <button type="button" class="filter-option">Today</button>
-      <button type="button" class="filter-option">This week</button>
-      <button type="button" class="filter-option">This month</button>
-      <button type="button" class="filter-option">This year</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-today">Today</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-week">This week</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-month">This month</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-year">This year</button>
     </div>
   </div>
 
   <div class="filter-row single-select">
-    <span class="filter-name">Sort on</span>
+    <span class="filter-name" data-i18n="sortfilter-title">Sort on</span>
     <div class="filter-options">
-      <button type="button" class="filter-option">Relevance</button>
-      <button type="button" class="filter-option">Upload date</button>
-      <button type="button" class="filter-option">View count</button>
-      <button type="button" class="filter-option">Rating</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-relevance">Relevance</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-date">Upload date</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-viewcount">View count</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-rating">Rating</button>
     </div>
   </div>
-
-  <p class="filter-tip">
-    Tip: find relevant channels for your search by setting the Type filter to "Channel". Note that this setting disables all other filters.
-  </p>
 </div>
 `;
 document.addEventListener('DOMContentLoaded', () => {

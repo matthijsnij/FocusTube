@@ -8,34 +8,35 @@ const settingsPopupHTML = `
   <!-- Popup title -->
   <div class="popup-title-container">
     <img src="../images/setting-icon.png" alt="" class="popup-icon">
-    <h2>Settings</h2>
+    <h2 data-i18n="settings-title">Settings</h2>
   </div>
 
   <!-- Theme settings -->
   <div class="settings-row">
-    <span class="settings-label">Theme</span>
+    <span class="settings-label" data-i18n="theme-word">Theme</span>
     <select id="themeSelect" class="settings-dropdown">
-        <option value="standard-dark">Minimalist - Dark (default)</option>
-        <option value="standard-light">Minimalist - Light</option>
+        <option value="standard-dark" data-i18n="theme-standard-dark">Minimalist - Dark (default)</option>
+        <option value="standard-light" data-i18n="theme-standard-light">Minimalist - Light</option>
     </select>
   </div>
 
   <!-- Language settings -->
   <div class="settings-row">
-    <span class="settings-label">Language</span>
+    <span class="settings-label" data-i18n="language-word">Language</span>
     <select id="languageSelect" class="settings-dropdown">
-        <option value="english">English (default)</option>
-        <option value="spanish">Español</option>
-        <option value="french">Français</option>
-        <option value="german">Deutsch</option>
-        <option value="italian">Italiano</option>
-        <option value="dutch">Nederlands</option>
+        <option value="en" data-i18n="language-default">English (default)</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="it">Italiano</option>
+        <option value="nl">Nederlands</option>
+        <option value="pt">Português</option>
     </select>
   </div>
 
   <div class="settings-actions">
-    <button id="applySettings" class="apply-btn">Apply</button>
-    <button id="cancelSettings" class="cancel-btn">Cancel</button>
+    <button id="applySettings" class="apply-btn" data-i18n="apply-word">Apply</button>
+    <button id="cancelSettings" class="cancel-btn" data-i18n="cancel-word">Cancel</button>
   </div>
 </div>
 `;
@@ -59,6 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyBtn = document.getElementById('applySettings');
   const cancelBtn = document.getElementById('cancelSettings');
 
+  // Current language
+  let tempLang;
+  const langSelect = document.getElementById('languageSelect')
+
   // Helper function for closing popup
   function closePopup() {
     settingsPopup.classList.remove('show');
@@ -69,13 +74,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Open / close behavior
   if (settingsButton && settingsPopup && overlay) {
     settingsButton.addEventListener('click', () => {
+
+      // save current language
+      tempLang = localStorage.getItem('language') || 'en'; 
+      langSelect.value = tempLang; // set dropdown to saved language
+
       settingsPopup.classList.add('show');
       overlay.classList.add('show');
       if (pageContent) pageContent.classList.add('hidden');
     });
   }
 
-  // Temporary behavior for Apply / Cancel (just close popup)
-  if (applyBtn) applyBtn.addEventListener('click', closePopup);
-  if (cancelBtn) cancelBtn.addEventListener('click', closePopup);
+  // Apply button behaviour
+  applyBtn.addEventListener('click', () => {
+  const selectedLang = document.getElementById('languageSelect').value;
+  languageManager.loadLanguage(selectedLang); // call the manager
+  closePopup(); // hide popup
+  });
+
+  // Cancel button behaviour
+  cancelBtn.addEventListener('click', () => {
+    langSelect.value = tempLang; // revert dropdown
+    closePopup();
+  });
 });
