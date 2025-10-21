@@ -27,5 +27,6 @@
     "sortfilter-viewcount": "Anzahl der Aufrufe",
     "sortfilter-rating": "Bewertung",
     "filtertip-sentence": "Tipp: Finde relevante Kanäle, indem du den Filter Typ auf 'Kanal' setzt. Beachte, dass dadurch alle anderen Filter deaktiviert werden.",
-    "loadmore-button": "Mehr laden..."
+    "loadmore-button": "Mehr laden...",
+    "loadmore-filterchanged": "Die Filterauswahl wurde geändert. Kehre zur ursprünglichen Auswahl zurück, um mehr zu laden. Um mit neuen Filtern zu suchen, verwende die Suchleiste."
 }

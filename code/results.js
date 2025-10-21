@@ -72,35 +72,25 @@ function createPayload(query, filters, key) {
   // key should be string
 
   // ===== Map Length filter to YouTube videoDuration =====
-  let videoDuration = null;
-  const length = filters["Length"]
-  if (length) {
-    if (filters["Length"] === "<4 minutes") {
-      videoDuration = "short";
-    } else if (filters["Length"] === "4-20 minutes") {
-      videoDuration = "medium";
-    } else if (filters["Length"] === ">20 minutes") {
-      videoDuration = "long";
-    }
-  }
+  let videoDuration = filters['videoDuration']
 
   // ===== Map Upload date to publishedAfter =====
   let publishedAfter = null;
-  const uploadDate = filters["Upload date"];
+  const uploadDate = filters["uploadDate"];
   const now = new Date();
 
   if (uploadDate) {
     switch (uploadDate) {
-      case "Today":
+      case "today":
         publishedAfter = new Date(Date.now() - 24 * 60 * 60 * 1000);
         break;
-      case "This week":
+      case "thisweek":
         publishedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
         break;
-      case "This month":
+      case "thismonth":
         publishedAfter = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
         break;
-      case "This year":
+      case "thisyear":
         publishedAfter = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
         break;
     }
@@ -110,18 +100,12 @@ function createPayload(query, filters, key) {
   }
 
   // ===== Map Sort on to YouTube order =====
-  let order = "relevance";
-  switch (filters["Sort on"]) {
-    case "Upload date": order = "date"; break;
-    case "View count": order = "viewCount"; break;
-    case "Rating": order = "rating"; break;
-    case "Relevance": order = "relevance"; break;
-  }
+  let order = filters["order"]
 
   // ===== Return final payload =====
   return {
         q: query,
-        type: filters["Type"].toLowerCase(),
+        type: filters["type"],
         part: "snippet",
         maxResults: 20,
         order,
@@ -200,21 +184,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ======= INSERT FILTERS INTO POPUP =======
   Object.entries(filtersFromURL).forEach(([filterKey, filterValues]) => {
-    // Make filterValues always an array for consistency
     const values = Array.isArray(filterValues) ? filterValues : [filterValues];
 
-    // Find the row by its name
-    const row = Array.from(document.querySelectorAll('.filter-row')).find(r => {
-      return r.querySelector('.filter-name').textContent === filterKey;
-    });
-
-    if (!row) return; // skip if no row found
+    // Find row by its internal key
+    const row = document.querySelector(`.filter-row[data-filterkey="${filterKey}"]`);
+    if (!row) return;
 
     // Loop over all buttons in the row
     const buttons = row.querySelectorAll('.filter-option');
     buttons.forEach(btn => {
-      if (values.includes(btn.textContent)) {
-        btn.classList.add('selected'); // add selected class to match landing page selection
+      if (values.includes(btn.dataset.filterkey)) {
+        btn.classList.add('selected');
       } else {
         btn.classList.remove('selected');
       }
@@ -239,17 +219,20 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.filter-option').forEach(btn => {
     btn.addEventListener('click', () => {
       const currentFilters = getCurrentFilters(); 
-
       const filtersChanged = JSON.stringify(currentFilters) !== JSON.stringify(originalFilters);
+      
+      // get display text in correct language
+      const filterChangedText = languageManager.getTranslation('loadmore-filterchanged');
+      const defaultText = languageManager.getTranslation('loadmore-button');
       
       if (filtersChanged) {
         loadMoreButton.classList.add('disabled');
         loadMoreButton.disabled = true;
-        loadMoreButton.textContent = "! Filter selection has changed. To load more, revert to your original filter selection. To search with new filters, use the search bar."
+        loadMoreButton.textContent = filterChangedText;
       } else {
         loadMoreButton.classList.remove('disabled');
         loadMoreButton.disabled = false;
-        loadMoreButton.textContent = "Load more..."
+        loadMoreButton.textContent = defaultText;
       }
     });
   });

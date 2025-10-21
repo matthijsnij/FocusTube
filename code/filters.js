@@ -15,40 +15,40 @@ const filtersPopupHTML = `
   </div>
 
   <!-- Filter options -->
-  <div class="filter-row type-filter">
+  <div class="filter-row type-filter" data-filterkey="type">
     <span class="filter-name" data-i18n="typefilter-title">Type</span>
     <div class="filter-options">
-      <button type="button" class="filter-option" data-i18n="typefilter-video">Video</button>
-      <button type="button" class="filter-option" data-i18n="typefilter-channel">Channel</button>
+      <button type="button" class="filter-option" data-i18n="typefilter-video" data-filterkey="video">Video</button>
+      <button type="button" class="filter-option" data-i18n="typefilter-channel" data-filterkey="channel">Channel</button>
     </div>
   </div>
 
-  <div class="filter-row single-select" data-optional="true">
+  <div class="filter-row single-select" data-optional="true" data-filterkey="videoDuration">
     <span class="filter-name" data-i18n="lengthfilter-title">Length</span>
     <div class="filter-options">
-      <button type="button" class="filter-option" data-i18n="lengthfilter-4">&lt;4 minutes</button>
-      <button type="button" class="filter-option" data-i18n="lengthfilter-4-20">4-20 minutes</button>
-      <button type="button" class="filter-option" data-i18n="lengthfilter-20">&gt;20 minutes</button>
+      <button type="button" class="filter-option" data-i18n="lengthfilter-4" data-filterkey="short">&lt;4 minutes</button>
+      <button type="button" class="filter-option" data-i18n="lengthfilter-4-20" data-filterkey="medium">4-20 minutes</button>
+      <button type="button" class="filter-option" data-i18n="lengthfilter-20" data-filterkey="long">&gt;20 minutes</button>
     </div>
   </div>
 
-  <div class="filter-row single-select" data-optional="true">
+  <div class="filter-row single-select" data-optional="true" data-filterkey="uploadDate">
     <span class="filter-name" data-i18n="datefilter-title">Upload date</span>
     <div class="filter-options">
-      <button type="button" class="filter-option" data-i18n="datefilter-today">Today</button>
-      <button type="button" class="filter-option" data-i18n="datefilter-week">This week</button>
-      <button type="button" class="filter-option" data-i18n="datefilter-month">This month</button>
-      <button type="button" class="filter-option" data-i18n="datefilter-year">This year</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-today" data-filterkey="today">Today</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-week" data-filterkey="thisweek">This week</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-month" data-filterkey="thismonth">This month</button>
+      <button type="button" class="filter-option" data-i18n="datefilter-year" data-filterkey="thisyear">This year</button>
     </div>
   </div>
 
-  <div class="filter-row single-select">
+  <div class="filter-row single-select" data-filterkey="order">
     <span class="filter-name" data-i18n="sortfilter-title">Sort on</span>
     <div class="filter-options">
-      <button type="button" class="filter-option" data-i18n="sortfilter-relevance">Relevance</button>
-      <button type="button" class="filter-option" data-i18n="sortfilter-date">Upload date</button>
-      <button type="button" class="filter-option" data-i18n="sortfilter-viewcount">View count</button>
-      <button type="button" class="filter-option" data-i18n="sortfilter-rating">Rating</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-relevance" data-filterkey="relevance">Relevance</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-date" data-filterkey="date">Upload date</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-viewcount" data-filterkey="viewCount">View count</button>
+      <button type="button" class="filter-option" data-i18n="sortfilter-rating" data-filterkey="rating">Rating</button>
     </div>
   </div>
 </div>

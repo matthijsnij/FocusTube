@@ -44,7 +44,7 @@ const languageManager = (() => {
     if (langSelect) langSelect.value = savedLang;
   }
 
-  return { loadLanguage, init };
+  return { loadLanguage, init, getTranslation: (key) => translations[key] || key };
 })();
 
 // initialize after DOM is ready

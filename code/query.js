@@ -2,13 +2,12 @@
 function getCurrentFilters() {
   const filters = {};
 
-  // Loop over all filter rows
   document.querySelectorAll('.filter-row').forEach(row => {
-    const filterName = row.querySelector('.filter-name').textContent.trim();
-    const selectedButtons = [...row.querySelectorAll('.filter-option.selected')].map(btn => btn.textContent.trim());
+    const filterKey = row.dataset.filterkey; // internal name
+    const selectedButtons = [...row.querySelectorAll('.filter-option.selected')].map(btn => btn.dataset.filterkey);
 
     if (selectedButtons.length > 0) {
-      filters[filterName] = selectedButtons[0]; // NOTE: assumes all are single select
+      filters[filterKey] = selectedButtons[0]; // single-select
     }
   });
 

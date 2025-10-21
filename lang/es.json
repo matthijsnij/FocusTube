@@ -27,5 +27,6 @@
     "sortfilter-viewcount": "Número de visualizaciones",
     "sortfilter-rating": "Puntuación",
     "filtertip-sentence": "Consejo: encuentra canales relevantes configurando el filtro Tipo en Canal. Ten en cuenta que esta configuración desactiva todos los demás filtros.",
-    "loadmore-button": "Cargar más..."
+    "loadmore-button": "Cargar más...",
+    "loadmore-filterchanged": "La selección de filtros ha cambiado. Vuelve a la selección original para cargar más. Usa la barra de búsqueda para buscar con nuevos filtros."
 }

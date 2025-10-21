@@ -27,5 +27,6 @@
     "sortfilter-viewcount": "View count",
     "sortfilter-rating": "Rating",
     "filtertip-sentence": "Tip: find relevant channels for your search by setting the Type filter to Channel. Note that this setting disables all other filters.",
-    "loadmore-button": "Load more..."
+    "loadmore-button": "Load more...",
+    "loadmore-filterchanged": "The filter selection has changed. To load more, revert to your original filter selection. To search with new filters, use the search bar."
 }
