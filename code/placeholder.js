@@ -1,235 +1,65 @@
-const suggestions = [
-  "History of the Roman Empire",
-  "How to play guitar for dummies",
-  "Python basics",
-  "Learn calculus",
-  "How to improve tennis serve",
-  "Photography tips",
-  "Meditation techniques",
-  "Cooking Italian cuisine",
-  "Introduction to JavaScript",
-  "Yoga for beginners",
-  "Gardening tips",
-  "How to get a higher vertical jump",
-  "Machine learning basics",
-  "Painting with watercolors",
-  "Digital marketing strategies",
-  "How to start a blog",
-  "Public speaking tips",
-  "Understanding quantum physics",
-  "Traveling on a budget",
-  "Learning Spanish",
-  "Financial planning 101",
-  "Time management techniques",
-  "How to get better at playing chess",
-  "Baking bread at home",
-  "Learning HTML and CSS",
-  "Self-defense techniques",
-  "Basic first aid skills",
-  "Investing for dummies",
-  "How to write a resume",
-  "Mindfulness exercises",
-  "Interior design tips",
-  "Fitness routines at home",
-  "Astronomy for beginners",
-  "How to start a YouTube channel",
-  "Learning R programming",
-  "Sustainable living tips",
-  "Keto diet guide",
-  "Calligraphy techniques",
-  "Learning SQL databases",
-  "How to knit",
-  "Improving memory skills",
-  "Freelancing tips",
-  "Speech writing tips",
-  "C++ basics",
-  "Hiking safety tips",
-  "Podcasting essentials",
-  "Gardening for small spaces",
-  "Social media growth tips",
-  "Digital illustration techniques",
-  "Mindset for success",
-  "Learning French",
-  "Basic sewing skills",
-  "Photography composition rules",
-  "How to make cocktails",
-  "Home workout ideas",
-  "Understanding blockchain",
-  "Origami for beginners",
-  "How to start investing",
-  "Leadership skills",
-  "DIY home projects",
-  "Writing short stories",
-  "How to bulk for hardgainers",
-  "Understanding economics",
-  "Music theory basics",
-  "Juggling for beginners",
-  "Gardening organic vegetables",
-  "How to meditate effectively",
-  "Learning Excel formulas",
-  "Podcast editing tips",
-  "How to improve sleep",
-  "Learning TypeScript",
-  "Travel photography tips",
-  "Public relations strategies",
-  "How to start coding",
-  "Personal branding tips",
-  "Introduction to philosophy",
-  "Painting landscapes",
-  "How to be more confident in conversations",
-  "Learning guitar chords",
-  "How to save money",
-  "Data science projects",
-  "Fitness motivation techniques",
-  "Improving concentration",
-  "How to create infographics",
-  "How to start learning German",
-  "Understanding climate change",
-  "How to start a startup",
-  "Vegan cooking tips",
-  "Learning Korean",
-  "Best pizza spots in Rome",
-  "Graphic design basics",
-  "Budget travel hacks",
-  "Speed reading techniques",
-  "How to build a PC",
-  "Learning meditation for stress",
-  "Playing piano for beginners",
-  "Interior decorating on a budget",
-  "How does creatine affect your body",
-  "Writing a novel",
-  "Understanding cryptocurrency",
-  "How to run a marathon",
-  "Learning Japanese",
-  "Tips for public speaking",
-  "Self-publishing a book",
-  "Building a mobile app",
-  "Time blocking techniques",
-  "Photography lighting tricks",
-  "How to write a cover letter",
-  "Learning photography editing",
-  "Mindful eating habits",
-  "Starting an online business",
-  "Learning data visualization",
-  "How to journal effectively",
-  "Understanding world history",
-  "Drawing for beginners",
-  "Learning how to play piano",
-  "Building a gaming PC",
-  "How to invest in real estate",
-  "Mastering Excel pivot tables",
-  "Learning web development",
-  "How to start a podcast",
-  "Improving social skills",
-  "Writing poetry tips",
-  "Understanding statistics",
-  "How to build a website with WordPress",
-  "Learning Photoshop",
-  "Sustainable fashion tips",
-  "Time-saving productivity hacks",
-  "How to manage stress",
-  "Learning MATLAB",
-  "Public speaking confidence",
-  "How to do yoga at home",
-  "How to make a campfire",
-  "Digital drawing with tablets",
-  "Learning PHP programming",
-  "How to improve handwriting",
-  "Understanding global politics",
-  "How to organize your workspace",
-  "Learning CSS animations",
-  "Tips for healthy eating",
-  "How to learn faster",
-  "Building a home garden",
-  "Learning music composition",
-  "How to start freelancing",
-  "Personal finance management",
-  "Learning mobile photography",
-  "How to cook healthy meals",
-  "Time management for students",
-  "Improving problem-solving skills",
-  "How to build a brand",
-  "Learning SQL for data analysis",
-  "How to decorate small spaces",
-  "Tips for creative writing",
-  "Learning 3D modeling",
-  "How to stay motivated",
-  "Understanding psychology",
-  "How to start a nonprofit organization",
-  "Improving emotional intelligence",
-  "Learning video editing",
-  "How to train your dog",
-  "Tips for better communication",
-  "Learning watercolor techniques",
-  "How to bake desserts",
-  "Starting a fitness journey",
-  "Learning C# programming",
-  "How to plan a city trip",
-  "Best restaurants in central London",
-  "Learning digital marketing",
-  "Tips for effective studying",
-  "How to write a research paper",
-  "Understanding cloud computing",
-  "Learning natural language processing",
-  "How to design logos",
-  "Tips for mindfulness meditation",
-  "Learning game development",
-  "How to improve creativity",
-  "Learning robotics basics",
-  "How to create online courses",
-  "Tips for financial independence",
-  "Learning ethical hacking",
-  "How to start a side hustle",
-  "Understanding philosophy of science",
-  "Best restaurants in Barcelona",
-  "Learning interior design styles",
-  "How to cook traditional Italian recipes",
-  "Tips for daily productivity",
-  "How to set personal goals",
-  "Understanding human anatomy",
-  "Learning data science with R",
-  "Tips for healthy lifestyle",
-  "How to create YouTube content",
-  "Learning cloud technologies",
-  "How to learn a new language quickly",
-  "Tips for stress management",
-  "Learning creative coding",
-  "How to write engaging blogs",
-  "Best coffee spots in Amsterdam"
-];
+const placeholder = (() => {
+    let typingTimeout;  // stores the ID of the current timeout for typewriter animation
+    let currentIndex = 0; // tracks the current suggestion being typed
+    let charIndex = 0;    // tracks the current character position in the suggestion
+    let suggestions = []; // array of suggestions in the current language
 
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput');
-    let currentIndex = Math.floor(Math.random() * suggestions.length); // start with random suggestion out of the list
-    let charIndex = 0;
-    let typingTimeout;
-
-    function typePlaceholder() {
+    // Core typewriter function: types out the current suggestion character by character
+    function typePlaceholder(searchInput) {
         const currentText = suggestions[currentIndex];
-        searchInput.placeholder = currentText.slice(0, charIndex + 1);
+        searchInput.placeholder = currentText.slice(0, charIndex + 1); // update placeholder with next character
         charIndex++;
 
         if (charIndex < currentText.length) {
-            typingTimeout = setTimeout(typePlaceholder, 50); // type next character
+            // schedule next character
+            typingTimeout = setTimeout(() => typePlaceholder(searchInput), 50);
         } else {
-            // after full text typed, pause then go to next suggestion
+            // after finishing a suggestion, pause then move to next
             typingTimeout = setTimeout(() => {
                 charIndex = 0;
-                currentIndex = (currentIndex + 1) % suggestions.length;
-                typePlaceholder();
-            }, 5000); // 3-second pause at full text
+                currentIndex = (currentIndex + 1) % suggestions.length; // loop back at end
+                typePlaceholder(searchInput);
+            }, 5000); // 5-second pause at full suggestion
         }
     }
 
-    typePlaceholder(); // start animation
+    // Public function to refresh the suggestions array and restart the typewriter
+    function refreshSuggestions() {
+        const searchInput = document.getElementById('searchInput');
+        if (!searchInput) return; // exit if input not found
 
-    searchInput.addEventListener('focus', () => {
-        clearTimeout(typingTimeout); // pause on focus
+        // fetch suggestions in current language from languageManager
+        suggestions = languageManager.getTranslation("suggestions") || [];
+
+        clearTimeout(typingTimeout); // stop any ongoing typing
+        currentIndex = Math.floor(Math.random() * suggestions.length); // start at random suggestion
+        charIndex = 0;
+
+        if (suggestions.length > 0) {
+            typePlaceholder(searchInput); // start typing animation
+        }
+    }
+
+    // Initialize on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        refreshSuggestions();
+
+        const searchInput = document.getElementById('searchInput');
+        if (!searchInput) return;
+
+        // pause typing when user focuses input
+        searchInput.addEventListener('focus', () => clearTimeout(typingTimeout));
+        // resume typing when input loses focus
+        searchInput.addEventListener('blur', () => refreshSuggestions());
+
+        document.addEventListener('languageChanged', () => {
+            refreshSuggestions();
+        });
     });
 
-    searchInput.addEventListener('blur', () => {
-        typePlaceholder(); // continue on non-focus
-    });
-});
+    // expose only the refreshSuggestions function publicly
+    return { refreshSuggestions };
+})();
+
 
 

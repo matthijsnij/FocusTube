@@ -9,7 +9,11 @@ const languageManager = (() => {
       if (!response.ok) throw new Error('Failed to load language file');
       translations = await response.json();
       currentLang = lang;
-      applyTranslations();
+      applyTranslations(); // apply all translations
+
+      // Dispatch custom event to notify listeners (placeholder)
+      document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+
       localStorage.setItem('language', lang); // remember user preference
     } catch (error) {
       console.error('Language load error:', error);
@@ -44,7 +48,7 @@ const languageManager = (() => {
     if (langSelect) langSelect.value = savedLang;
   }
 
-  return { loadLanguage, init, getTranslation: (key) => translations[key] || key };
+  return { loadLanguage, init, getTranslation: key => translations[key] || key };
 })();
 
 // initialize after DOM is ready
