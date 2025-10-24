@@ -63,12 +63,14 @@ body.landing-page #logo-placeholder {
 }
 
 /* Search title (heading above search bar) */
-/* #search-title {
+#search-title {
     color: white;
-    font-size: 3rem;      
-    margin: 0 0 0;     
+    font-size: 3rem;
+    margin: 0;
     text-align: center;
-} */
+    font-family: "Montserrat", sans-serif; /* Apply Montserrat */
+    font-weight: 600; /* SemiBold */
+}
 
 /* Logo image */
 #search-title {
