@@ -1,9 +1,8 @@
 // ====== DOM ELEMENTS AND GLOBAL STATE ======
-// References to key HTML elements
-const resultsContainer = document.getElementById('results');        // Container for video results
-const videoModal = document.getElementById('videoModal');           // Modal overlay for video player
-const closeModalBtn = document.getElementById('closeModal');        // Close button inside modal
-const loadMoreButton = document.getElementById('loadMoreButton')
+const resultsContainer = document.getElementById('results');
+const videoModal = document.getElementById('videoModal');
+const closeModalBtn = document.getElementById('closeModal');
+const loadMoreButton = document.getElementById('loadMoreButton');
 
 let nextPageToken = null;
 let isLoading = false;
@@ -11,44 +10,45 @@ let query = '';
 let filtersFromURL = {};
 let apiKey = '';
 
-let player; // YouTube player instance, initialized later
+let player; // YouTube player instance
 
 // ====== YouTube API ======
-// Called automatically by YouTube API when ready
 function onYouTubeIframeAPIReady() {
-  // Create a new YouTube player inside the #player div
   player = new YT.Player('player', {
-    height: '390',       // player height in pixels
-    width: '640',        // player width in pixels
-    videoId: ''          // initially empty; video will be loaded on demand
+    height: '390',
+    width: '640',
+    videoId: ''
   });
 }
 
 // ====== MODAL VIDEO FUNCTIONS ======
-
-// Open the modal and play the selected video
 function openVideo(videoId) {
-  videoModal.style.display = 'flex';   // show the modal overlay, overrides CSS by making it visible
-  player.loadVideoById(videoId);       // load and play video by ID
+  videoModal.style.display = 'flex';
+  player.loadVideoById(videoId);
 }
 
-// Close the modal and stop video playback
 function closeVideo() {
-  videoModal.style.display = 'none';   // hide the modal
-  if (player) player.stopVideo();      // stop video if player exists
+  videoModal.style.display = 'none';
+  if (player) player.stopVideo();
 }
 
 // ====== FUNCTION TO DISPLAY VIDEO RESULTS ======
 function displayVideos(videos, container = resultsContainer, append = false) {
-  if (!append) {
-    container.innerHTML = ''; // first page: clear previous results
-  }
+  if (!append) container.innerHTML = '';
 
   videos.forEach(video => {
-    const videoId = video.id.videoId;               
-    const title = video.snippet.title;             
-    const thumbnail = video.snippet.thumbnails.medium.url; 
-    const channel = video.snippet.channelTitle;    
+    const videoId = video.id.videoId;
+    const title = video.snippet.title;
+    const thumbnail = video.snippet.thumbnails.medium.url;
+    const channel = video.snippet.channelTitle;
+
+    // Extra details
+    const viewCount = video.statistics?.viewCount
+      ? Number(video.statistics.viewCount).toLocaleString()
+      : 'N/A';
+    const uploadDate = video.snippet?.publishedAt
+      ? new Date(video.snippet.publishedAt).toLocaleDateString()
+      : 'Unknown';
 
     const videoElement = document.createElement('div');
     videoElement.classList.add('video-item');
@@ -57,24 +57,17 @@ function displayVideos(videos, container = resultsContainer, append = false) {
       <img src="${thumbnail}" alt="${title}" style="cursor:pointer;">
       <h3>${title}</h3>
       <p>${channel}</p>
+      <p class="video-meta">${viewCount} views • ${uploadDate}</p>
     `;
 
     videoElement.addEventListener('click', () => openVideo(videoId));
-
-    container.appendChild(videoElement); // always append
+    container.appendChild(videoElement);
   });
 }
 
 // ============ FUNCTION FOR CREATING PAYLOAD FOR YOUTUBE API =================
 function createPayload(query, filters, key) {
-
-  // filters should be JSON object
-  // key should be string
-
-  // ===== Map Length filter to YouTube videoDuration =====
-  let videoDuration = filters['videoDuration']
-
-  // ===== Map Upload date to publishedAfter =====
+  let videoDuration = filters['videoDuration'];
   let publishedAfter = null;
   const uploadDate = filters["uploadDate"];
   const now = new Date();
@@ -94,29 +87,25 @@ function createPayload(query, filters, key) {
         publishedAfter = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
         break;
     }
-
-    // Format as ISO without milliseconds
     publishedAfter = publishedAfter.toISOString().split(".")[0] + "Z";
   }
 
-  // ===== Map Sort on to YouTube order =====
-  let order = filters["order"]
+  let order = filters["order"];
 
-  // ===== Return final payload =====
   return {
-        q: query,
-        type: filters["type"],
-        part: "snippet",
-        maxResults: 20,
-        order,
-        ...(videoDuration && { videoDuration }),
-        ...(publishedAfter && { publishedAfter }),
-        key: key
-      }
+    q: query,
+    type: filters["type"],
+    part: "snippet",
+    maxResults: 20,
+    order,
+    ...(videoDuration && { videoDuration }),
+    ...(publishedAfter && { publishedAfter }),
+    key: key
+  };
 }
 
 // ====== FETCH VIDEOS FUNCTION ======
-async function fetchVideos(pageToken = null) { // 
+async function fetchVideos(pageToken = null) {
   if (isLoading) return;
   isLoading = true;
   loadMoreButton.disabled = true;
@@ -139,11 +128,35 @@ async function fetchVideos(pageToken = null) { //
       return;
     }
 
-    // ====== DISPLAY VIDEOS ======
+    // ====== FETCH VIDEO DETAILS (view count + upload date) ======
+    const videoIds = data.items.map(item => item.id.videoId).filter(Boolean);
+    let detailedItems = data.items;
+
+    if (videoIds.length > 0) {
+      const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoIds.join(',')}&key=${apiKey}`;
+      const detailsRes = await fetch(detailsUrl);
+      const detailsData = await detailsRes.json();
+
+      const detailsMap = {};
+      detailsData.items.forEach(v => {
+        detailsMap[v.id] = v;
+      });
+
+      detailedItems = data.items.map(item => {
+        const extra = detailsMap[item.id.videoId] || {};
+        return {
+          ...item,
+          statistics: extra.statistics,
+          snippet: extra.snippet || item.snippet
+        };
+      });
+    }
+
+    // ====== DISPLAY VIDEOS WITH DETAILS ======
     if (!pageToken) {
-      displayVideos(data.items, resultsContainer, false); // first page: replace
+      displayVideos(detailedItems, resultsContainer, false);
     } else {
-      displayVideos(data.items, resultsContainer, true);  // subsequent pages: append
+      displayVideos(detailedItems, resultsContainer, true);
     }
 
     // ====== UPDATE PAGINATION ======
@@ -160,37 +173,28 @@ async function fetchVideos(pageToken = null) { //
   }
 }
 
-// LOGIC, AFTER LOADING ALL OF THE DOM
+// ====== PAGE INITIALIZATION ======
 document.addEventListener('DOMContentLoaded', () => {
-
-  // ====== GET SEARCH QUERY & FILTERS ======
   const urlParams = new URLSearchParams(window.location.search);
   query = urlParams.get('search');
-  apiKey = urlParams.get('key')
+  apiKey = urlParams.get('key');
 
-  const filtersParam = urlParams.get('filters'); // string
+  const filtersParam = urlParams.get('filters');
   filtersFromURL = {};
   if (filtersParam) {
-    try { filtersFromURL = JSON.parse(filtersParam); } 
+    try { filtersFromURL = JSON.parse(filtersParam); }
     catch (e) { console.error('Failed to parse filters from URL', e); }
   }
 
-  // STORE ORIGINAL FILTERS
-  const originalFilters = { ...filtersFromURL } // shallow copy
-
-  // SET SEARCH BAR QUERY
-  const searchInputResults = document.getElementById('searchInput'); 
+  const originalFilters = { ...filtersFromURL };
+  const searchInputResults = document.getElementById('searchInput');
   if (searchInputResults && query) searchInputResults.value = query;
 
   // ======= INSERT FILTERS INTO POPUP =======
   Object.entries(filtersFromURL).forEach(([filterKey, filterValues]) => {
     const values = Array.isArray(filterValues) ? filterValues : [filterValues];
-
-    // Find row by its internal key
     const row = document.querySelector(`.filter-row[data-filterkey="${filterKey}"]`);
     if (!row) return;
-
-    // Loop over all buttons in the row
     const buttons = row.querySelectorAll('.filter-option');
     buttons.forEach(btn => {
       if (values.includes(btn.dataset.filterkey)) {
@@ -202,29 +206,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ====== MODAL EVENT LISTENERS ======
-  // Close modal when clicking the "X" button
   closeModalBtn.addEventListener('click', closeVideo);
-
-  // Close modal when pressing the Escape key
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeVideo(); // Does not do anything if video player is closed already
+    if (e.key === 'Escape') closeVideo();
   });
-
-  // Close modal when clicking outside the video player (on overlay)
   videoModal.addEventListener('click', (e) => {
-    if (e.target === videoModal) closeVideo();  // NOTE: Do we want this?
+    if (e.target === videoModal) closeVideo();
   });
 
   // ===== DETECT FILTER CHANGES =====
   document.querySelectorAll('.filter-option').forEach(btn => {
     btn.addEventListener('click', () => {
-      const currentFilters = getCurrentFilters(); 
+      const currentFilters = getCurrentFilters();
       const filtersChanged = JSON.stringify(currentFilters) !== JSON.stringify(originalFilters);
-      
-      // get display text in correct language
+
       const filterChangedText = languageManager.getTranslation('loadmore-filterchanged');
       const defaultText = languageManager.getTranslation('loadmore-button');
-      
+
       if (filtersChanged) {
         loadMoreButton.classList.add('disabled');
         loadMoreButton.disabled = true;
@@ -244,8 +242,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ====== INITIAL LOAD ======
   if (query && resultsContainer && apiKey) {
-    fetchVideos(); // first page load
+    fetchVideos();
   }
 });
-
-
