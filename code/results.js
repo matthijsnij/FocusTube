@@ -105,28 +105,41 @@ async function displayVideos(videos, container = resultsContainer, append = fals
 
   // ====== CREATE VIDEO ELEMENTS ======
   videos.forEach(video => {
-    const videoId = video.id.videoId;                // YouTube video ID
-    const title = video.snippet.title;              // Video title
-    const thumbnail = video.snippet.thumbnails.medium.url; // Thumbnail URL
-    const channel = video.snippet.channelTitle;     // Channel name
-    const publishedAt = video.snippet.publishedAt;  // Upload date
-    const stats = statsMap[videoId] || { views: '0', duration: '0min' };
+    const videoId = video.id.videoId;                
+    const title = video.snippet.title;              
+    const thumbnail = video.snippet.thumbnails.medium.url; 
+    const channel = video.snippet.channelTitle;     
+    const publishedAt = video.snippet.publishedAt;  
+    const stats = statsMap[videoId] || { views: '0', duration: '<1min' };
 
     const videoElement = document.createElement('div');
     videoElement.classList.add('video-item');
 
-    // Inner HTML including formatted view count, simplified duration, and relative upload date
+    // Inner HTML mimicking YouTube style:
     videoElement.innerHTML = `
-      <img src="${thumbnail}" alt="${title}" style="cursor:pointer;">
+      <div class="thumbnail-container" style="position: relative; display: inline-block; cursor:pointer;">
+        <img src="${thumbnail}" alt="${title}">
+        <span class="duration" style="
+          position: absolute;
+          bottom: 4px;
+          right: 4px;
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          font-size: 11.5px;
+          padding: 2px 4px;
+          border-radius: 5px; 
+          font-weight: bold;
+        ">${stats.duration}</span>
+      </div>
       <h3>${title}</h3>
       <p>${channel}</p>
-      ${publishedAt ? `<p>${formatViews(stats.views)} views • ${stats.duration} • ${timeAgo(publishedAt)}</p>` : ''}
+      <p>${formatViews(stats.views)} views • ${timeAgo(publishedAt)}</p>
     `;
 
     // Open video modal on click
     videoElement.addEventListener('click', () => openVideo(videoId));
 
-    container.appendChild(videoElement); // always append
+    container.appendChild(videoElement);
   });
 }
 
