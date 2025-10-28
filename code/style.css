@@ -193,13 +193,14 @@ body.results-page #logo-placeholder {
     display: flex;           /* Use Flexbox to arrange video cards */
     flex-wrap: wrap;         /* Wrap cards to next line if necessary */
     justify-content: center; /* Center all video cards horizontally, NOTE: Might want to show videos vertically, same as YT */
-    gap: 20px;               /* Space between video cards */
+    row-gap: 40px;    /* vertical spacing */
+    column-gap: 20px; /* horizontal spacing */
     margin-top: 20px;        /* Space above the container */
 }
   
 /* Individual video card */
 .video-item {
-    background-color: #111;  /* Dark card background */
+    background-color: #000;  /* Dark card background */
     color: #fff;             /* White text inside card */
     width: 300px;            /* Fixed width for consistency, NOTE: again might need relative for different types of screens */
     border-radius: 8px;      /* Rounded corners for card */
@@ -218,14 +219,24 @@ body.results-page #logo-placeholder {
 }
   
 .video-item h3 {
-    font-size: 1rem;         /* Title size */
-    margin: 10px;            /* Space around title */
+    font-size: 0.9rem;
+    margin: 10px;
+    font-weight: 600;                /* optional: bold title */
+    font-family: 'Montserrat', sans-serif;
+
+    display: -webkit-box;            /* Required for title length limit */
+    -webkit-box-orient: vertical;    /* Vertical orientation */
+    -webkit-line-clamp: 2;           /* Limit to 2 lines */
+    overflow: hidden;                /* Hide overflow text */
+    text-overflow: ellipsis;         /* Add ... at the end */
+    line-height: 0.85rem;              /* Adjust line height as needed */
 }
   
 .video-item p { /* NOTE: rename? <p> means paragraph */
-    font-size: 0.85rem;      /* Smaller font for channel name */
-    margin: 0 10px 10px 10px; /* Top:0, Sides:10px, Bottom:10px */
-    color: #ccc;             /* Lighter gray for secondary text */
+    font-size: 0.85rem;
+    margin: 0 10px 4px 10px;
+    color: #ccc;
+    font-family: 'Roboto', sans-serif; /* lighter font for channel name or description */
 }
   
 .video-item a { /* NOTE: rename? <a> means anchor/link, and does the link even show? */
