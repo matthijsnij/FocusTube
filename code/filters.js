@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
       filterPopup.classList.add('show');
       overlay.classList.add('show');
       if (pageContent) pageContent.classList.add('hidden');
+
+      // disable apply button initally
+      checkApplyButton();
     });
 
     // CANCEL BUTTON
@@ -125,45 +128,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------ Type filter functionality
     // All other filters depend on this filter, as Channel blocks other filters
     typeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // reset selection in type row
-        typeButtons.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
+      btn.addEventListener('click', () => {
+          // reset selection in type row
+          typeButtons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
 
-        // update global filter state
-        updateFiltersState();
-    });
+          // update global filter state
+          updateFiltersState();
+
+          // check if apply button can be enabled
+          checkApplyButton();
+      });
     });
 
     // ------ Single-selection filters functionality
     singleSelectFilters.forEach(row => {
-    const buttons = row.querySelectorAll('.filter-option');
-    const isOptional = row.dataset.optional === "true"; // check data-optional
+      const buttons = row.querySelectorAll('.filter-option');
+      const isOptional = row.dataset.optional === "true"; // check data-optional
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-        if (isOptional && btn.classList.contains('selected')) {
-            // optional filter: deselect if already selected
-            btn.classList.remove('selected');
-        } else {
-            // normal behavior: deselect all, then select clicked
-            buttons.forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-        }
-        });
-    });
+      buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+          if (isOptional && btn.classList.contains('selected')) {
+              // optional filter: deselect if already selected
+              btn.classList.remove('selected');
+          } else {
+              // normal behavior: deselect all, then select clicked
+              buttons.forEach(b => b.classList.remove('selected'));
+              btn.classList.add('selected');
+          }
+          // check if apply button can be enabled
+          checkApplyButton();
+          });
+      });
     });
 
     // ------ Multi-selection filters functionality
     multiSelectFilters.forEach(row => {
-    const buttons = row.querySelectorAll('.filter-option');
+      const buttons = row.querySelectorAll('.filter-option');
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-        // toggle 'selected' class on clicked button
-        btn.classList.toggle('selected'); // toggle alters between add and remove
-        });
-    });
+      buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+          // toggle 'selected' class on clicked button
+          btn.classList.toggle('selected'); // toggle alters between add and remove
+          });
+          // check if apply button can be enabled
+          checkApplyButton();
+      });
     });
 
     // Function to disable/enable all filters except type filter if that is chosen as "Channel" NOTE Not used currently
@@ -197,6 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
               btn.classList.toggle('selected', btn.dataset.filterkey === value);
           });
       });
+    }
+
+    // Function which only enables apply button if filter selection has changed
+    function checkApplyButton() {
+      const filtersNow = getCurrentFilters();
+      const changed = JSON.stringify(filtersNow) !== JSON.stringify(initialFilters);
+      filtersApplyBtn.disabled = !changed;
     }
   }
 });
