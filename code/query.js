@@ -6,9 +6,7 @@ function getCurrentFilters() {
     const filterKey = row.dataset.filterkey; // internal name
     const selectedButtons = [...row.querySelectorAll('.filter-option.selected')].map(btn => btn.dataset.filterkey);
 
-    if (selectedButtons.length > 0) {
-      filters[filterKey] = selectedButtons[0]; // NOTE assumes only single-select
-    }
+    filters[filterKey] = selectedButtons.length > 0 ? selectedButtons[0] : null; // NOTE assumes only single-select
   });
 
   return filters;

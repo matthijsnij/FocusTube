@@ -256,25 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInputResults = document.getElementById('searchInput'); 
   if (searchInputResults && query) searchInputResults.value = query;
 
-  // ======= INSERT FILTERS INTO POPUP =======
-  Object.entries(filtersFromURL).forEach(([filterKey, filterValues]) => {
-    const values = Array.isArray(filterValues) ? filterValues : [filterValues];
-
-    // Find row by its internal key
-    const row = document.querySelector(`.filter-row[data-filterkey="${filterKey}"]`);
-    if (!row) return;
-
-    // Loop over all buttons in the row
-    const buttons = row.querySelectorAll('.filter-option');
-    buttons.forEach(btn => {
-      if (values.includes(btn.dataset.filterkey)) {
-        btn.classList.add('selected');
-      } else {
-        btn.classList.remove('selected');
-      }
-    });
-  });
-
   // ====== MODAL EVENT LISTENERS ======
   closeModalBtn.addEventListener('click', closeVideo);          // Close modal on "X" click
   window.addEventListener('keydown', (e) => {                   // Close modal on Escape key

@@ -57,12 +57,76 @@ const filtersPopupHTML = `
 `;
 document.addEventListener('DOMContentLoaded', () => {
 
-  // to keep track of filter state
-  let currentFilters = {};
-  let initialFilters = {};
+  // Function to disable/enable all filters except type filter if that is chosen as "Channel" NOTE Not used currently
+    function updateFiltersState() {
+        const isChannel = document.querySelector('.type-filter .filter-option.selected')?.textContent.trim() === "Channel";
+        const otherFilters = document.querySelectorAll('.filter-row:not(.type-filter)');
+
+        otherFilters.forEach(row => {
+            row.querySelectorAll('.filter-option').forEach(btn => {
+            btn.classList.toggle('disabled', isChannel);
+            if (isChannel) btn.classList.remove('selected');
+            });
+        });
+
+        // restore Sort on default when switching back to Video
+        if (!isChannel) {
+            const sortRow = document.querySelector('.filter-row.single-select:last-of-type');
+            const firstBtn = sortRow?.querySelector('.filter-option');
+            if (sortRow && !sortRow.querySelector('.selected') && firstBtn) {
+            firstBtn.classList.add('selected'); // Relevance
+            }
+        }
+    }
+
+    // Function to visually update selected filters after clicking apply or cancel
+    function updateFilterUI(filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+          const row = document.querySelector(`.filter-row[data-filterkey="${key}"]`);
+          if (!row) return;
+          row.querySelectorAll('.filter-option').forEach(btn => {
+              btn.classList.toggle('selected', btn.dataset.filterkey === value);
+          });
+      });
+    }
+
+    // Helper function for checking if filters have changed
+    function filtersChanged(a, b) {
+      const keys = Object.keys(a);
+      return keys.some(k => a[k] !== b[k]);
+    }
+
+    // Function which only enables apply button if filter selection has changed
+    function checkApplyButton() {
+      const filtersNow = getCurrentFilters();
+      filtersApplyBtn.disabled = !filtersChanged(filtersNow, initialFilters)
+    }
 
   // inject popup
   document.body.insertAdjacentHTML('beforeend', filtersPopupHTML);
+
+  if (document.body.classList.contains('results-page')) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filtersParam = urlParams.get('filters');
+    let filtersFromURL = {};
+    if (filtersParam) {
+      try { filtersFromURL = JSON.parse(filtersParam); } 
+      catch(e) { console.error('Failed to parse filters from URL', e); }
+    }
+    appliedFilters = { ...filtersFromURL };
+    initialFilters = { ...filtersFromURL };
+  } else {
+    appliedFilters = {
+      type: 'video',
+      order: 'relevance',
+      videoDuration: null,
+      uploadDate: null
+    };
+    initialFilters = { ...appliedFilters };
+  }
+
+  // Update UI to reflect initial filters
+  updateFilterUI(appliedFilters);
 
   // opening/closing behaviour of popup
   const filterButton = document.querySelector('.filter-button');
@@ -72,13 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.querySelector('.overlay');
   const pageContent = document.querySelector('.landing-page-content');
 
-  if(filterButton && filterPopup && overlay && pageContent && filtersApplyBtn && filtersCancelBtn){
+  if(filterButton && filterPopup && overlay && filtersApplyBtn && filtersCancelBtn){
 
     // FILTER BUTTON
     filterButton.addEventListener('click', () => {
-      // capture filter state
-      currentFilters = getCurrentFilters();
-      initialFilters = { ...currentFilters }; // copy
+
+      // set initial filters
+      initialFilters = { ...appliedFilters };
+
+      // set UI to current selected filters
+      updateFilterUI(appliedFilters)
 
       // visuals
       filterPopup.classList.add('show');
@@ -91,8 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // CANCEL BUTTON
     filtersCancelBtn.addEventListener('click', () => {
-      currentFilters = { ...initialFilters } // revert to initial filters
-      updateFilterUI(currentFilters) // visually update buttons
+      updateFilterUI(initialFilters) // visually update buttons
 
       // close popup
       filterPopup.classList.remove('show');
@@ -102,12 +168,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // APPLY BUTTON
     filtersApplyBtn.addEventListener('click', () => {
-      currentFilters = getCurrentFilters(); // save selection
+      appliedFilters = getCurrentFilters(); // save new filter selection
 
       // close popup
       filterPopup.classList.remove('show');
       overlay.classList.remove('show');
       if (pageContent) pageContent.classList.remove('hidden');
+
+      // Only on results page: trigger new search
+      if (document.body.classList.contains('results-page')) {
+        performSearch(); 
+      }
     });
 
     // filter buttons clicking behaviour
@@ -175,46 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
           checkApplyButton();
       });
     });
-
-    // Function to disable/enable all filters except type filter if that is chosen as "Channel" NOTE Not used currently
-    function updateFiltersState() {
-        const isChannel = document.querySelector('.type-filter .filter-option.selected')?.textContent.trim() === "Channel";
-        const otherFilters = document.querySelectorAll('.filter-row:not(.type-filter)');
-
-        otherFilters.forEach(row => {
-            row.querySelectorAll('.filter-option').forEach(btn => {
-            btn.classList.toggle('disabled', isChannel);
-            if (isChannel) btn.classList.remove('selected');
-            });
-        });
-
-        // restore Sort on default when switching back to Video
-        if (!isChannel) {
-            const sortRow = document.querySelector('.filter-row.single-select:last-of-type');
-            const firstBtn = sortRow?.querySelector('.filter-option');
-            if (sortRow && !sortRow.querySelector('.selected') && firstBtn) {
-            firstBtn.classList.add('selected'); // Relevance
-            }
-        }
-    }
-
-    // Function to visually update selected filters after clicking apply or cancel
-    function updateFilterUI(filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-          const row = document.querySelector(`.filter-row[data-filterkey="${key}"]`);
-          if (!row) return;
-          row.querySelectorAll('.filter-option').forEach(btn => {
-              btn.classList.toggle('selected', btn.dataset.filterkey === value);
-          });
-      });
-    }
-
-    // Function which only enables apply button if filter selection has changed
-    function checkApplyButton() {
-      const filtersNow = getCurrentFilters();
-      const changed = JSON.stringify(filtersNow) !== JSON.stringify(initialFilters);
-      filtersApplyBtn.disabled = !changed;
-    }
   }
 });
 

@@ -119,6 +119,7 @@ body.landing-page #logo-placeholder {
 .apply-btn {
   background-color: #666;
   color: #ccc;
+  cursor: pointer;
 }
 
 .apply-btn:hover {
@@ -132,6 +133,7 @@ body.landing-page #logo-placeholder {
   color: #777;
   border: 0.0625rem solid #444;
   transform: none;        /* prevent hover scale */
+  cursor: auto;
 }
 
 /* Optional: prevent hover effects when disabled */
