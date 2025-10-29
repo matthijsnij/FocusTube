@@ -5,9 +5,6 @@ const filtersPopupHTML = `
 <!-- Popup menu for filters (initially hidden) -->
 <div id="filter-popup" class="filter-popup">
 
-  <!-- Close button -->
-  <button class="popup-close">&times;</button>
-  
   <!-- Popup title -->
   <div class="popup-title-container">
     <img src="../images/filter-icon-dik-transparent.png" alt="" class="popup-icon">
@@ -60,21 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // opening/closing behaviour of popup
     const filterButton = document.querySelector('.filter-button');
     const filterPopup = document.getElementById('filter-popup');
-    const closeButton = filterPopup.querySelector('.popup-close');
     const overlay = document.querySelector('.overlay');
     const pageContent = document.querySelector('.landing-page-content');
 
-    if(filterButton && filterPopup && closeButton && overlay){
+    if(filterButton && filterPopup && overlay){
     filterButton.addEventListener('click', () => {
         filterPopup.classList.add('show');
         overlay.classList.add('show');
         if (pageContent) pageContent.classList.add('hidden');
-    });
-
-    closeButton.addEventListener('click', () => {
-        filterPopup.classList.remove('show');
-        overlay.classList.remove('show');
-        if (pageContent) pageContent.classList.remove('hidden');
     });
 
     overlay.addEventListener('click', () => {
