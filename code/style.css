@@ -461,6 +461,13 @@ body.results-page #logo-placeholder {
   margin-bottom: 1rem;            /* space between filter rows */
   gap: 2rem;
 }
+
+/* Hide type filter row */
+.filter-popup .type-filter {
+  display: none;       /* hides the row visually */
+  pointer-events: none; /* prevents interaction just in case */
+}
+
 /* Filter name / word style */
 .filter-name {
   font-size: 1.2rem;              /* relative size */
