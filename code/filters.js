@@ -48,6 +48,11 @@ const filtersPopupHTML = `
       <button type="button" class="filter-option" data-i18n="sortfilter-rating" data-filterkey="rating">Rating</button>
     </div>
   </div>
+
+  <div class="settings-actions">
+    <button id="applyFilters" class="apply-btn" data-i18n="apply-word">Apply</button>
+    <button id="cancelFilters" class="cancel-btn" data-i18n="cancel-word">Cancel</button>
+  </div>
 </div>
 `;
 document.addEventListener('DOMContentLoaded', () => {
