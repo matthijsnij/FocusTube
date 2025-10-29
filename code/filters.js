@@ -57,22 +57,24 @@ const filtersPopupHTML = `
 `;
 document.addEventListener('DOMContentLoaded', () => {
 
-    // to keep track of filter state
-    let currentFilters = {};
-    let initialFilters = {};
+  // to keep track of filter state
+  let currentFilters = {};
+  let initialFilters = {};
 
-    // inject popup
-    document.body.insertAdjacentHTML('beforeend', filtersPopupHTML);
+  // inject popup
+  document.body.insertAdjacentHTML('beforeend', filtersPopupHTML);
 
-    // opening/closing behaviour of popup
-    const filterButton = document.querySelector('.filter-button');
-    const filterPopup = document.getElementById('filter-popup');
-    const filtersApplyBtn = document.getElementById('applyFilters');
-    const filtersCancelBtn = document.getElementById('cancelFilters');
-    const overlay = document.querySelector('.overlay');
-    const pageContent = document.querySelector('.landing-page-content');
+  // opening/closing behaviour of popup
+  const filterButton = document.querySelector('.filter-button');
+  const filterPopup = document.getElementById('filter-popup');
+  const filtersApplyBtn = document.getElementById('applyFilters');
+  const filtersCancelBtn = document.getElementById('cancelFilters');
+  const overlay = document.querySelector('.overlay');
+  const pageContent = document.querySelector('.landing-page-content');
 
-    if(filterButton && filterPopup && overlay && filtersApplyBtn && filtersCancelBtn && pageContent){
+  if(filterButton && filterPopup && overlay && pageContent && filtersApplyBtn && filtersCancelBtn){
+
+    // FILTER BUTTON
     filterButton.addEventListener('click', () => {
       // capture filter state
       currentFilters = getCurrentFilters();
@@ -84,8 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (pageContent) pageContent.classList.add('hidden');
     });
 
+    // CANCEL BUTTON
     filtersCancelBtn.addEventListener('click', () => {
       currentFilters = { ...initialFilters } // revert to initial filters
+      updateFilterUI(currentFilters) // visually update buttons
+
+      // close popup
+      filterPopup.classList.remove('show');
+      overlay.classList.remove('show');
+      if (pageContent) pageContent.classList.remove('hidden');
+    });
+
+    // APPLY BUTTON
+    filtersApplyBtn.addEventListener('click', () => {
+      currentFilters = getCurrentFilters(); // save selection
+
+      // close popup
       filterPopup.classList.remove('show');
       overlay.classList.remove('show');
       if (pageContent) pageContent.classList.remove('hidden');
@@ -150,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     });
 
-    // Function to disable/enable all filters except type filter if that is chosen as "Channel"
+    // Function to disable/enable all filters except type filter if that is chosen as "Channel" NOTE Not used currently
     function updateFiltersState() {
         const isChannel = document.querySelector('.type-filter .filter-option.selected')?.textContent.trim() === "Channel";
         const otherFilters = document.querySelectorAll('.filter-row:not(.type-filter)');
@@ -171,6 +187,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+    // Function to visually update selected filters after clicking apply or cancel
+    function updateFilterUI(filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+          const row = document.querySelector(`.filter-row[data-filterkey="${key}"]`);
+          if (!row) return;
+          row.querySelectorAll('.filter-option').forEach(btn => {
+              btn.classList.toggle('selected', btn.dataset.filterkey === value);
+          });
+      });
+    }
+  }
 });
 
 
