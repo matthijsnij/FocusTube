@@ -56,28 +56,40 @@ const filtersPopupHTML = `
 </div>
 `;
 document.addEventListener('DOMContentLoaded', () => {
+
+    // to keep track of filter state
+    let currentFilters = {};
+    let initialFilters = {};
+
     // inject popup
     document.body.insertAdjacentHTML('beforeend', filtersPopupHTML);
 
     // opening/closing behaviour of popup
     const filterButton = document.querySelector('.filter-button');
     const filterPopup = document.getElementById('filter-popup');
+    const filtersApplyBtn = document.getElementById('applyFilters');
+    const filtersCancelBtn = document.getElementById('cancelFilters');
     const overlay = document.querySelector('.overlay');
     const pageContent = document.querySelector('.landing-page-content');
 
-    if(filterButton && filterPopup && overlay){
+    if(filterButton && filterPopup && overlay && filtersApplyBtn && filtersCancelBtn && pageContent){
     filterButton.addEventListener('click', () => {
-        filterPopup.classList.add('show');
-        overlay.classList.add('show');
-        if (pageContent) pageContent.classList.add('hidden');
+      // capture filter state
+      currentFilters = getCurrentFilters();
+      initialFilters = { ...currentFilters }; // copy
+
+      // visuals
+      filterPopup.classList.add('show');
+      overlay.classList.add('show');
+      if (pageContent) pageContent.classList.add('hidden');
     });
 
-    overlay.addEventListener('click', () => {
-        filterPopup.classList.remove('show');
-        overlay.classList.remove('show');
-        if (pageContent) pageContent.classList.remove('hidden');
+    filtersCancelBtn.addEventListener('click', () => {
+      currentFilters = { ...initialFilters } // revert to initial filters
+      filterPopup.classList.remove('show');
+      overlay.classList.remove('show');
+      if (pageContent) pageContent.classList.remove('hidden');
     });
-    }
 
     // filter buttons clicking behaviour
     const typeFilter = document.querySelector('.filter-row.type-filter')
