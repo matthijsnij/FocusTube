@@ -111,7 +111,6 @@ body.landing-page #logo-placeholder {
   border-radius: 0.5rem;
   font-size: 0.95rem;
   font-family: inherit;
-  cursor: pointer;
   border: none;
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
@@ -127,11 +126,26 @@ body.landing-page #logo-placeholder {
   transform: scale(1.05)
 }
 
+/* Apply button when disabled */
+.apply-btn:disabled {
+  background-color: transparent;
+  color: #888;
+  border: 0.0625rem solid #555;
+  transform: none;        /* prevent hover scale */
+}
+
+/* Optional: prevent hover effects when disabled */
+.apply-btn:disabled:hover {
+  background-color: transparent; /* keep dimmed */
+  transform: none;
+}
+
 /* Cancel button – outlined and transparent */
 .cancel-btn {
   background-color: transparent;
   color: #ccc;
   border: 0.0625rem solid #555;
+  cursor: pointer;
 }
 
 .cancel-btn:hover {
