@@ -266,6 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===== DETECT FILTER CHANGES =====
+
+  /* NOTE can probably be removed
   document.querySelectorAll('.filter-option').forEach(btn => {
     btn.addEventListener('click', () => {
       const currentFilters = getCurrentFilters(); 
@@ -285,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+  */
 
   // ====== LOAD MORE BUTTON CLICK ======
   loadMoreButton.addEventListener('click', () => {
