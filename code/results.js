@@ -265,30 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === videoModal) closeVideo();
   });
 
-  // ===== DETECT FILTER CHANGES =====
-
-  /* NOTE can probably be removed
-  document.querySelectorAll('.filter-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const currentFilters = getCurrentFilters(); 
-      const filtersChanged = JSON.stringify(currentFilters) !== JSON.stringify(originalFilters);
-      
-      const filterChangedText = languageManager.getTranslation('loadmore-filterchanged');
-      const defaultText = languageManager.getTranslation('loadmore-button');
-      
-      if (filtersChanged) {
-        loadMoreButton.classList.add('disabled');
-        loadMoreButton.disabled = true;
-        loadMoreButton.textContent = filterChangedText;
-      } else {
-        loadMoreButton.classList.remove('disabled');
-        loadMoreButton.disabled = false;
-        loadMoreButton.textContent = defaultText;
-      }
-    });
-  });
-  */
-
   // ====== LOAD MORE BUTTON CLICK ======
   loadMoreButton.addEventListener('click', () => {
     fetchVideos(nextPageToken);
