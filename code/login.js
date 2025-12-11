@@ -33,6 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpPasswordInput = document.getElementById('signUpPasswordInput');
     const signUpButton = document.getElementById('signUpButton');
 
+    const dropdown = document.getElementById('loginLanguageSelect');
+
+    if (dropdown) {
+        // Set dropdown to previously selected language
+        const savedLang = localStorage.getItem('language') || 'en';
+        dropdown.value = savedLang;
+
+        // When user changes language
+        dropdown.addEventListener('change', (e) => {
+            languageManager.loadLanguage(e.target.value);
+        });
+    }
+
     emailInput.addEventListener('input', () => {
     const email = emailInput.value.trim();
 
