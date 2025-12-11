@@ -1,4 +1,12 @@
 {
+    "login-or-signup": "Log in or sign up below",
+    "login-word": "Log In",
+    "signup-word": "Sign Up",
+    "forgot-password": "Forgot password?",
+    "firstname-word": "Name",
+    "lastname-word": "Surname",
+    "password-word": "Password",
+    "continue-word": "Continue",
     "search-sentence": "What do you want to learn today?",
     "subtitle": "Search YouTube without distraction",
     "settings-title": "Settings",

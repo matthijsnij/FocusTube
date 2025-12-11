@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FocusTube</title>
+    <link rel="stylesheet" href="style.css"> <!-- reuse your existing styles -->
+</head>
+<body class="landing-page"> <!-- dark theme body -->
+    <div class="login-container">
+
+        <!-- Logo -->
+        <div class="login-logo">
+            <img src="../images/FocusTube lightbulb transparant.png" alt="Logo" class="logo">
+        </div>
+
+        <!-- Instruction sentence -->
+        <p class="login-instruction" data-i18n="login-or-signup">Log in or sign up below</p>
+
+        <!-- Email label row -->
+        <div class="email-label-row">
+            <span class="email-label">E-mail</span>
+            <a href="#" class="forgot-password" data-i18n="forgot-password">Forgot password?</a>
+        </div>
+
+        <!-- Email input -->
+        <input type="email" id="emailInput" class="login-input" placeholder="you@example.com">
+
+        <!-- Continue button (hidden initially) -->
+        <button id="continueButton" class="apply-btn" style="display:none;", data-i18n="continue-word">Continue</button>
+
+        <!-- Password input (hidden initially) -->
+        <input type="password" id="passwordInput" class="login-input" placeholder="Password" style="display:none;" data-i18n="password-word">
+        <button id="loginButton" class="apply-btn" style="display:none;" data-i18n="login-word">Login</button>
+
+        <!-- Sign up inputs (hidden initially) -->
+        <input type="text" id="firstNameInput" class="login-input" placeholder="First Name" style="display:none;" data-i18n="firstname-word">
+        <input type="text" id="lastNameInput" class="login-input" placeholder="Last Name" style="display:none;" data-i18n="lastname-word">
+        <input type="password" id="signUpPasswordInput" class="login-input" placeholder="Password" style="display:none;" data-i18n="password-word">
+        <button id="signUpButton" class="apply-btn" style="display:none;" data-i18n="signup-word">Sign Up</button>
+
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>

@@ -1,4 +1,12 @@
 {
+    "login-or-signup": "Faça login ou registre-se abaixo",
+    "login-word": "Entrar",
+    "signup-word": "Registrar-se",
+    "forgot-password": "Esqueceu a senha?",
+    "firstname-word": "Nome",
+    "lastname-word": "Sobrenome",
+    "password-word": "Senha",
+    "continue-word": "Continuar",
     "search-sentence": "O que você quer aprender hoje?",
     "subtitle": "Pesquise no YouTube sem distrações",
     "settings-title": "Definições",

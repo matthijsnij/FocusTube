@@ -550,3 +550,136 @@ body.results-page #logo-placeholder {
 .settings-button:hover {
   transform: scale(1.1);
 }
+
+/* ================= LOGIN PAGE ================= */
+body.login-page {
+    background-color: #111;        /* dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;                 /* full viewport height */
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+}
+
+.login-container {
+    position: relative;
+    background-color: #222;        /* dark grey square */
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    width: 400px;                  /* fixed width for now */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+#loginLanguageSelect {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4em 0.8em;
+    border-radius: 0.4rem;
+    border: 0.0625rem solid #444;
+    background-color: #1e1e1e;
+    color: #eee;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#loginLanguageSelect:hover {
+    border-color: #555;
+    background-color: #222;
+}
+
+.login-logo {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-logo .logo {
+    width: 120px;  /* adjust as needed */
+    height: auto;
+}
+
+.login-instruction {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #ccc;
+}
+
+.email-label-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.95rem;
+    color: #ccc;
+}
+
+.email-label-row a.forgot-password {
+    color: #999;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.email-label-row a.forgot-password:hover {
+    color: #fff;
+}
+
+.login-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #444;
+    background-color: #111;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-top: 0.3rem;
+}
+
+.login-input::placeholder {
+    color: #666;
+}
+
+.login-input:focus {
+    border-color: #666;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+#continueButton,
+#loginButton,
+#signUpButton {
+    width: 100%;
+    padding: 0.75rem 0;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #666;
+    color: #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+#continueButton:hover,
+#loginButton:hover,
+#signUpButton:hover {
+    background-color: #555;
+    transform: scale(1.03);
+}
+
+#continueButton:disabled,
+#loginButton:disabled,
+#signUpButton:disabled {
+    background-color: #333;
+    color: #777;
+    cursor: not-allowed;
+}
+
+
+
+
+

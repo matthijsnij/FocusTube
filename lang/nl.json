@@ -1,4 +1,12 @@
 {
+    "login-or-signup": "Log hieronder in of meld je aan",
+    "login-word": "Inloggen",
+    "signup-word": "Aanmelden",
+    "forgot-password": "Wachtwoord vergeten?",
+    "firstname-word": "Voornaam",
+    "lastname-word": "Achternaam",
+    "password-word": "Wachtwoord",
+    "continue-word": "Doorgaan",
     "search-sentence": "Wat wil je vandaag leren?",
     "subtitle": "Zoek op YouTube zonder afleiding",
     "settings-title": "Instellingen",
