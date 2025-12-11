@@ -96,4 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hide continue button
         hideElement('continueButton');
     });
+
+    loginButton.addEventListener('click', () => {
+    console.log("Logging in:", emailInput.value, passwordInput.value);
+    // Here you can later add real authentication
+    });
+
+    signUpButton.addEventListener('click', () => {
+        console.log("Signing up:", emailInput.value, firstNameInput.value, lastNameInput.value, signUpPasswordInput.value);
+        // Here you can later add real signup logic
+    });
 });
