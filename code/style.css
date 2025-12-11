@@ -565,13 +565,15 @@ body.login-page {
 .login-container {
     position: relative;
     background-color: #222;        /* dark grey square */
-    padding: 2rem 3rem;
+    padding: 3rem 3.5rem;
     border-radius: 1rem;
-    width: 400px;                  /* fixed width for now */
+    width: 35vw;                /* scales with screen width */
+    max-width: 500px;           /* keeps it from becoming huge */
+    min-width: 300px;           /* keeps it usable on mobile */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
@@ -605,9 +607,11 @@ body.login-page {
 }
 
 .login-instruction {
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-align: center;
     color: #ccc;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 .email-label-row {
@@ -616,6 +620,7 @@ body.login-page {
     width: 100%;
     font-size: 0.95rem;
     color: #ccc;
+    margin-bottom: -1rem;
 }
 
 .email-label-row a.forgot-password {
