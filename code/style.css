@@ -693,6 +693,13 @@ body.login-page {
   cursor: pointer;
 }
 
+.email-error {
+    color: #ff4d4f;      /* red */
+    font-size: 0.9rem;
+    display: none;       /* make it take a line below */
+    text-align: center;   /* center text */
+    margin-top: -0.7rem;  /* small spacing above */
+}
 
 
 

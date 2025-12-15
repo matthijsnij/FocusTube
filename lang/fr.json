@@ -1,6 +1,7 @@
 {
     "login-or-signup": "Connectez-vous ou inscrivez-vous ci-dessous",
     "back-word": "Retour",
+    "email-error": "Veuillez saisir une adresse e-mail valide",
     "login-word": "Se connecter",
     "signup-word": "S'inscrire",
     "forgot-password": "Mot de passe oublié?",

@@ -10,6 +10,11 @@ function emailExists(email) {
     return mockUsers.some(user => user.email === email);
 }
 
+function isValidEmail(email) {
+    // Simple regex for basic validation
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 // Show/hide elements helper
 function showElement(id) {
     document.getElementById(id).style.display = 'block';
@@ -52,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const backButton = document.getElementById("backButton");
     const dropdown = document.getElementById('loginLanguageSelect');
+    const emailError = document.getElementById('emailError');
 
     backButton.addEventListener("click", () => {
         // Clear email
@@ -103,21 +109,30 @@ document.addEventListener('DOMContentLoaded', () => {
         firstNameInput.value = '';
         lastNameInput.value = '';
         signUpPasswordInput.value = '';
+        emailError.style.display = 'none';
     }
     });
 
     continueButton.addEventListener('click', () => {
         const email = emailInput.value.trim();
 
+        if (!isValidEmail(email)) {
+            emailError.style.display = 'inline';
+            return;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+
         if (emailExists(email)) {
             // Existing user → show login
+            showElement('backButton')
             showElement('passwordInput');
 
             hideElement('firstNameInput');
             hideElement('lastNameInput');
             hideElement('signUpPasswordInput');
             hideElement('signUpButton');
-            hideElement('backButton')
         } else {
             // New user → show sign up
             showElement('backButton')

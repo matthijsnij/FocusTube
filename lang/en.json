@@ -1,6 +1,7 @@
 {
     "login-or-signup": "Log in or sign up below",
     "back-word": "Back",
+    "email-error": "Please enter a valid e-mail",
     "login-word": "Log In",
     "signup-word": "Sign Up",
     "forgot-password": "Forgot password?",
