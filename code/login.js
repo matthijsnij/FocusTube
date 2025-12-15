@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backButton.style.display = 'none';
 
     // Enable the email input again
-    emailInput.readOnly = false;
+    emailInput.classList.remove('frozen');
     emailInput.value = '';
     // Reset focus
     emailInput.focus();
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Hide continue button
         hideElement('continueButton');
-        emailInput.readOnly = true;
+        emailInput.classList.add('frozen');
     });
 
     loginButton.addEventListener('click', () => {

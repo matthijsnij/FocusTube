@@ -650,6 +650,12 @@ body.login-page {
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
+.login-input.frozen {
+  pointer-events: none;
+  opacity: 0.4;
+  cursor: auto;
+}
+
 #continueButton,
 #loginButton,
 #signUpButton {
