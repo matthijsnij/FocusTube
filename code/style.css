@@ -579,20 +579,15 @@ body.login-page {
 
 #loginLanguageSelect {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 1.1rem;
+    right: 1.1rem;
     padding: 0.4em 0.8em;
     border-radius: 0.4rem;
     border: 0.0625rem solid #444;
     background-color: #1e1e1e;
     color: #eee;
     cursor: pointer;
-    font-size: 0.9rem;
-}
-
-#loginLanguageSelect:hover {
-    border-color: #555;
-    background-color: #222;
+    font-size: 0.77rem;
 }
 
 .login-logo {
@@ -682,6 +677,20 @@ body.login-page {
     background-color: #333;
     color: #777;
     cursor: not-allowed;
+}
+
+.back-btn {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  color: #ccc;
+  font-size: 0.85rem;
+  cursor: pointer;
 }
 
 

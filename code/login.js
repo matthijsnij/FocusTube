@@ -19,6 +19,23 @@ function hideElement(id) {
     document.getElementById(id).style.display = 'none';
 }
 
+function updateActionButtons() {
+    // Login button: only if password field is visible and not empty
+    loginButton.style.display =
+        passwordInput.style.display !== 'none' && passwordInput.value.trim().length > 0
+            ? 'block'
+            : 'none';
+
+    // Sign up button: only if all signup fields are visible and filled
+    signUpButton.style.display =
+        firstNameInput.style.display !== 'none' &&
+        firstNameInput.value.trim().length > 0 &&
+        lastNameInput.value.trim().length > 0 &&
+        signUpPasswordInput.value.trim().length > 0
+            ? 'block'
+            : 'none';
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // ================= ELEMENTS =================
@@ -33,7 +50,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpPasswordInput = document.getElementById('signUpPasswordInput');
     const signUpButton = document.getElementById('signUpButton');
 
+    const backButton = document.getElementById("backButton");
     const dropdown = document.getElementById('loginLanguageSelect');
+
+    backButton.addEventListener("click", () => {
+        // Clear email
+        emailInput.value = "";
+
+        // Hide everything except email input
+        continueButton.style.display = "none";
+
+        passwordInput.style.display = "none";
+        loginButton.style.display = "none";
+
+        firstNameInput.style.display = "none";
+        lastNameInput.style.display = "none";
+        signUpPasswordInput.style.display = "none";
+        signUpButton.style.display = "none";
+
+        backButton.style.display = "none";
+    });
 
     if (dropdown) {
         // Set dropdown to previously selected language
@@ -76,18 +112,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (emailExists(email)) {
             // Existing user → show login
             showElement('passwordInput');
-            showElement('loginButton');
 
             hideElement('firstNameInput');
             hideElement('lastNameInput');
             hideElement('signUpPasswordInput');
             hideElement('signUpButton');
+            hideElement('backButton')
         } else {
             // New user → show sign up
+            showElement('backButton')
             showElement('firstNameInput');
             showElement('lastNameInput');
             showElement('signUpPasswordInput');
-            showElement('signUpButton');
 
             hideElement('passwordInput');
             hideElement('loginButton');
@@ -106,4 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Signing up:", emailInput.value, firstNameInput.value, lastNameInput.value, signUpPasswordInput.value);
         // Here you can later add real signup logic
     });
+
+    passwordInput.addEventListener('input', updateActionButtons);
+    firstNameInput.addEventListener('input', updateActionButtons);
+    lastNameInput.addEventListener('input', updateActionButtons);
+    signUpPasswordInput.addEventListener('input', updateActionButtons);
 });
