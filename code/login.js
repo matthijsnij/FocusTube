@@ -1,6 +1,6 @@
 // ================= MOCK DATABASE =================
 const mockUsers = [
-    { email: "matta@gmail.com", password: "matta" }
+    { email: "matta@gmail.com", password: "matta", firstName: "Matthijs", lastName: "Nijeboer"}
 ];
 
 // ================= HELPER FUNCTIONS =================
@@ -57,25 +57,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const backButton = document.getElementById("backButton");
     const dropdown = document.getElementById('loginLanguageSelect');
+
     const emailError = document.getElementById('emailError');
+    const signUpPasswordError = document.getElementById('signUpPasswordError');
 
-    backButton.addEventListener("click", () => {
-        // Clear email
-        emailInput.value = "";
+   backButton.addEventListener('click', () => {
+    // Hide all additional inputs/buttons
+    passwordInput.style.display = 'none';
+    loginButton.style.display = 'none';
+    firstNameInput.style.display = 'none';
+    lastNameInput.style.display = 'none';
+    signUpPasswordInput.style.display = 'none';
+    signUpButton.style.display = 'none';
+    
+    // Clear all values
+    emailInput.value = '';
+    passwordInput.value = '';
+    firstNameInput.value = '';
+    lastNameInput.value = '';
+    signUpPasswordInput.value = '';
 
-        // Hide everything except email input
-        continueButton.style.display = "none";
+    // Hide error messages
+    emailError.style.display = 'none';
+    signUpPasswordError.style.display = 'none';
+    loginPasswordError.style.display = 'none';
 
-        passwordInput.style.display = "none";
-        loginButton.style.display = "none";
+    // Hide back button itself
+    backButton.style.display = 'none';
 
-        firstNameInput.style.display = "none";
-        lastNameInput.style.display = "none";
-        signUpPasswordInput.style.display = "none";
-        signUpButton.style.display = "none";
-
-        backButton.style.display = "none";
-    });
+    // Enable the email input again
+    emailInput.readOnly = false;
+    emailInput.value = '';
+    // Reset focus
+    emailInput.focus();
+});
 
     if (dropdown) {
         // Set dropdown to previously selected language
@@ -103,6 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hideElement('lastNameInput');
         hideElement('signUpPasswordInput');
         hideElement('signUpButton');
+        hideElement('loginPasswordError');
+        hideElement('signupPasswordError');
 
         // Clear all other input fields
         passwordInput.value = '';
@@ -146,11 +163,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Hide continue button
         hideElement('continueButton');
+        emailInput.readOnly = true;
     });
 
     loginButton.addEventListener('click', () => {
-    console.log("Logging in:", emailInput.value, passwordInput.value);
-    // Here you can later add real authentication
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        const user = mockUsers.find(u => u.email === email);
+
+        if (user.password !== password) {
+            loginPasswordError.style.display = 'block';
+            return;
+        }
+
+        // Succesful login; go to index.html
+        console.log("Logging in")
     });
 
     signUpButton.addEventListener('click', () => {
@@ -162,4 +190,19 @@ document.addEventListener('DOMContentLoaded', () => {
     firstNameInput.addEventListener('input', updateActionButtons);
     lastNameInput.addEventListener('input', updateActionButtons);
     signUpPasswordInput.addEventListener('input', updateActionButtons);
+
+    signUpButton.addEventListener('click', () => {
+        const password = signUpPasswordInput.value.trim();
+
+        // Check password length
+        if (password.length < 8) {
+            signUpPasswordError.style.display = 'block';
+            return; // stop here, do not submit
+        } else {
+            signUpPasswordError.style.display = 'none';
+        }
+
+        // If valid, continue with signup (mock or database call)
+        console.log('Signing up user...');
+    });
 });

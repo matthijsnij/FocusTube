@@ -696,9 +696,17 @@ body.login-page {
 .email-error {
     color: #ff4d4f;      /* red */
     font-size: 0.9rem;
-    display: none;       /* make it take a line below */
+    display: block;       /* make it take a line below */
     text-align: center;   /* center text */
     margin-top: -0.7rem;  /* small spacing above */
+}
+
+.password-error {
+    color: #ff4d4f;      /* red */
+    font-size: 0.9rem;
+    display: block;      /* take full width */
+    text-align: center;    /* align left under input */
+    margin-top: -0.7rem; /* spacing below input */
 }
 
 

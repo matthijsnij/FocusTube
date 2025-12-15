@@ -1,6 +1,8 @@
 {
     "login-or-signup": "Accedi o registrati qui sotto",
     "back-word": "Indietro",
+    "login-password-error": "Password non corretta",
+    "signup-password-error": "La password deve contenere almeno 8 caratteri",
     "email-error": "Inserisci un indirizzo e-mail valido",
     "login-word": "Accedi",
     "signup-word": "Registrati",
