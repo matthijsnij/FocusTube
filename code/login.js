@@ -1,22 +1,22 @@
-// ================= MOCK DATABASE =================
-const mockUsers = [
-    { email: "matta@gmail.com", password: "matta", firstName: "Matthijs", lastName: "Nijeboer"}
-];
+const supabase = window.supabase;
 
 // ================= HELPER FUNCTIONS =================
 
 // Check if email exists
 async function checkEmailExists(email) {
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email,
-    options: { shouldCreateUser: false }
-  });
+  const { data, error } = await supabase
+    .from('focustube-profiles')
+    .select('id')
+    .eq('email', email)
+    .single();
 
-  if (error) {
-    return false; // user does not exist
+    if (error && error.code !== 'PGRST116') { // 116 = no rows
+    console.error("Supabase error:", error);
   }
-  return true; // user exists
+
+  return !!data; // true if exists, false if not
 }
+
 
 // Login via supabase
 async function loginWithPassword(email, password) {
@@ -186,6 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
             emailError.style.display = 'none';
         }
 
+        console.log("supabase object:", supabase);
+        console.log("supabase.from type:", typeof supabase.from);
+
         const exists = await checkEmailExists(email);
 
         if (exists) {
@@ -226,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Succesful login; go to index.html
         console.log("Logging in: ", result.user)
+        window.location.href = 'index.html';
     });
 
     signUpButton.addEventListener('click', async () => {
@@ -259,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add first and last name to profile table
         const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
+        .from('focustube-profiles')
         .insert([{ id: user.id, email, firstName, lastName }]);
 
         if (profileError) {
@@ -269,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // To index.html
         console.log("Signing up:", email, firstName, lastName, password);
-        
+        window.location.href = 'index.html';
     });
 
     passwordInput.addEventListener('input', updateActionButtons);
