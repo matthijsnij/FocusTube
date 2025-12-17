@@ -18,6 +18,7 @@ async function checkEmailExists(email) {
   return true; // user exists
 }
 
+// Login via supabase
 async function loginWithPassword(email, password) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -30,6 +31,27 @@ async function loginWithPassword(email, password) {
 
   return { success: true, user: data.user };
 }
+
+// Signup via supabase
+async function signUpWithPassword(email, password, firstName, lastName) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        first_name: firstName,
+        last_name: lastName
+      }
+    }
+  });
+
+  if (error) {
+    return { success: false, message: error.message };
+  }
+
+  return { success: true, user: data.user };
+}
+
 
 function isValidEmail(email) {
     // Simple regex for basic validation
@@ -203,18 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Logging in: ", result.user)
     });
 
-    signUpButton.addEventListener('click', () => {
-        console.log("Signing up:", emailInput.value, firstNameInput.value, lastNameInput.value, signUpPasswordInput.value);
-        // Here you can later add real signup logic
-    });
-
-    passwordInput.addEventListener('input', updateActionButtons);
-    firstNameInput.addEventListener('input', updateActionButtons);
-    lastNameInput.addEventListener('input', updateActionButtons);
-    signUpPasswordInput.addEventListener('input', updateActionButtons);
-
-    signUpButton.addEventListener('click', () => {
+    signUpButton.addEventListener('click', async () => {
+        const email = emailInput.value.trim();
         const password = signUpPasswordInput.value.trim();
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
 
         // Check password length
         if (password.length < 8) {
@@ -224,7 +239,13 @@ document.addEventListener('DOMContentLoaded', () => {
             signUpPasswordError.style.display = 'none';
         }
 
-        // If valid, continue with signup (mock or database call)
-        console.log('Signing up user...');
+        // If valid, continue with signup 
+        console.log("Signing up:", email, firstName, lastName, password);
+        
     });
+
+    passwordInput.addEventListener('input', updateActionButtons);
+    firstNameInput.addEventListener('input', updateActionButtons);
+    lastNameInput.addEventListener('input', updateActionButtons);
+    signUpPasswordInput.addEventListener('input', updateActionButtons);
 });
