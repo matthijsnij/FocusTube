@@ -3,6 +3,7 @@
     "back-word": "Zurück",
     "login-password-error": "Falsches Passwort",
     "signup-password-error": "Das Passwort muss mindestens 8 Zeichen lang sein",
+    "signup-error": "Beim Erstellen Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
     "email-error": "Geb eine gültige E-Mail-Adresse ein",
     "login-word": "Einloggen",
     "signup-word": "Registrieren",

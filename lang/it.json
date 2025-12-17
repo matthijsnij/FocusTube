@@ -3,6 +3,7 @@
     "back-word": "Indietro",
     "login-password-error": "Password non corretta",
     "signup-password-error": "La password deve contenere almeno 8 caratteri",
+    "signup-error": "Si è verificato un errore durante la creazione del tuo account. Per favore, riprova.",
     "email-error": "Inserisci un indirizzo e-mail valido",
     "login-word": "Accedi",
     "signup-word": "Registrati",

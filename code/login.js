@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailError = document.getElementById('emailError');
     const signUpPasswordError = document.getElementById('signUpPasswordError');
     const loginPasswordError = document.getElementById('loginPasswordError');
+    const signUpError = document.getElementById('signUpError');
 
    backButton.addEventListener('click', () => {
     // Hide all additional inputs/buttons
@@ -124,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     emailError.style.display = 'none';
     signUpPasswordError.style.display = 'none';
     loginPasswordError.style.display = 'none';
+    signUpError.style.display = 'none';
 
     // Hide back button itself
     backButton.style.display = 'none';
@@ -162,7 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hideElement('signUpPasswordInput');
         hideElement('signUpButton');
         hideElement('loginPasswordError');
-        hideElement('signupPasswordError');
+        hideElement('signUpPasswordError');
+        hideElement('signUpError');
 
         // Clear all other input fields
         passwordInput.value = '';
@@ -240,6 +243,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // If valid, continue with signup 
+        const result = await signUpWithPassword(
+            email,
+            password,
+            firstName,
+            lastName
+        );
+
+        if (!result.success) {
+            signUpError.style.display = 'block';
+            return;
+        }
+
+        user = result.user;
+
+        // Add first and last name to profile table
+        const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .insert([{ id: user.id, email, firstName, lastName }]);
+
+        if (profileError) {
+            alert('Profile creation failed: ' + profileError.message);
+            return;
+        }
+
+        // To index.html
         console.log("Signing up:", email, firstName, lastName, password);
         
     });

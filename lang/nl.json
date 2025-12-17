@@ -3,6 +3,7 @@
     "login-word": "Inloggen",
     "login-password-error": "Onjuist wachtwoord",
     "signup-password-error": "Het wachtwoord moet minimaal 8 tekens bevatten",
+    "signup-error": "Er is iets misgegaan bij het aanmaken van je account. Probeer het opnieuw.",
     "email-error": "Vul een geldig e-mailadres in",
     "signup-word": "Aanmelden",
     "forgot-password": "Wachtwoord vergeten?",

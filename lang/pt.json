@@ -3,6 +3,7 @@
     "back-word": "Voltar",
     "login-password-error": "Senha incorreta",
     "signup-password-error": "A senha deve ter pelo menos 8 caracteres",
+    "signup-error": "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
     "email-error": "Insira um e-mail válido",
     "login-word": "Entrar",
     "signup-word": "Registrar-se",
