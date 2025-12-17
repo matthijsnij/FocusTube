@@ -6,8 +6,29 @@ const mockUsers = [
 // ================= HELPER FUNCTIONS =================
 
 // Check if email exists
-function emailExists(email) {
-    return mockUsers.some(user => user.email === email);
+async function checkEmailExists(email) {
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email,
+    options: { shouldCreateUser: false }
+  });
+
+  if (error) {
+    return false; // user does not exist
+  }
+  return true; // user exists
+}
+
+async function loginWithPassword(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    return { success: false, message: error.message };
+  }
+
+  return { success: true, user: data.user };
 }
 
 function isValidEmail(email) {
@@ -41,7 +62,6 @@ function updateActionButtons() {
             : 'none';
 }
 
-
 document.addEventListener('DOMContentLoaded', () => {
     // ================= ELEMENTS =================
     const emailInput = document.getElementById('emailInput');
@@ -60,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const emailError = document.getElementById('emailError');
     const signUpPasswordError = document.getElementById('signUpPasswordError');
+    const loginPasswordError = document.getElementById('loginPasswordError');
 
    backButton.addEventListener('click', () => {
     // Hide all additional inputs/buttons
@@ -130,18 +151,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     });
 
-    continueButton.addEventListener('click', () => {
+    continueButton.addEventListener('click', async () => {
         const email = emailInput.value.trim();
 
         if (!isValidEmail(email)) {
-            emailError.style.display = 'inline';
+            emailError.style.display = 'inline'; // NOTE check why here it is inline, others its block
             return;
         } else {
             emailError.style.display = 'none';
         }
 
+        const exists = await checkEmailExists(email);
 
-        if (emailExists(email)) {
+        if (exists) {
             // Existing user → show login
             showElement('backButton')
             showElement('passwordInput');
@@ -166,19 +188,19 @@ document.addEventListener('DOMContentLoaded', () => {
         emailInput.classList.add('frozen');
     });
 
-    loginButton.addEventListener('click', () => {
+    loginButton.addEventListener('click', async () => {
         const email = emailInput.value.trim();
-        const password = passwordInput.value;
+        const password = passwordInput.value.trim();
 
-        const user = mockUsers.find(u => u.email === email);
+        const result = await loginWithPassword(email, password);
 
-        if (user.password !== password) {
+        if (!result.success) {
             loginPasswordError.style.display = 'block';
             return;
         }
 
         // Succesful login; go to index.html
-        console.log("Logging in")
+        console.log("Logging in: ", result.user)
     });
 
     signUpButton.addEventListener('click', () => {
