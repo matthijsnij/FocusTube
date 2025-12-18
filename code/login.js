@@ -1,4 +1,4 @@
-const supabase = window.supabase;
+import { supabase } from './supabaseClient.js';
 
 // ================= HELPER FUNCTIONS =================
 
@@ -8,9 +8,9 @@ async function checkEmailExists(email) {
     .from('focustube-profiles')
     .select('id')
     .eq('email', email)
-    .single();
+    .maybeSingle();
 
-    if (error && error.code !== 'PGRST116') { // 116 = no rows
+    if (error) { // 116 = no rows
     console.error("Supabase error:", error);
   }
 
@@ -39,8 +39,8 @@ async function signUpWithPassword(email, password, firstName, lastName) {
     password,
     options: {
       data: {
-        first_name: firstName,
-        last_name: lastName
+        firstName: firstName,
+        lastName: lastName
       }
     }
   });
@@ -186,9 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
             emailError.style.display = 'none';
         }
 
-        console.log("supabase object:", supabase);
-        console.log("supabase.from type:", typeof supabase.from);
-
         const exists = await checkEmailExists(email);
 
         if (exists) {
@@ -259,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        user = result.user;
+        const user = result.user;
 
         // Add first and last name to profile table
         const { data: profileData, error: profileError } = await supabase
