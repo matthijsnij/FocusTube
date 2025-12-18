@@ -4,17 +4,13 @@ import { supabase } from './supabaseClient.js';
 
 // Check if email exists
 async function checkEmailExists(email) {
-  const { data, error } = await supabase
-    .from('focustube_profiles_emails')
-    .select('email')
-    .eq('email', email)
-    .maybeSingle();
-
-    if (error) { 
-    console.error("Supabase error:", error);
-  }
-
-  return !!data; // true if exists, false if not
+    const res = await fetch("https://tdnjzgzyliugcxtkbhrk.supabase.co/functions/v1/emailCheck", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    return data.exists;
 }
 
 // Login via supabase
@@ -179,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailInput.value.trim();
 
         if (!isValidEmail(email)) {
-            emailError.style.display = 'inline'; // NOTE check why here it is inline, others its block
+            emailError.style.display = 'block'; 
             return;
         } else {
             emailError.style.display = 'none';
@@ -223,8 +219,42 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const user = result.user;
+
+        // Check if profile already exists
+        const { data: profile, error: profileSelectError } = await supabase
+            .from('focustube_profiles')
+            .select('*')
+            .eq('auth_id', user.id)
+            .maybeSingle(); // returns null if no profile
+
+        if (profileSelectError) {
+            console.error("Error checking profile:", profileSelectError.message);
+        }
+
+        if (!profile) {
+            // Extract first/last name from user_metadata
+            const firstName = user.user_metadata?.firstName || '';
+            const lastName = user.user_metadata?.lastName || '';
+
+            // Create profile now that user is confirmed/logged in
+            const { error: profileInsertError } = await supabase
+                .from('focustube_profiles')
+                .insert([{
+                    auth_id: user.id,
+                    email: user.email,
+                    firstName: firstName,
+                    lastName: lastName
+                }]);
+
+            if (profileInsertError) {
+                console.error("Profile creation failed:", profileInsertError.message);
+            } else {
+                console.log("Profile created successfully!");
+            }
+        }
+
         // Succesful login; go to index.html
-        console.log("Logging in: ", result.user)
         window.location.href = 'index.html';
     });
 
@@ -255,21 +285,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const user = result.user;
+        document.getElementById("confirmEmailMessage1").style.display = "block";
+        document.getElementById("confirmEmailMessage2").style.display = "block";
 
-        // Add first and last name to profile table
-        const { data: profileData, error: profileError } = await supabase
-        .from('focustube_profiles')
-        .insert([{ auth_id: user.id, email: email, firstName: firstName, lastName: lastName }]);
+        // button to go to login.html for logging in 
+        document.getElementById("goToLoginButton").style.display = "block";
+    });
 
-        if (profileError) {
-            alert('Profile creation failed: ' + profileError.message);
-            return;
-        }
-
-        // To index.html
-        console.log("Signing up:", email, firstName, lastName, password);
-        window.location.href = 'index.html';
+    document.getElementById("goToLoginButton").addEventListener("click", () => {
+        window.location.href = "login.html";
     });
 
     passwordInput.addEventListener('input', updateActionButtons);
