@@ -5,18 +5,17 @@ import { supabase } from './supabaseClient.js';
 // Check if email exists
 async function checkEmailExists(email) {
   const { data, error } = await supabase
-    .from('focustube-profiles')
-    .select('id')
+    .from('focustube_profiles_emails')
+    .select('email')
     .eq('email', email)
     .maybeSingle();
 
-    if (error) { // 116 = no rows
+    if (error) { 
     console.error("Supabase error:", error);
   }
 
   return !!data; // true if exists, false if not
 }
-
 
 // Login via supabase
 async function loginWithPassword(email, password) {
@@ -260,8 +259,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add first and last name to profile table
         const { data: profileData, error: profileError } = await supabase
-        .from('focustube-profiles')
-        .insert([{ id: user.id, email, firstName, lastName }]);
+        .from('focustube_profiles')
+        .insert([{ auth_id: user.id, email: email, firstName: firstName, lastName: lastName }]);
 
         if (profileError) {
             alert('Profile creation failed: ' + profileError.message);
