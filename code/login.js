@@ -45,6 +45,7 @@ async function signUpWithPassword(email, password, firstName, lastName) {
     email,
     password,
     options: {
+      emailRedirectTo: 'http://127.0.0.1:5500/emailConfirmed.html',
       data: {
         firstName: firstName,
         lastName: lastName

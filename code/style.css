@@ -715,6 +715,14 @@ body.login-page {
     margin-top: -0.7rem; /* spacing below input */
 }
 
+#confirmEmailMessage1,
+#confirmEmailMessage2 {
+    color: white;
+    text-align: center;
+    margin: 0.5em 0; /* optional spacing */
+}
+
+
 
 
 
