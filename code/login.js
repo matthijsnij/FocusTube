@@ -1,16 +1,28 @@
 import { supabase } from './supabaseClient.js';
+import { ANON_KEY } from './supabaseClient.js';
 
 // ================= HELPER FUNCTIONS =================
 
 // Check if email exists
 async function checkEmailExists(email) {
+  try {
     const res = await fetch("https://tdnjzgzyliugcxtkbhrk.supabase.co/functions/v1/emailCheck", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json",
+            "apikey": ANON_KEY, 
+            "Authorization": `Bearer ${ANON_KEY}` // same anon key
+        },
         body: JSON.stringify({ email })
     });
+
     const data = await res.json();
-    return data.exists;
+    return data.exists || false;
+
+  } catch (err) {
+    console.error("Email check failed:", err);
+    return false;
+  }
 }
 
 // Login via supabase
@@ -62,23 +74,6 @@ function hideElement(id) {
     document.getElementById(id).style.display = 'none';
 }
 
-function updateActionButtons() {
-    // Login button: only if password field is visible and not empty
-    loginButton.style.display =
-        passwordInput.style.display !== 'none' && passwordInput.value.trim().length > 0
-            ? 'block'
-            : 'none';
-
-    // Sign up button: only if all signup fields are visible and filled
-    signUpButton.style.display =
-        firstNameInput.style.display !== 'none' &&
-        firstNameInput.value.trim().length > 0 &&
-        lastNameInput.value.trim().length > 0 &&
-        signUpPasswordInput.value.trim().length > 0
-            ? 'block'
-            : 'none';
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     // ================= ELEMENTS =================
     const emailInput = document.getElementById('emailInput');
@@ -99,6 +94,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpPasswordError = document.getElementById('signUpPasswordError');
     const loginPasswordError = document.getElementById('loginPasswordError');
     const signUpError = document.getElementById('signUpError');
+
+    function updateActionButtons() {
+    // Login button: only if password field is visible and not empty
+    loginButton.style.display =
+        passwordInput.style.display !== 'none' && passwordInput.value.trim().length > 0
+            ? 'block'
+            : 'none';
+
+    // Sign up button: only if all signup fields are visible and filled
+    signUpButton.style.display =
+        firstNameInput.style.display !== 'none' &&
+        firstNameInput.value.trim().length > 0 &&
+        lastNameInput.value.trim().length > 0 &&
+        signUpPasswordInput.value.trim().length > 0
+            ? 'block'
+            : 'none';
+}
 
    backButton.addEventListener('click', () => {
     // Hide all additional inputs/buttons
@@ -127,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enable the email input again
     emailInput.classList.remove('frozen');
-    emailInput.value = '';
     // Reset focus
     emailInput.focus();
 });
@@ -181,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             emailError.style.display = 'none';
         }
 
-        const exists = await checkEmailExists(email);
+        const exists = await checkEmailExists(email).catch(() => false);
 
         if (exists) {
             // Existing user → show login
@@ -284,6 +295,27 @@ document.addEventListener('DOMContentLoaded', () => {
             signUpError.style.display = 'block';
             return;
         }
+
+        // Hide all input fields and buttons
+        const fieldsToHide = [
+            emailInput,
+            continueButton,
+            passwordInput,
+            loginButton,
+            firstNameInput,
+            lastNameInput,
+            signUpPasswordInput,
+            signUpButton,
+            backButton,
+            emailError,
+            loginPasswordError,
+            signUpPasswordError,
+            signUpError,
+            document.querySelector('.login-instruction'), 
+            document.querySelector('.email-label-row')   
+        ];
+
+        fieldsToHide.forEach(el => el.style.display = 'none');
 
         document.getElementById("confirmEmailMessage1").style.display = "block";
         document.getElementById("confirmEmailMessage2").style.display = "block";
