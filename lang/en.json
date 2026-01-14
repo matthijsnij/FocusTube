@@ -6,6 +6,8 @@
     "signup-error": "Something went wrong while creating your account. Please try again.",
     "confirmEmail1": "Almost there!",
     "confirmEmail2": "Please confirm your email address by clicking the link in your mail.",
+    "emailConfirmed": "Your email has been successfully confirmed.",
+    "goToLogin": "Go to login",
     "email-error": "Please enter a valid e-mail",
     "login-word": "Log In",
     "signup-word": "Sign Up",

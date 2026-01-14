@@ -8,15 +8,16 @@
 <body class="landing-page">
   <div class="login-container">
     <h2 style="color:white; text-align:center;">✅</h2>
-    <p style="color:white; text-align:center;">
+    <p style="color:white; text-align:center;" data-i18n="emailConfirmed">
       Your email has been successfully confirmed.
     </p>
 
-    <button id="goToLoginBtn" class="apply-btn">
+    <button id="goToLoginBtn" class="apply-btn" data-i18n="goToLogin">
       Go to login
     </button>
   </div>
 
+  <script src="languageManager.js"></script>
   <script type="module">
     import { supabase } from './supabaseClient.js';
 

@@ -320,9 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById("confirmEmailMessage1").style.display = "block";
         document.getElementById("confirmEmailMessage2").style.display = "block";
-
-        // button to go to login.html for logging in 
-        document.getElementById("goToLoginButton").style.display = "block";
     });
 
     document.getElementById("goToLoginButton").addEventListener("click", () => {

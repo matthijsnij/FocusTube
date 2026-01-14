@@ -6,6 +6,8 @@
     "signup-error": "Algo salió mal al crear tu cuenta. Por favor, inténtalo de nuevo.",
     "confirmEmail1": "¡Casi listo!",
     "confirmEmail2": "Por favor, confirma tu dirección de correo electrónico haciendo clic en el enlace que te enviamos.",
+    "emailConfirmed": "Tu correo electrónico ha sido confirmado con éxito.",
+    "goToLogin": "Ir al inicio de sesión",
     "email-error": "Introduzca un correo electrónico válido",
     "login-word": "Iniciar sesión",
     "signup-word": "Registrarse",

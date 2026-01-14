@@ -6,6 +6,8 @@
     "signup-error": "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
     "confirmEmail1": "Quase lá!",
     "confirmEmail2": "Por favor, confirme seu endereço de e-mail clicando no link que enviamos.",
+    "emailConfirmed": "Seu endereço de e-mail foi confirmado com sucesso.",
+    "goToLogin": "Ir para o login",
     "email-error": "Insira um e-mail válido",
     "login-word": "Entrar",
     "signup-word": "Registrar-se",
