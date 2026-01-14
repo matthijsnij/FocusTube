@@ -96,6 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginPasswordError = document.getElementById('loginPasswordError');
     const signUpError = document.getElementById('signUpError');
 
+    const recoverMessage = document.getElementById('recoverMessage');
+    const sendResetEmailBtn = document.getElementById('sendResetEmailBtn'); 
+
+    const loginInstruction = document.getElementById('loginInstruction');
+    const emailLabelRow = document.getElementById('emailLabelRow');
+
     function updateActionButtons() {
     // Login button: only if password field is visible and not empty
     loginButton.style.display =
@@ -325,6 +331,62 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("goToLoginButton").addEventListener("click", () => {
         window.location.href = "login.html";
     });
+
+    document.querySelector('.forgot-password').addEventListener('click', () => {
+        // Hide everything else
+        hideElement('continueButton');
+        hideElement('passwordInput');
+        hideElement('loginButton');
+        hideElement('firstNameInput');
+        hideElement('lastNameInput');
+        hideElement('signUpPasswordInput');
+        hideElement('signUpButton');
+        hideElement('loginPasswordError');
+        hideElement('signUpPasswordError');
+        hideElement('signUpError');
+        hideElement('confirmEmailMessage1');
+        hideElement('confirmEmailMessage2');
+        hideElement('goToLoginButton');
+        hideElement('loginInstruction');
+        hideElement('emailLabelRow');
+
+        // Show back button
+        showElement('backButton');
+
+        // Show recover message & send reset button
+        showElement('recoverMessage');
+        showElement('sendResetEmailBtn');
+
+        // Focus email input
+        emailInput.classList.remove('frozen');
+        emailInput.value = '';
+        emailInput.focus();
+    });
+
+    sendResetEmailBtn.addEventListener('click', async () => {
+        const email = emailInput.value.trim();
+        if (!isValidEmail(email)) {
+            emailError.style.display = 'block';
+            return;
+        }
+        emailError.style.display = 'none';
+
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: 'http://127.0.0.1:5500/code/resetPassword.html'
+        });
+
+        if (error) {
+            console.error('Password reset failed:', error.message);
+            alert('Failed to send reset email. Check console.');
+            return;
+        }
+
+        alert('Password reset email sent! Check your inbox.');
+
+        // Optionally hide the send button to prevent duplicate clicks
+        hideElement('sendResetEmailBtn');
+    });
+
 
     passwordInput.addEventListener('input', updateActionButtons);
     firstNameInput.addEventListener('input', updateActionButtons);

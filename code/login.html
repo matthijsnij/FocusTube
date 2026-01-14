@@ -29,10 +29,13 @@
         </div>
 
         <!-- Instruction sentence -->
-        <p class="login-instruction" data-i18n="login-or-signup">Log in or sign up below</p>
+        <p id="loginInstruction" class="login-instruction" data-i18n="login-or-signup">Log in or sign up below</p>
+        <p id="recoverMessage" style="display:none; color:white; text-align:center;" data-i18n="recover-account">
+        Recover your account
+        </p>
 
         <!-- Email label row -->
-        <div class="email-label-row">
+        <div id="emailLabelRow" class="email-label-row">
             <span class="email-label">E-mail</span>
             <a href="#" class="forgot-password" data-i18n="forgot-password">Forgot password?</a>
         </div>
@@ -72,6 +75,10 @@
 
         <button id="goToLoginButton" class="apply-btn" style="display:none;" data-i18n="goToLogin">
             Go to Login
+        </button>
+
+        <button id="sendResetEmailBtn" class="apply-btn" style="display:none;" data-i18n="sendResetEmail">
+        Send email for password reset
         </button>
 
     </div>
