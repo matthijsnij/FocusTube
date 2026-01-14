@@ -4,6 +4,8 @@
     "login-password-error": "Contraseña incorrecta",
     "signup-password-error": "La contraseña debe tener al menos 8 caracteres",
     "signup-error": "Algo salió mal al crear tu cuenta. Por favor, inténtalo de nuevo.",
+    "confirmEmail1": "¡Casi listo!",
+    "confirmEmail2": "Por favor, confirma tu dirección de correo electrónico haciendo clic en el enlace que te enviamos.",
     "email-error": "Introduzca un correo electrónico válido",
     "login-word": "Iniciar sesión",
     "signup-word": "Registrarse",

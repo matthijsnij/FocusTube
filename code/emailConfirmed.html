@@ -7,12 +7,12 @@
 </head>
 <body class="landing-page">
   <div class="login-container">
-    <h2 style="color:white; text-align:center;">✅ Email confirmed</h2>
+    <h2 style="color:white; text-align:center;">✅</h2>
     <p style="color:white; text-align:center;">
       Your email has been successfully confirmed.
     </p>
 
-    <button class="apply-btn" onclick="goToLogin()">
+    <button id="goToLoginBtn" class="apply-btn">
       Go to login
     </button>
   </div>
@@ -23,9 +23,11 @@
     // This consumes the token in the URL
     await supabase.auth.getSession();
     
-    function goToLogin() {
+    document
+    .getElementById('goToLoginBtn')
+    .addEventListener('click', () => {
       window.location.href = 'login.html';
-    }
+    });
   </script>
 </body>
 </html>
