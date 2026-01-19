@@ -379,11 +379,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sendResetEmailBtn.addEventListener('click', async () => {
         const email = emailInput.value.trim();
+
         if (!isValidEmail(email)) {
-            emailError.style.display = 'block';
+            emailError.style.display = 'block'; 
             return;
+        } else {
+            emailError.style.display = 'none';
         }
-        emailError.style.display = 'none';
+
+        const exists = await checkEmailExists(email).catch(() => false);
+
+        if (exists) {
+            // Remove error if it is there
+            emailError.style.display = 'none';
+        } else {
+            // Show error
+            emailError.style.display = 'block';
+            return; 
+        }
 
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo: 'http://127.0.0.1:5500/code/resetPassword.html'
