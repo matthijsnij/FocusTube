@@ -102,6 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginInstruction = document.getElementById('loginInstruction');
     const emailLabelRow = document.getElementById('emailLabelRow');
 
+    let currentMode = 'email';
+
     function updateActionButtons() {
     // Login button: only if password field is visible and not empty
     loginButton.style.display =
@@ -121,13 +123,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
    backButton.addEventListener('click', () => {
     // Hide all additional inputs/buttons
-    passwordInput.style.display = 'none';
-    loginButton.style.display = 'none';
-    firstNameInput.style.display = 'none';
-    lastNameInput.style.display = 'none';
-    signUpPasswordInput.style.display = 'none';
-    signUpButton.style.display = 'none';
-    
+    hideElement('passwordInput');
+    hideElement('loginButton');
+    hideElement('firstNameInput');
+    hideElement('lastNameInput');
+    hideElement('signUpPasswordInput');
+    hideElement('signUpButton');
+    hideElement('recoverMessage');
+    hideElement('sendResetEmailBtn');
+
+    // show base UI
+    showElement('loginInstruction');
+    emailLabelRow.style.display = 'flex';
+
     // Clear all values
     emailInput.value = '';
     passwordInput.value = '';
@@ -148,6 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     emailInput.classList.remove('frozen');
     // Reset focus
     emailInput.focus();
+
+    currentMode = 'email';
 });
 
     if (dropdown) {
@@ -162,31 +172,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     emailInput.addEventListener('input', () => {
-    const email = emailInput.value.trim();
+        const email = emailInput.value.trim();
 
-    if (email.length > 0) {
-        // Show continue button if at least one character
-        showElement('continueButton');
-    } else {
-        // Hide all other inputs/buttons
-        hideElement('continueButton');
-        hideElement('passwordInput');
-        hideElement('loginButton');
-        hideElement('firstNameInput');
-        hideElement('lastNameInput');
-        hideElement('signUpPasswordInput');
-        hideElement('signUpButton');
-        hideElement('loginPasswordError');
-        hideElement('signUpPasswordError');
-        hideElement('signUpError');
+        if (currentMode === 'email') {
+            if (email.length > 0) {
+            // Show continue button if at least one character
+            showElement('continueButton');
+            } else {
+                // Hide all other inputs/buttons
+                hideElement('continueButton');
+                hideElement('passwordInput');
+                hideElement('loginButton');
+                hideElement('firstNameInput');
+                hideElement('lastNameInput');
+                hideElement('signUpPasswordInput');
+                hideElement('signUpButton');
+                hideElement('loginPasswordError');
+                hideElement('signUpPasswordError');
+                hideElement('signUpError');
 
-        // Clear all other input fields
-        passwordInput.value = '';
-        firstNameInput.value = '';
-        lastNameInput.value = '';
-        signUpPasswordInput.value = '';
-        emailError.style.display = 'none';
-    }
+                // Clear all other input fields
+                passwordInput.value = '';
+                firstNameInput.value = '';
+                lastNameInput.value = '';
+                signUpPasswordInput.value = '';
+                emailError.style.display = 'none';
+            }
+        }
     });
 
     continueButton.addEventListener('click', async () => {
@@ -333,6 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelector('.forgot-password').addEventListener('click', () => {
+        currentMode = 'forgot';
+
         // Hide everything else
         hideElement('continueButton');
         hideElement('passwordInput');

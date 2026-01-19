@@ -8,6 +8,8 @@
     "confirmEmail2": "Bitte bestätige deine E-Mail-Adresse, indem du auf den Link in deiner E-Mail klickst.",
     "emailConfirmed": "Deine E-Mail-Adresse wurde erfolgreich bestätigt.",
     "goToLogin": "Zum Login",
+    "recover-account": "Konto wiederherstellen",
+    "send-reset-email": "Wiederherstellungs-E-Mail senden",
     "email-error": "Geb eine gültige E-Mail-Adresse ein",
     "login-word": "Einloggen",
     "signup-word": "Registrieren",
