@@ -44,8 +44,17 @@ const languageManager = (() => {
     loadLanguage(savedLang);
 
     // Set dropdowns to the current language
-    const langSelect = document.getElementById('languageSelect');
-    if (langSelect) langSelect.value = savedLang;
+    const langSelect =
+      document.getElementById('languageSelect') ||
+      document.getElementById('loginLanguageSelect');
+
+    if (langSelect) {
+      langSelect.value = savedLang;
+
+      langSelect.addEventListener('change', (e) => {
+        loadLanguage(e.target.value);
+      });
+    }
   }
 
   return { loadLanguage, init, getTranslation: key => translations[key] || key };
