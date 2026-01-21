@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailLabelRow = document.getElementById('emailLabelRow');
     const resetSentMessage = document.getElementById('resetSentMessage');
 
+    const spinner = document.getElementById('resetSpinner');
+
     let currentMode = 'email';
 
     function updateActionButtons() {
@@ -390,27 +392,38 @@ document.addEventListener('DOMContentLoaded', () => {
             emailError.style.display = 'none';
         }
 
-        const exists = await checkEmailExists(email).catch(() => false);
+        spinner.style.display = 'inline-block';
+        sendResetEmailBtn.disabled = true;
 
-        if (exists) {
-            // Remove error if it is there
-            emailError.style.display = 'none';
-        } else {
-            // Show error
-            emailError.style.display = 'block';
-            return; 
+        try {
+            const exists = await checkEmailExists(email).catch(() => false);
+
+            if (exists) {
+                // Remove error if it is there
+                emailError.style.display = 'none';
+            } else {
+                // Show error
+                emailError.style.display = 'block';
+                return; 
+            }
+
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: 'http://127.0.0.1:5500/code/resetPassword.html'
+            });
+
+            if (error) {
+                console.error('Password reset failed:', error.message);
+                alert('Failed to send reset email. Check console.');
+                return;
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to send reset email.');
+        } finally {
+            spinner.style.display = 'none';
+            sendResetEmailBtn.disabled = false;
         }
-
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: 'http://127.0.0.1:5500/code/resetPassword.html'
-        });
-
-        if (error) {
-            console.error('Password reset failed:', error.message);
-            alert('Failed to send reset email. Check console.');
-            return;
-        }
-
+        
         // Success UI
         hideElement('recoverMessage');
         hideElement('emailInput');
