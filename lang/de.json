@@ -10,6 +10,7 @@
     "goToLogin": "Zum Login",
     "recover-account": "Konto wiederherstellen",
     "send-reset-email": "Wiederherstellungs-E-Mail senden",
+    "reset-sent": "Wiederherstellungs-E-Mail gesendet! Bitte überprüfe dein Postfach, um dein Passwort zurückzusetzen.",
     "email-error": "Geb eine gültige E-Mail-Adresse ein",
     "login-word": "Einloggen",
     "signup-word": "Registrieren",

@@ -10,6 +10,7 @@
     "goToLogin": "Go to login",
     "recover-account": "Recover your account",
     "send-reset-email": "Send email for password reset",
+    "reset-sent": "Reset email sent! Please check your inbox to reset your password.",
     "email-error": "Please enter a valid e-mail",
     "login-word": "Log In",
     "signup-word": "Sign Up",

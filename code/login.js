@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loginInstruction = document.getElementById('loginInstruction');
     const emailLabelRow = document.getElementById('emailLabelRow');
+    const resetSentMessage = document.getElementById('resetSentMessage');
 
     let currentMode = 'email';
 
@@ -134,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // show base UI
     showElement('loginInstruction');
+    showElement('emailInput');
     emailLabelRow.style.display = 'flex';
 
     // Clear all values
@@ -151,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hide back button itself
     backButton.style.display = 'none';
+    hideElement('resetSentMessage');
 
     // Enable the email input again
     emailInput.classList.remove('frozen');
@@ -408,7 +411,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        alert('Password reset email sent! Check your inbox.');
+        // Success UI
+        hideElement('recoverMessage');
+        hideElement('emailInput');
+        showElement('resetSentMessage');
 
         // Optionally hide the send button to prevent duplicate clicks
         hideElement('sendResetEmailBtn');

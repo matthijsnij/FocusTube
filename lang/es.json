@@ -10,6 +10,7 @@
     "goToLogin": "Ir al inicio de sesión",
     "recover-account": "Recuperar tu cuenta",
     "send-reset-email": "Enviar correo de recuperación",
+    "reset-sent": "Correo de restablecimiento enviado. Revisa tu bandeja de entrada para restablecer tu contraseña.",
     "email-error": "Introduzca un correo electrónico válido",
     "login-word": "Iniciar sesión",
     "signup-word": "Registrarse",

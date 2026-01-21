@@ -10,6 +10,7 @@
     "goToLogin": "Ir para o login",
     "recover-account": "Recuperar sua conta",
     "send-reset-email": "Enviar e-mail de recuperação",
+    "reset-sent": "E-mail de redefinição enviado! Verifique sua caixa de entrada para redefinir sua senha.",
     "email-error": "Insira um e-mail válido",
     "login-word": "Entrar",
     "signup-word": "Registrar-se",
