@@ -13,6 +13,25 @@ let apiKey = '';               // YouTube API key
 
 let player; // YouTube player instance, initialized later
 
+// ====== THEME HANDLING ======
+const root = document.documentElement;
+let tempTheme = localStorage.getItem('theme') || 'standard-dark';
+switch (tempTheme) {
+  case 'standard-light':
+    root.setAttribute('data-theme', 'light');
+    break;
+  case 'gradient-dark':
+    root.setAttribute('data-theme', 'gradient-dark');
+    break;
+  case 'gradient-light':
+    root.setAttribute('data-theme', 'gradient-light');
+    break;
+  default:
+    // standard-dark (default)
+    root.removeAttribute('data-theme');
+    break;
+}
+
 // ====== YouTube API ======
 // Called automatically by YouTube API when ready
 function onYouTubeIframeAPIReady() {
@@ -227,7 +246,7 @@ async function fetchVideos(pageToken = null) {
 
   } catch (error) {
     console.error('Error fetching videos:', error);
-    if (!pageToken) resultsContainer.innerHTML = `<p>Error fetching videos. Please try again later.</p>`;
+    resultsContainer.innerHTML = `<p class="error-message">Error fetching videos. YouTube API maxed.</p>`;
   } finally {
     isLoading = false;
     loadMoreButton.disabled = false;
@@ -256,6 +275,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInputResults = document.getElementById('searchInput'); 
   if (searchInputResults && query) searchInputResults.value = query;
 
+  // ======= INSERT FILTERS INTO POPUP =======
+  Object.entries(filtersFromURL).forEach(([filterKey, filterValues]) => {
+    const values = Array.isArray(filterValues) ? filterValues : [filterValues];
+
+    // Find row by its internal key
+    const row = document.querySelector(`.filter-row[data-filterkey="${filterKey}"]`);
+    if (!row) return;
+
+    // Loop over all buttons in the row
+    const buttons = row.querySelectorAll('.filter-option');
+    buttons.forEach(btn => {
+      if (values.includes(btn.dataset.filterkey)) {
+        btn.classList.add('selected');
+      } else {
+        btn.classList.remove('selected');
+      }
+    });
+  });
+
   // ====== MODAL EVENT LISTENERS ======
   closeModalBtn.addEventListener('click', closeVideo);          // Close modal on "X" click
   window.addEventListener('keydown', (e) => {                   // Close modal on Escape key
@@ -263,6 +301,27 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   videoModal.addEventListener('click', (e) => {                 // Close modal when clicking outside player
     if (e.target === videoModal) closeVideo();
+  });
+
+  // ===== DETECT FILTER CHANGES =====
+  document.querySelectorAll('.filter-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const currentFilters = getCurrentFilters(); 
+      const filtersChanged = JSON.stringify(currentFilters) !== JSON.stringify(originalFilters);
+      
+      const filterChangedText = languageManager.getTranslation('loadmore-filterchanged');
+      const defaultText = languageManager.getTranslation('loadmore-button');
+      
+      if (filtersChanged) {
+        loadMoreButton.classList.add('disabled');
+        loadMoreButton.disabled = true;
+        loadMoreButton.textContent = filterChangedText;
+      } else {
+        loadMoreButton.classList.remove('disabled');
+        loadMoreButton.disabled = false;
+        loadMoreButton.textContent = defaultText;
+      }
+    });
   });
 
   // ====== LOAD MORE BUTTON CLICK ======
@@ -275,3 +334,5 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchVideos(); // first page load
   }
 });
+
+
