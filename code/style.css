@@ -186,112 +186,18 @@ body.landing-page #logo-placeholder {
   gap: 0.5rem;               /* space between search bar and filter button */
 }
 
-/* ====== SETTINGS ======= */
-
-/* Action buttons container */
-.settings-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.625rem; /* 10px */
-  margin-top: 1.25rem; /* 20px */
-  padding-top: 0.75rem; /* 12px */
-  border-top: 0.1rem solid #333;
-}
-
-/* Buttons */
-.apply-btn,
-.cancel-btn {
-  padding: 0.5em 1em;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-family: inherit;
-  border: none;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-/* Apply button when enabled */
-.apply-btn {
-  background-color: #666;
-  color: #ccc;
-  cursor: pointer;
-}
-
-.apply-btn:hover {
-  background-color: #555;
-  transform: scale(1.05)
-}
-
-/* Apply button when disabled */
-.apply-btn:disabled {
-  background-color: transparent;
-  color: #777;
-  border: 0.0625rem solid #444;
-  transform: none;        /* prevent hover scale */
-  cursor: auto;
-}
-
-/* Optional: prevent hover effects when disabled */
-.apply-btn:disabled:hover {
-  background-color: transparent; /* keep dimmed */
-  transform: none;
-}
-
-/* Cancel button – outlined and transparent */
-.cancel-btn {
-  background-color: transparent;
-  color: #ccc;
-  border: 0.0625rem solid #555;
-  cursor: pointer;
-}
-
-.cancel-btn:hover {
-  background-color: #2a2a2a;
-  transform: scale(1.05);
-}
-
-/* Dropdown consistency */
-.settings-dropdown {
-  padding: 0.4em 0.8em;
-  border-radius: 0.375rem;
-  border: 0.0625rem solid #444;
-  background-color: #1e1e1e;
-  color: #eee;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.settings-dropdown:focus {
-  outline: 0.0625rem solid #666;
-}
-
-.settings-dropdown:hover {
-  border-color: #555;
-  background-color: #222;
-}
-
-.settings-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  gap: 3rem;
-}
-
-.settings-label {
-  font-weight: 300;
-  font-size: 1.1rem;
-  color: #ccc;
-}
-
-
+/* ============================================================================================ */
 /* =================================== RESULTS PAGE SPECIFIC ================================== */
+/* ============================================================================================ */
+
+
 body.results-page {
-    background-color: #000;
+    background-color: var(--background-color);
+    background-image: var(--landing-bg);
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
     margin: 0;
     padding: 0;
-    /* no flex centering here */
 }
 
 body.results-page #logo-placeholder {
@@ -300,86 +206,79 @@ body.results-page #logo-placeholder {
 
 /* Container for all videos */
 #results {
-    display: flex;           /* Use Flexbox to arrange video cards */
-    flex-wrap: wrap;         /* Wrap cards to next line if necessary */
-    justify-content: center; /* Center all video cards horizontally, NOTE: Might want to show videos vertically, same as YT */
-    row-gap: 40px;    /* vertical spacing */
-    column-gap: 20px; /* horizontal spacing */
-    margin-top: 20px;        /* Space above the container */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;               /* Space between video cards */
+    margin-top: 20px;
 }
   
 /* Individual video card */
 .video-item {
-    background-color: #000;  /* Dark card background */
-    color: #fff;             /* White text inside card */
-    width: 300px;            /* Fixed width for consistency, NOTE: again might need relative for different types of screens */
-    border-radius: 8px;      /* Rounded corners for card */
-    overflow: hidden;        /* Prevent content from spilling out */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5); /* Slight shadow for depth */
-    transition: transform 0.2s; /* Smooth scale effect on hover */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    width: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
 }
   
-.video-item:hover { /* : indicates pseudo-class or special state */
-    transform: scale(1.03);  /* Slight zoom effect on hovering over the video with mouse */
+.video-item:hover {
+    transform: scale(1.03);
 }
   
 .video-item img {
-    width: 100%;             /* Make thumbnail fill card width */
-    display: block;          /* Remove default inline spacing */
+    width: 100%;
+    display: block;
 }
   
 .video-item h3 {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin: 10px;
-    font-weight: 600;                /* optional: bold title */
-    font-family: 'Montserrat', sans-serif;
-
-    display: -webkit-box;            /* Required for title length limit */
-    -webkit-box-orient: vertical;    /* Vertical orientation */
-    -webkit-line-clamp: 2;           /* Limit to 2 lines */
-    overflow: hidden;                /* Hide overflow text */
-    text-overflow: ellipsis;         /* Add ... at the end */
-    line-height: 0.85rem;              /* Adjust line height as needed */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* limits to 2 lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
   
-.video-item p { /* NOTE: rename? <p> means paragraph */
+.video-item p {
     font-size: 0.85rem;
-    margin: 0 10px 4px 10px;
-    color: #ccc;
-    font-family: 'Roboto', sans-serif; /* lighter font for channel name or description */
+    margin: 0 10px 10px 10px;
+    color: var(--secondary-text);
 }
   
-.video-item a { /* NOTE: rename? <a> means anchor/link, and does the link even show? */
-    text-decoration: none;   /* Remove underline from links */
-    color: inherit;          /* Keep same color as parent */
+.video-item a {
+    text-decoration: none;
+    color: inherit;
 }
 
- /* Container for the all of results page */
+/* Container for the all of results page */
 .results-container {
     display: flex;
-    flex-direction: column;  /* Stack title, loading, and videos vertically */
-    align-items: center;     /* Center horizontally */
-    width: 100%;             /* Full width of page */
-    padding: 20px;           /* Space inside container */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
 }
 
 .search-wrapper-results {
-  flex: 1;                  /* take remaining space */
-  margin-left: 6rem;        /* space from logo */
-  display: flex;            /* keep input + button in row */
-  gap: 0.5rem;              /* spacing between input & filter button */
+  flex: 1;
+  margin-left: 6rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .top-bar-results {
   display: flex;
-  align-items: center;      /* vertical centering */
-  justify-content: space-between; /* logo left, search bar takes rest */
+  align-items: center;
+  justify-content: space-between;
   padding: 0.5rem 1rem;
 }
 
 #loadMoreButton {
   background: transparent;
-  color: white;
+  color: var(--text-color);
   font-family: 'Roboto', sans-serif;
   padding: 0.5rem 1rem;
   border: none;
@@ -394,104 +293,175 @@ body.results-page #logo-placeholder {
 }
 
 #loadMoreButton.disabled {
-  cursor: not-allowed;    /* shows the ‘forbidden’ cursor */
-  pointer-events: none;   /* prevents clicks */
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
+.error-message {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-top: 2rem;
+  text-align: center;
+}
+
+/* ==================================================================================== */
 /* ================================ COMBINED STYLING ================================== */
-/* Container holding input + magnifying icon */
-.search-container {
-  position: relative;   /* allows absolute positioning of icon */
-  width: 60%;
-  max-width: 800px;
-  display: flex;
-}
+/* ==================================================================================== */
 
-/* Search bar */
-.search {
-    width: 100%;              
-    max-width: 800px;        /* limits on large screens */
-    padding: 1rem 3rem 1rem 1.2rem; /* extra right padding for icon */
-    border: 1.5px solid rgba(255, 255, 255, 0.3); /* white light border */;
-    border-radius: 3rem;
-    font-size: 1.1rem;
-    outline: none;
-    background-color: #111;
-    color: #fff;
-    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* smooth hover effect */
-}
+/* ===================================== LOGO ====================================== */
 
-/* Hover + focus subtle white glow */
-.search:hover,
-.search:focus {
-    background-color: #111;
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4),   /* soft inner glow */
-                0 0 12px rgba(255, 255, 255, 0.25), /* mid glow */
-                0 0 20px rgba(255, 255, 255, 0.15); /* outer glow */
-}
-
-
-/* Position icon container */
-.search-icon {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
+.theme-logo {
+  width: 6rem;
+  height: 6rem;
+  background-image: var(--logo-img);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   cursor: pointer;
 }
 
-/* Style button itself */
-.search-icon button {
-  border: none;
-  background: transparent; /* fully transparent */
-  padding: 0;
-  margin: 0;
+/* ================================ SETTINGS BUTTON ================================== */
+
+.settings-button {
+  border: none;            /* remove default border */
+  background-color: transparent;  /* remove default button background */
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  background-image: var(--settings-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s ease;
+}
+
+.settings-button:hover {
+  transform: scale(1.1);
+}
+
+/* ================================ SETTINGS CONTAINER ================================== */
+
+/* Action buttons container */
+.settings-actions {
   display: flex;
+  justify-content: flex-end;
+  gap: 0.625rem; /* 10px */
+  margin-top: 1.25rem; /* 20px */
+  padding-top: 0.75rem; /* 12px */
+  border-top: 1px solid var(--border-color);
+}
+
+/* Buttons */
+.apply-btn,
+.cancel-btn {
+  padding: 0.5em 1em;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Apply button – solid grey */
+.apply-btn {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+}
+
+.apply-btn:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05)
+}
+
+/* Cancel button – outlined and transparent */
+.cancel-btn {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 0.0625rem solid var(--border-color);
+}
+
+.cancel-btn:hover {
+  background-color: var(--filter-hover-bg);
+  transform: scale(1.05);
+}
+
+/* Dropdown consistency */
+.settings-dropdown {
+  padding: 0.4em 0.8em;
+  border-radius: 0.375rem;
+  border: 0.0625rem solid var(--border-color);
+  background-color: var(--popup-bg);
+  color: var(--text-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.settings-dropdown:focus {
+  outline: 0.0625rem solid var(--filter-active-bg);
+}
+
+.settings-dropdown:hover {
+  border-color: var(--filter-hover-bg);
+  background-color: var(--filter-bg);
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 3rem;
+}
+
+.settings-label {
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: var(--secondary-text);
+}
+
+/* Settings icon controlled by theme */
+.settings-popup-icon {
+  width: 2rem;
+  height: 2rem;
+  background-image: var(--settings-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+/* ================================ FILTER BUTTON ================================== */
+
+
+.filter-button {
+  width: 2rem; 
+  height: 2rem; 
+  background-image: var(--filter-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  display: flex;          /* preserves alignment inside flex container */
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-}
-
-/* Control icon image size */
-.search-icon img {
-  width: 2.5em;   
-  height: 2.5em;
-}
-
-.search-icon:hover {
-  transform: translateY(-50%) scale(1.1);
-}
-
-/* Logo image */
-.logo {
-  height: 6rem;          /* bigger size */
-  width: auto;           /* keep aspect ratio */
-  cursor: pointer;       /* indicate clickable */
-}
-
-/* Filter button */
-.filter-button {
-  display: flex;         /* instead of inline-flex */
-  align-items: center;
-  gap: 8px;
-  color: white;
-  font-size: 1.2rem;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 100;   /* Thin */
-  cursor: pointer;
-  width: fit-content;    /* shrink to fit content */
-}
-
-.filter-button img.filter-icon {
-  width: 2rem;     /* scales with root font size */
-  height: auto;    /* keep proportions */
 }
 
 .filter-button:hover {
-  transform: scale(1.1);                 /* subtle hover effect */
+  transform: scale(1.1);
 }
 
-/* Filter popup container */
+body.results-page .search-wrapper-results {
+  align-items: center;
+}
+
+
+/* ================================ FILTER SETTINGS CONTAINER ================================== */
+
+
 .filter-popup {
   position: fixed;
   top: 50%;
@@ -499,42 +469,40 @@ body.results-page #logo-placeholder {
   transform: translate(-50%, -50%);
   width: max-content; 
   padding: 2rem;
-  max-width: 95vw;        /* never overflow viewport */
-  height: auto;     
+  max-width: 95vw;
+  height: auto;
   max-height: 80vw;
-  background-color: #111;
-  color: #fff;
+  background-color: var(--popup-bg);
+  color: var(--text-color);
   border-radius: 1rem;
   padding: 2rem;
-  display: none;    /* hidden by default */
-  z-index: 1100;    /* above other elements */
-  overflow-y: auto; /* scroll if content exceeds height */
+  display: none;
+  z-index: 1100;
+  overflow-y: auto;
 }
 
 .filter-popup.show {
-  display: block;   /* shown when toggle is active */
+  display: block;
 }
 
-/* Close X for popup */
 .popup-close {
   position: absolute;
   top: 1rem;
   right: 1rem;
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-color);
   font-size: 2rem;
   cursor: pointer;
 }
 
-/* Overlay for dimmed background during filter popup */
 .overlay {
   position: fixed;
-  inset: 0; /* shorthand for top/right/bottom/left:0 */
-  background-color: rgba(0,0,0,0.5); /* semi-transparent black */
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
   opacity: 0;
   visibility: hidden;
-  z-index: 1050; /* for layering, lower than .filter-popup (1100) */
+  z-index: 1050;
   transition: opacity .2s ease, visibility .2s;
 }
 
@@ -543,58 +511,49 @@ body.results-page #logo-placeholder {
   visibility: visible;
 }
 
-/* Popup title */
 .popup-title-container {
   display: flex;
-  align-items: center;   /* vertically center icon and text */
-  gap: 0.5rem;           /* space between icon and title */
-  justify-content: flex-start; /* align left */
-  margin-bottom: 1rem;   /* space below title for filters content */
-}
-/* Heading style */
-.popup-title-container h2 {
-  font-size: 1.5rem;     /* relative size */
-  font-weight: 400;
-  color: #fff;
-}
-/* Icon style */
-.popup-title-container img.popup-icon {
-  width: 2rem;         /* relative to root font size */
-  height: auto;          /* maintain aspect ratio */
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
 }
 
-/* Filter row */
+.popup-title-container h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.popup-title-container img.popup-icon {
+  width: 2rem;
+  height: auto;
+}
+
 .filter-row {
   display: flex;
-  justify-content: flex-start; /* name left, options right */
-  align-items: center;            /* vertically center name and options */
-  margin-bottom: 1rem;            /* space between filter rows */
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
   gap: 2rem;
 }
 
-/* Hide type filter row */
-.filter-popup .type-filter {
-  display: none;       /* hides the row visually */
-  pointer-events: none; /* prevents interaction just in case */
-}
-
-/* Filter name / word style */
 .filter-name {
-  font-size: 1.2rem;              /* relative size */
-  color: #fff;
+  font-size: 1.2rem;
+  color: var(--text-color);
   font-weight: 300;
   min-width: 14rem;
 }
-/* Styling between filter options */
+
 .filter-options {
   display: flex;
-  gap: 0.5rem;          /* space between options */
-  flex-wrap: wrap;       /* wrap if too many options */
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
-/* Styling of a single filter option box */
+
 .filter-option {
-  background-color: #222;  /* dark background for contrast */
-  color: #fff;
+  background-color: var(--filter-bg);
+  color: var(--text-color);
   border: none;
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem;
@@ -602,50 +561,93 @@ body.results-page #logo-placeholder {
   font-size: 1rem;
   transition: background-color 0.2s;
 }
-/* Styling of a single filter button when disabled */
-.filter-option.disabled { /* indicates disabled */
+
+.filter-option.disabled {
   opacity: 0.5;
   pointer-events: none;
   transition: opacity 0.2s;
   cursor: not-allowed;
 }
-/* Hover effect */
+
 .filter-option:hover {
-  background-color: #444;
-}
-/* Styling for a single filter button when selected */
-.filter-option.selected {
-  background-color: #666;  /* indicates active selection */
+  background-color: var(--filter-hover-bg);
 }
 
-/* Filter tip */
+.filter-option.selected {
+  background-color: var(--filter-active-bg);
+}
+
 .filter-tip {
-  font-size: 1.2rem;        /* relative, matches other popup text */
-  color: #fff;            /* white to match popup */
-  line-height: 1.2;       /* improves readability if multiple lines */
-  white-space: pre-wrap;  /* preserves line breaks if using \n in JS or HTML */
+  font-size: 1.2rem;
+  color: var(--text-color);
+  line-height: 1.2;
+  white-space: pre-wrap;
   margin-top: 1.5rem;
   text-align: center;
 }
 
-/* Settings button in top-right */
-.settings-button {
-  position: absolute;
-  top: 2rem;    /* adjust vertical spacing */
-  right: 2rem;  /* adjust horizontal spacing */
+/* Filter icon controlled by theme */
+.filter-popup-icon {
+  width: 2rem;
+  height: 2rem;
+  background-image: var(--filter-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+/* ============================= SEARCH CONTAINER =============================== */
+
+.search-container {
+  position: relative;
+  width: 60%;
+  max-width: 800px;
+  display: flex;
+}
+
+.search {
+    width: 100%;              
+    max-width: 800px;
+    padding: 1rem 3rem 1rem 1.2rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 3rem;
+    font-size: 1.1rem;
+    outline: none;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* ================================ SEARCH ICON ================================== */
+
+.search-icon {
+  position: absolute;   
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
 }
 
-.settings-button img {
-  width: 2rem;  /* normal icon size */
-  height: 2rem;
+.search-icon button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-image: var(--search-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.settings-button:hover {
-  transform: scale(1.1);
+.search-icon:hover {
+  transform: translateY(-50%) scale(1.1);
 }
 
 /* ================= LOGIN PAGE ================= */
+
 body.login-page {
     background-color: #111;        /* dark background */
     display: flex;
