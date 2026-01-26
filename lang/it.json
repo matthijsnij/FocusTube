@@ -3,6 +3,8 @@
     "back-word": "Indietro",
     "login-password-error": "Password non corretta",
     "signup-password-error": "La password deve contenere almeno 8 caratteri",
+    "password-error-different": "La nuova password deve essere differente dalla password corrente.",
+    "password-error-other": "Si è verificato un errore durante la reimpostazione della password. Per favore, riprova.",
     "signup-error": "Si è verificato un errore durante la creazione del tuo account. Per favore, riprova.",
     "confirmEmail1": "Quasi fatto!",
     "confirmEmail2": "Per favore, conferma il tuo indirizzo e-mail cliccando sul link nella tua e-mail.",

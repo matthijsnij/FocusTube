@@ -3,6 +3,8 @@
     "back-word": "Atrás",
     "login-password-error": "Contraseña incorrecta",
     "signup-password-error": "La contraseña debe tener al menos 8 caracteres",
+    "password-error-different": "La nueva contraseña debe ser diferente a la contraseña antigua.",
+    "password-error-other": "No se pudo actualizar la contraseña. Por favor, inténtalo de nuevo.",
     "signup-error": "Algo salió mal al crear tu cuenta. Por favor, inténtalo de nuevo.",
     "confirmEmail1": "¡Casi listo!",
     "confirmEmail2": "Por favor, confirma tu dirección de correo electrónico haciendo clic en el enlace que te enviamos.",

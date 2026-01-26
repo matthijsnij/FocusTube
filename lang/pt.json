@@ -3,6 +3,8 @@
     "back-word": "Voltar",
     "login-password-error": "Senha incorreta",
     "signup-password-error": "A senha deve ter pelo menos 8 caracteres",
+    "password-error-different": "A nova senha deve ser diferente da senha atual.",
+    "password-error-other": "Ocorreu um erro ao atualizar a senha. Por favor, tente novamente.",
     "signup-error": "Ocorreu um erro ao criar sua conta. Por favor, tente novamente.",
     "confirmEmail1": "Quase lá!",
     "confirmEmail2": "Por favor, confirme seu endereço de e-mail clicando no link que enviamos.",

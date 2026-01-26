@@ -3,6 +3,8 @@
     "back-word": "Retour",
     "login-password-error": "Mot de passe incorrect",
     "signup-password-error": "Le mot de passe doit contenir au moins 8 caractères",
+    "password-error-different": "Le nouveau mot de passe doit être différent du mot de passe actuel.",
+    "password-error-other": "Une erreur s'est produite lors de la mise à jour du mot de passe. Veuillez réessayer.",
     "signup-error": "Une erreur s'est produite lors de la création de votre compte. Veuillez réessayer.",
     "confirmEmail1": "Presque terminé!",
     "confirmEmail2": "Veuillez confirmer votre adresse e-mail en cliquant sur le lien dans votre e-mail.",

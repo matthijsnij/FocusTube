@@ -3,6 +3,8 @@
     "back-word": "Terug",
     "login-password-error": "Onjuist wachtwoord",
     "signup-password-error": "Het wachtwoord moet minimaal 8 tekens bevatten",
+    "password-error-different": "Het nieuwe wachtwoord moet verschillen van het oude wachtwoord.",
+    "password-error-other": "Er is iets misgegaan bij het bijwerken van het wachtwoord. Probeer het opnieuw.",
     "signup-error": "Er is iets misgegaan bij het aanmaken van je account. Probeer het opnieuw.",
     "confirmEmail1": "Bijna klaar!",
     "confirmEmail2": "Bevestig je e-mailadres door op de link in je e-mail te klikken.",

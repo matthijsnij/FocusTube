@@ -3,6 +3,8 @@
     "back-word": "Back",
     "login-password-error": "Incorrect password",
     "signup-password-error": "Password must be at least 8 characters",
+    "password-error-different": "New password must be different from old password.",
+    "password-error-other": "Failed to update password. Please try again.",
     "signup-error": "Something went wrong while creating your account. Please try again.",
     "confirmEmail1": "Almost there!",
     "confirmEmail2": "Please confirm your email address by clicking the link in your mail.",
