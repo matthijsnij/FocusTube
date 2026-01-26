@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Store temp values for cancel
   let tempLang = localStorage.getItem('language') || 'en';
-  let tempTheme = localStorage.getItem('theme') || 'standard-dark';
+  let tempTheme = localStorage.getItem('theme') || 'standard-light';
 
   // Set initial dropdown values
   langSelect.value = tempLang;
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (settingsButton && settingsPopup && overlay) {
     settingsButton.addEventListener('click', () => {
       tempLang = localStorage.getItem('language') || 'en';
-      tempTheme = localStorage.getItem('theme') || 'standard-dark';
+      tempTheme = localStorage.getItem('theme') || 'standard-light';
       langSelect.value = tempLang;
       themeSelect.value = tempTheme;
 

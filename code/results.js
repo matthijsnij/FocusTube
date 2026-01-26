@@ -15,7 +15,7 @@ let player; // YouTube player instance, initialized later
 
 // ====== THEME HANDLING ======
 const root = document.documentElement;
-let tempTheme = localStorage.getItem('theme') || 'standard-dark';
+let tempTheme = localStorage.getItem('theme') || 'standard-light';
 switch (tempTheme) {
   case 'standard-light':
     root.setAttribute('data-theme', 'light');
