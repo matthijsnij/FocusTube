@@ -7,7 +7,7 @@ const settingsPopupHTML = `
   
   <!-- Popup title -->
   <div class="popup-title-container">
-    <img src="../images/setting-icon.png" alt="" class="popup-icon">
+    <div class="settings-popup-icon" aria-hidden="true"></div>
     <h2 data-i18n="settings-title">Settings</h2>
   </div>
 
@@ -17,6 +17,8 @@ const settingsPopupHTML = `
     <select id="themeSelect" class="settings-dropdown">
         <option value="standard-dark" data-i18n="theme-standard-dark">Minimalist - Dark (default)</option>
         <option value="standard-light" data-i18n="theme-standard-light">Minimalist - Light</option>
+        <option value="gradient-dark" data-i18n="theme-gradient-dark">Gradient - Dark</option>
+        <option value="gradient-light" data-i18n="theme-gradient-light">Gradient - Light</option>
     </select>
   </div>
 
@@ -60,9 +62,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyBtn = document.getElementById('applySettings');
   const cancelBtn = document.getElementById('cancelSettings');
 
-  // Current language
-  let tempLang;
-  const langSelect = document.getElementById('languageSelect')
+  // Language & theme selects
+  const langSelect = document.getElementById('languageSelect');
+  const themeSelect = document.getElementById('themeSelect');
+
+  // Store temp values for cancel
+  let tempLang = localStorage.getItem('language') || 'en';
+  let tempTheme = localStorage.getItem('theme') || 'standard-dark';
+
+  // Set initial dropdown values
+  langSelect.value = tempLang;
+  themeSelect.value = tempTheme;
+
+  // Apply theme from localStorage on page load
+  const root = document.documentElement;
+  switch (tempTheme) {
+    case 'standard-light':
+      root.setAttribute('data-theme', 'light');
+      break;
+    case 'gradient-dark':
+      root.setAttribute('data-theme', 'gradient-dark');
+      break;
+    case 'gradient-light':
+      root.setAttribute('data-theme', 'gradient-light');
+      break;
+    default:
+      root.removeAttribute('data-theme'); // standard-dark (default)
+  }
 
   // Helper function for closing popup
   function closePopup() {
@@ -71,13 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pageContent) pageContent.classList.remove('hidden');
   }
 
-  // Open / close behavior
+  // Open / close popup
   if (settingsButton && settingsPopup && overlay) {
     settingsButton.addEventListener('click', () => {
-
-      // save current language
-      tempLang = localStorage.getItem('language') || 'en'; 
-      langSelect.value = tempLang; // set dropdown to saved language
+      tempLang = localStorage.getItem('language') || 'en';
+      tempTheme = localStorage.getItem('theme') || 'standard-dark';
+      langSelect.value = tempLang;
+      themeSelect.value = tempTheme;
 
       settingsPopup.classList.add('show');
       overlay.classList.add('show');
@@ -85,16 +111,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Apply button behaviour
+  // Apply button
   applyBtn.addEventListener('click', () => {
-  const selectedLang = document.getElementById('languageSelect').value;
-  languageManager.loadLanguage(selectedLang); // call the manager
-  closePopup(); // hide popup
+    // Language
+    const selectedLang = langSelect.value;
+    localStorage.setItem('language', selectedLang);
+    languageManager.loadLanguage(selectedLang);
+
+    // Theme
+    const selectedTheme = themeSelect.value;
+    localStorage.setItem('theme', selectedTheme);
+    
+    switch (selectedTheme) {
+      case 'standard-light':
+        root.setAttribute('data-theme', 'light');
+        break;
+      case 'gradient-dark':
+        root.setAttribute('data-theme', 'gradient-dark');
+        break;
+      case 'gradient-light':
+        root.setAttribute('data-theme', 'gradient-light');
+        break;
+      default:
+        root.removeAttribute('data-theme'); // default dark
+    }
+
+    closePopup();
   });
 
-  // Cancel button behaviour
+  // Cancel button
   cancelBtn.addEventListener('click', () => {
-    langSelect.value = tempLang; // revert dropdown
+    langSelect.value = tempLang;
+    themeSelect.value = tempTheme;
     closePopup();
   });
 });
