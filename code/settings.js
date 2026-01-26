@@ -15,10 +15,10 @@ const settingsPopupHTML = `
   <div class="settings-row">
     <span class="settings-label" data-i18n="theme-word">Theme</span>
     <select id="themeSelect" class="settings-dropdown">
-        <option value="standard-dark" data-i18n="theme-standard-dark">Minimalist - Dark (default)</option>
-        <option value="standard-light" data-i18n="theme-standard-light">Minimalist - Light</option>
-        <option value="gradient-dark" data-i18n="theme-gradient-dark">Gradient - Dark</option>
+        <option value="standard-light" data-i18n="theme-standard-light">Minimalist - Light (default)</option>
+        <option value="standard-dark" data-i18n="theme-standard-dark">Minimalist - Dark</option>
         <option value="gradient-light" data-i18n="theme-gradient-light">Gradient - Light</option>
+        <option value="gradient-dark" data-i18n="theme-gradient-dark">Gradient - Dark</option>
     </select>
   </div>
 
