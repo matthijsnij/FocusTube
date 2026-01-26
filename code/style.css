@@ -15,13 +15,107 @@ CSS selectors
     box-sizing: border-box;  /* Include padding and border in element’s total width/height */
 }
 
+/* ============================================================= */
+/* ====================== THEME VARIABLES ====================== */
+/* ============================================================= */
+
+
+:root {
+  /* Default: Dark Theme */
+  --background-color: #000;
+  --landing-bg: none;
+  --text-color: #fff;
+  --secondary-text: #ccc;
+  --border-color: #333;
+  --button-bg: #444;
+  --button-hover-bg: #555;
+  --input-bg: #111;
+  --popup-bg: #111;
+  --filter-bg: #222;
+  --filter-hover-bg: #444;
+  --filter-active-bg: #666;
+  --border-color: rgba(255, 255, 255, 0.3);
+  --logo-img: url("../images/logo_dark.png");
+  --settings-icon: url("../images/settings_dark.png");
+  --search-icon: url("../images/search_dark.png");
+  --filter-icon: url("../images/filter_dark.png");
+}
+
+/* Light Theme */
+:root[data-theme="light"] {
+  --background-color: #fafafa;
+  --landing-bg: none;
+  --text-color: #000;
+  --secondary-text: #555;
+  --border-color: #ddd;
+  --button-bg: #e0e0e0;
+  --button-hover-bg: #ccc;
+  --input-bg: #fff;
+  --popup-bg: #fff;
+  --filter-bg: #f5f5f5;
+  --filter-hover-bg: #eee;
+  --filter-active-bg: #ddd;
+  --border-color: rgba(0, 0, 0, 0.2);
+  --logo-img: url("../images/logo_light.png");
+  --settings-icon: url("../images/settings_light.png");
+  --search-icon: url("../images/search_light.png");
+  --filter-icon: url("../images/filter_light.png");
+}
+
+/* Dark Gradient Theme */
+:root[data-theme="gradient-dark"] {
+  --landing-bg: url("../images/dark_gradient.png");
+  --background-color: #000;
+  --text-color: #fff;
+  --secondary-text: #ccc;
+  --border-color: #333;
+  --button-bg: #444;
+  --button-hover-bg: #555;
+  --input-bg: #001230;
+  --popup-bg: #111;
+  --filter-bg: #222;
+  --filter-hover-bg: #444;
+  --filter-active-bg: #666;
+  --border-color: rgba(255, 255, 255, 0.3);
+  --logo-img: url("../images/logo_dark.png");
+  --settings-icon: url("../images/settings_dark.png");
+  --search-icon: url("../images/search_dark.png");
+  --filter-icon: url("../images/filter_dark.png");
+}
+
+/* Light Gradient Theme */
+:root[data-theme="gradient-light"] {
+  --landing-bg: url("../images/Light_gradient.png");
+  --background-color: #fafafa;
+  --text-color: #111;
+  --secondary-text: #555;
+  --border-color: #ddd;
+  --button-bg: #e0e0e0;
+  --button-hover-bg: #ccc;
+  --input-bg: #fafcfe;
+  --popup-bg: #fff;
+  --filter-bg: #f5f5f5;
+  --filter-hover-bg: #eee;
+  --filter-active-bg: #ddd;
+  --border-color: rgba(0, 0, 0, 0.2);
+  --logo-img: url("../images/logo_light.png");
+  --settings-icon: url("../images/settings_light.png");
+  --search-icon: url("../images/search_light.png");
+  --filter-icon: url("../images/filter_light.png");
+}
+
+
+/* ================================================================================== */
 /* ============================== LANDING PAGE SPECIFIC ============================= */
+/* ================================================================================== */
+
 
 /* Body contains all visible content */
 body.landing-page {
-    /* background: url("../images/Gradient background.jpg") no-repeat center center fixed; */
-    background-color: #111;
+    background-color: var(--background-color);
+    background-image: var(--landing-bg);
     background-size: cover;  /* make sure it fills the screen */
+    background-position: center;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -41,7 +135,7 @@ body.landing-page #logo-placeholder {
 /* Styling for container class */
 .landing-container {
     text-align: center;
-    color: #fff;
+    color: var(--text-color);
     width: 100%;       /* take full horizontal space */
     max-width: 1200px; /* optional, limits very wide screens */
     margin: 0 auto;
@@ -64,7 +158,7 @@ body.landing-page #logo-placeholder {
 
 /* Search title (heading above search bar) */
 #search-title {
-    color: white;
+    color: var(--text-color);
     font-size: 3rem;
     margin: 0;
     text-align: center;
@@ -79,7 +173,7 @@ body.landing-page #logo-placeholder {
 }
 
 #search-subtitle {
-    color: rgb(214, 214, 214);
+    color: var(--secondary-text);
     font-size: 1.2rem;       /* increased from 24px */
     margin: 10px 0 40px;     /* more spacing above and below */
     text-align: center;
