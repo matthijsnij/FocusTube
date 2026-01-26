@@ -105,15 +105,13 @@
         >
         <!-- Magnifying glass icon inside the input -->
         <div class="search-icon">
-          <button type="button" id="searchButton">
-            <img src="../images/magnifying_glass_transparent.png" alt="Search">
-          </button>
+          <button type="button" id="searchButton"></button>
         </div>
       </div>
       <!-- Filter icon for opening the filter popup menu -->
-      <div class="filter-button">
-        <img src="../images/filter-icon-dik-transparent.png" alt="Filter Icon" class="filter-icon">
-      </div>
+      <div class="filter-button"></div>
+      <!-- Add settings button -->
+      <button class="settings-button" type="button" aria-label="Settings"></button>
     </div>
   </div>
 
@@ -142,15 +140,17 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <!-- Insert all JS functionality needed for this page: NOTE Order is important here -->
-   <!-- Link to external JavaScript which contains language manager logic -->
+  <!-- Link to external JavaScript which contains language manager logic -->
   <script src="languageManager.js"></script>
-   <!-- Then query logic -->
-  <script src="query.js"></script>
   <!-- Injects filter popup -->
   <script src="filters.js"></script>
+  <!-- Then query logic -->
+  <script src="query.js"></script>
   <!-- Then results logic (search query, applying filters, videos) -->
   <script src="results.js"></script>
   <!-- Header/logo script can be last -->
   <script src="header.js"></script>
+  <!-- Link to external JavaScript which injects settings popup -->
+  <script src="settings.js"></script>
 </body>
 </html>
