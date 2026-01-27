@@ -6,7 +6,7 @@ const authButton = document.getElementById('authButton');
 const {
   data: { session }
 } = await supabase.auth.getSession();
-console.log('SESSION:', session);
+
 if (!session) {
   authButton.style.display = 'block';
 }

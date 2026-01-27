@@ -409,6 +409,25 @@ body.results-page #logo-placeholder {
   transform: scale(1.05);
 }
 
+.logout-link-container {
+  position: absolute;
+  bottom: 1.5rem;  /* distance from bottom of popup */
+  left: 1.5rem;    /* distance from left of popup */
+}
+
+#logoutLink {
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  color: var(--text-color);  /* theme-aware color */
+  transition: color 0.2s ease, transform 0.1s ease;
+}
+
+#logoutLink:hover {
+  color: var(--button-hover-bg); /* subtle hover */
+  transform: scale(1.05);
+}
+
 /* Dropdown consistency */
 .settings-dropdown {
   padding: 0.4em 0.8em;
@@ -439,7 +458,7 @@ body.results-page #logo-placeholder {
 
 .settings-label {
   font-weight: 300;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--secondary-text);
 }
 

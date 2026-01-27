@@ -1,3 +1,5 @@
+import { supabase } from './supabaseClient.js';
+
 const settingsPopupHTML = `
 <!-- Overlay for dimmed effect when opening settings -->
 <div class="overlay" aria-hidden="true"></div>
@@ -40,6 +42,11 @@ const settingsPopupHTML = `
     <button id="applySettings" class="apply-btn" data-i18n="apply-word">Apply</button>
     <button id="cancelSettings" class="cancel-btn" data-i18n="cancel-word">Cancel</button>
   </div>
+
+  <!-- Log out link -->
+  <div class="logout-link-container">
+    <span id="logoutLink" data-i18n="logout-word">Log out</span>
+  </div>
 </div>
 `;
 
@@ -51,6 +58,7 @@ const settingsPopupHTML = `
   }
 
 document.addEventListener('DOMContentLoaded', () => {
+
   // Inject popup
   document.body.insertAdjacentHTML('beforeend', settingsPopupHTML);
 
@@ -65,6 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Language & theme selects
   const langSelect = document.getElementById('languageSelect');
   const themeSelect = document.getElementById('themeSelect');
+
+  // Logout link
+  const logoutLink = document.getElementById('logoutLink');
+  // Auth button
+  const authButton = document.getElementById('authButton');
 
   // Store temp values for cancel
   let tempLang = localStorage.getItem('language') || 'en';
@@ -143,6 +156,20 @@ document.addEventListener('DOMContentLoaded', () => {
   cancelBtn.addEventListener('click', () => {
     langSelect.value = tempLang;
     themeSelect.value = tempTheme;
+    closePopup();
+  });
+
+  // Logout link
+  logoutLink.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+  
+    // Hide logout link
+    logoutLink.style.display = 'none';
+  
+    // Show login/signup button
+    if (authButton) authButton.style.display = 'block';
+  
+    // Close settings popup
     closePopup();
   });
 });
