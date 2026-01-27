@@ -318,14 +318,25 @@ body.results-page #logo-placeholder {
   cursor: pointer;
 }
 
+/* ================================ AUTH BUTTON ================================== */
+
+.auth-button {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.auth-button:hover {
+  transform: scale(1.05);
+}
+
 /* ================================ SETTINGS BUTTON ================================== */
 
 .settings-button {
   border: none;            /* remove default border */
   background-color: transparent;  /* remove default button background */
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
   width: 2rem;
   height: 2rem;
   cursor: pointer;
@@ -338,6 +349,17 @@ body.results-page #logo-placeholder {
 
 .settings-button:hover {
   transform: scale(1.1);
+}
+
+.top-right-controls {
+  position: absolute;
+  top: 2rem;    /* 20px */
+  right: 3rem;  /* 20px */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;    /* 12px */
 }
 
 /* ================================ SETTINGS CONTAINER ================================== */

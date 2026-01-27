@@ -30,8 +30,13 @@
   <!-- Add logo to the page -->
   <div id="logo-placeholder"></div>
 
-  <!-- Settings button -->
-  <div class="settings-button"></div>
+  <div class="top-right-controls">
+    <button id="authButton" class="auth-button" style="display:none;" data-i18n="login-signup">
+      Log In / Sign Up
+    </button>
+  
+    <div class="settings-button"></div>
+  </div>
 
   <!-- Main content area of the page -->
   <main class="landing-container">
@@ -77,6 +82,8 @@
   <!-- Order is important here -->
   <!-- Link to external JavaScript file for handling search query -->
   <script src="query.js"></script>
+  <!-- Link to external JavaScript which handles auth state -->
+  <script  type="module" src="authState.js"></script>
   <!-- Link to external JavaScript which dynamically loads logo -->
   <script src="header.js"></script>
   <!-- Link to external JavaScript which injects filter popup -->
