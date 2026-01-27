@@ -697,8 +697,6 @@ body.login-page {
     color: #fff;
 }
 
-
-
 .login-container {
     position: relative;
     background-color: #222;        /* dark grey square */
@@ -831,6 +829,42 @@ body.login-page {
   font-size: 0.85rem;
   cursor: pointer;
 }
+
+.stay-signed-in {
+  display: flex;
+  align-items: center; /* centers checkbox and label vertically */
+  gap: 0.3rem;        /* space between checkbox and label */
+}
+
+.stay-signed-in input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 0.09rem solid #444;
+  border-radius: 0.2rem;
+  background: #fff;
+  cursor: pointer;
+  position: relative;   /* container for absolute check */
+}
+
+.stay-signed-in input[type="checkbox"]:checked::after {
+  content: '✔';
+  color: #444;
+  font-size: 0.6rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* perfectly center check */
+  pointer-events: none; /* avoid interfering with click */
+}
+
+.stay-signed-in label {
+  font-size: 0.8rem;
+  margin: 0; /* gap controlled by flex */
+}
+
 
 .email-error {
     color: #ff4d4f;      /* red */

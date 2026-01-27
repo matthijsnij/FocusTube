@@ -26,18 +26,24 @@ async function checkEmailExists(email) {
 }
 
 // Login via supabase
-async function loginWithPassword(email, password) {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    return { success: false, message: error.message };
+async function loginWithPassword(email, password, staySignedIn = false) {
+    const { data, error } = await supabase.auth.signInWithPassword(
+      {
+        email,
+        password
+      },
+      {
+        persistSession: staySignedIn  
+      }
+    );
+  
+    if (error) {
+      return { success: false, message: error.message };
+    }
+  
+    return { success: true, user: data.user };
   }
-
-  return { success: true, user: data.user };
-}
+  
 
 // Signup via supabase
 async function signUpWithPassword(email, password, firstName, lastName) {
@@ -134,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hideElement('signUpButton');
     hideElement('recoverMessage');
     hideElement('sendResetEmailBtn');
+    hideElement('staySignedInButton');
 
     // show base UI
     showElement('loginInstruction');
@@ -222,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Existing user → show login
             showElement('backButton')
             showElement('passwordInput');
+            document.querySelector('.stay-signed-in').style.display = 'block'; // or 'block' if you prefer
 
             hideElement('firstNameInput');
             hideElement('lastNameInput');
@@ -246,8 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loginButton.addEventListener('click', async () => {
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
+        const staySignedIn = document.getElementById('staySignedIn').checked;
 
-        const result = await loginWithPassword(email, password);
+        const result = await loginWithPassword(email, password, staySignedIn);
 
         if (!result.success) {
             loginPasswordError.style.display = 'block';
@@ -432,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Optionally hide the send button to prevent duplicate clicks
         hideElement('sendResetEmailBtn');
     });
-
 
     passwordInput.addEventListener('input', updateActionButtons);
     firstNameInput.addEventListener('input', updateActionButtons);
