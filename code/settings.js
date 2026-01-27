@@ -57,10 +57,32 @@ const settingsPopupHTML = `
     if (pageContent) pageContent.classList.remove('hidden');
   }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
   // Inject popup
   document.body.insertAdjacentHTML('beforeend', settingsPopupHTML);
+
+  // Logout link
+  const logoutLink = document.getElementById('logoutLink');
+  // Auth button
+  const authButton = document.getElementById('authButton');
+
+  function updateAuthUI(session) {
+    if (session) {
+      logoutLink.style.display = 'block';
+      if (authButton) authButton.style.display = 'none';
+    } else {
+      logoutLink.style.display = 'none';
+      if (authButton) authButton.style.display = 'block';
+    }
+  }
+  
+  const { data: { session } } = await supabase.auth.getSession();
+  updateAuthUI(session);
+
+  supabase.auth.onAuthStateChange((_event, session) => {
+    updateAuthUI(session);
+  });
 
   // Core popup elements
   const settingsButton = document.querySelector('.settings-button');
@@ -73,11 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Language & theme selects
   const langSelect = document.getElementById('languageSelect');
   const themeSelect = document.getElementById('themeSelect');
-
-  // Logout link
-  const logoutLink = document.getElementById('logoutLink');
-  // Auth button
-  const authButton = document.getElementById('authButton');
 
   // Store temp values for cancel
   let tempLang = localStorage.getItem('language') || 'en';
