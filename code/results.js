@@ -5,11 +5,16 @@ const videoModal = document.getElementById('videoModal');           // Modal ove
 const closeModalBtn = document.getElementById('closeModal');        // Close button inside modal
 const loadMoreButton = document.getElementById('loadMoreButton');   // Load more button
 
-let nextPageToken = null;      // Token for pagination
 let isLoading = false;         // Loading state to prevent multiple fetches
 let query = '';                // Current search query
 let filtersFromURL = {};       // Filters parsed from URL
 let apiKey = '';               // YouTube API key
+
+// Cached results to avoid repeated search.list calls
+let cachedSearchItems = [];    // YouTube search.items[] for the current query/filters
+let cachedStatsMap = {};       // videoId -> { views, duration }
+let visibleCount = 0;
+const PAGE_SIZE = 20;          // How many results we reveal per "Load more"
 
 let player; // YouTube player instance, initialized later
 
@@ -91,7 +96,9 @@ function formatViews(views) {
 // ====== HELPER FUNCTION: Format Duration ======
 // Convert ISO 8601 duration (PT#H#M#S) to simplified format: 10min or 1h30min
 function formatDuration(isoDuration) {
+  if (!isoDuration || typeof isoDuration !== 'string') return '<1min';
   const match = isoDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
+  if (!match) return '<1min';
   const hours = parseInt(match[1] || 0, 10);
   const minutes = parseInt(match[2] || 0, 10);
 
@@ -104,23 +111,27 @@ function formatDuration(isoDuration) {
 }
 
 // ====== FUNCTION TO DISPLAY VIDEO RESULTS ======
-async function displayVideos(videos, container = resultsContainer, append = false) {
+async function displayVideos(videos, container = resultsContainer, append = false, precomputedStatsMap = null) {
   if (!append) {
     container.innerHTML = ''; // first page: clear previous results
   }
 
   // ====== FETCH VIEW COUNTS AND DURATIONS ======
-  const videoIds = videos.map(v => v.id.videoId).join(',');
-  const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds}&key=${apiKey}`;
-  const statsRes = await fetch(statsUrl);
-  const statsData = await statsRes.json();
-  const statsMap = {};
-  statsData.items.forEach(item => {
-    statsMap[item.id] = {
-      views: item.statistics.viewCount,
-      duration: formatDuration(item.contentDetails.duration)
-    };
-  });
+  // If stats are provided, reuse them to avoid extra API calls on "Load more"
+  let statsMap = precomputedStatsMap;
+  if (!statsMap) {
+    const videoIds = videos.map(v => v.id.videoId).join(',');
+    const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds}&key=${apiKey}`;
+    const statsRes = await fetch(statsUrl);
+    const statsData = await statsRes.json();
+    statsMap = {};
+    (statsData.items || []).forEach(item => {
+      statsMap[item.id] = {
+        views: item.statistics.viewCount,
+        duration: formatDuration(item.contentDetails.duration)
+      };
+    });
+  }
 
   // ====== CREATE VIDEO ELEMENTS ======
   videos.forEach(video => {
@@ -162,6 +173,42 @@ async function displayVideos(videos, container = resultsContainer, append = fals
   });
 }
 
+async function fetchVideoStatsMap(videoIds) {
+  if (!videoIds || videoIds.length === 0) return {};
+  const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds.join(',')}&key=${apiKey}`;
+  const statsRes = await fetch(statsUrl);
+  const statsData = await statsRes.json();
+  if (statsData?.error) {
+    console.error('YouTube videos.list error:', statsData.error);
+    // Don't break rendering if stats fail; just omit stats.
+    return {};
+  }
+  const statsMap = {};
+  (statsData.items || []).forEach(item => {
+    statsMap[item.id] = {
+      views: item.statistics.viewCount,
+      duration: formatDuration(item.contentDetails.duration)
+    };
+  });
+  return statsMap;
+}
+
+async function renderNextPageFromCache() {
+  const startIdx = visibleCount;
+  const endIdx = Math.min(visibleCount + PAGE_SIZE, cachedSearchItems.length);
+  const slice = cachedSearchItems.slice(startIdx, endIdx);
+  if (slice.length === 0) return;
+
+  visibleCount = endIdx;
+  await displayVideos(slice, resultsContainer, startIdx > 0, cachedStatsMap);
+
+  if (visibleCount >= cachedSearchItems.length) {
+    loadMoreButton.style.display = 'none';
+  } else {
+    loadMoreButton.style.display = '';
+  }
+}
+
 // ============ FUNCTION FOR CREATING PAYLOAD FOR YOUTUBE API =================
 function createPayload(query, filters, key) {
 
@@ -197,14 +244,19 @@ function createPayload(query, filters, key) {
   }
 
   // ===== Map Sort on to YouTube order =====
-  let order = filters["order"];
+  // If unset, don't send "order=null" (invalid). Default to relevance.
+  let order = filters["order"] || "relevance";
 
   // ===== Return final payload =====
+  // Ensure we always ask for videos; otherwise the API may return channels/playlists,
+  // which don't have id.videoId and won't render in our UI.
+  const type = filters["type"] || "video";
   return {
     q: query,
-    type: filters["type"],
+    type,
     part: "snippet",
-    maxResults: 20,
+    // search.list maxResults is capped (50). We fetch once, then paginate locally.
+    maxResults: 50,
     order,
     ...(videoDuration && { videoDuration }),
     ...(publishedAfter && { publishedAfter }),
@@ -213,14 +265,13 @@ function createPayload(query, filters, key) {
 }
 
 // ====== FETCH VIDEOS FUNCTION ======
-async function fetchVideos(pageToken = null) {
+async function fetchVideos() {
   if (isLoading) return;                   // Prevent multiple simultaneous requests
   isLoading = true;
   loadMoreButton.disabled = true;          // Disable load more button during fetch
 
   try {
     const payload = createPayload(query, filtersFromURL, apiKey);
-    if (pageToken) payload.pageToken = pageToken;
 
     const queryString = new URLSearchParams(payload);
     const url = `https://www.googleapis.com/youtube/v3/search?${queryString}`;
@@ -228,29 +279,53 @@ async function fetchVideos(pageToken = null) {
     const res = await fetch(url);
     const data = await res.json();
 
-    if (!data.items || data.items.length === 0) {
-      if (!pageToken) {
-        resultsContainer.innerHTML = `<p>No results found for "${query}".</p>`;
-      }
+    if (data?.error) {
+      console.error('YouTube API error:', data.error);
+      const msg =
+        data.error?.errors?.[0]?.message ||
+        data.error?.message ||
+        'Unknown YouTube API error.';
+      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${msg}</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
 
-    // ====== DISPLAY VIDEOS ======
-    await displayVideos(data.items, resultsContainer, !!pageToken); // first page: replace, subsequent: append
+    if (!data.items || data.items.length === 0) {
+      resultsContainer.innerHTML = `<p>No results found for "${query}".</p>`;
+      loadMoreButton.style.display = 'none';
+      return;
+    }
 
-    // ====== UPDATE PAGINATION ======
-    nextPageToken = data.nextPageToken || null;
-    if (!nextPageToken) loadMoreButton.style.display = 'none';
-    else loadMoreButton.style.display = '';
+    // Cache results for local pagination (no repeated search.list on "Load more")
+    cachedSearchItems = data.items.filter(v => v?.id?.videoId);
+    if (cachedSearchItems.length === 0) {
+      resultsContainer.innerHTML = `<p>No video results found for "${query}".</p>`;
+      loadMoreButton.style.display = 'none';
+      return;
+    }
+    visibleCount = 0;
+
+    // Pre-fetch stats once so "Load more" doesn't re-fetch them either
+    const ids = cachedSearchItems.map(v => v.id.videoId);
+    try {
+      cachedStatsMap = await fetchVideoStatsMap(ids);
+    } catch (e) {
+      console.error('Failed to fetch video stats:', e);
+      cachedStatsMap = {}; // still render videos without stats
+    }
+
+    // Render first page from cache
+    await renderNextPageFromCache();
 
   } catch (error) {
     console.error('Error fetching videos:', error);
-    resultsContainer.innerHTML = `<p class="error-message">Error fetching videos. YouTube API maxed.</p>`;
+    const msg = (error && error.message) ? error.message : String(error);
+    resultsContainer.innerHTML = `<p class="error-message">Error fetching videos.</p><p class="error-message">Details: ${msg}</p>`;
   } finally {
     isLoading = false;
     loadMoreButton.disabled = false;
   }
+
 }
 
 // ====== DOM CONTENT LOADED LOGIC ======
@@ -325,13 +400,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ====== LOAD MORE BUTTON CLICK ======
-  loadMoreButton.addEventListener('click', () => {
-    fetchVideos(nextPageToken);
-  });
+  loadMoreButton.addEventListener('click', () => renderNextPageFromCache());
 
   // ====== INITIAL LOAD ======
   if (query && resultsContainer && apiKey) {
-    fetchVideos(); // first page load
+    fetchVideos(); // one API call, then local pagination
   }
 });
 
