@@ -326,6 +326,7 @@ body.results-page #logo-placeholder {
   padding: 0.5rem 1rem;
   border-radius: 2rem;
   cursor: pointer;
+  border: none;
 }
 
 .auth-button:hover {
