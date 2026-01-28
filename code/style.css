@@ -685,6 +685,34 @@ body.results-page .search-wrapper-results {
   transform: translateY(-50%) scale(1.1);
 }
 
+/* ================================ SARCH LIMIT POPUP ================================== */
+.login-limit-popup {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--popup-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  display: none;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 2000;
+  font-size: 0.9rem;
+}
+
+.login-limit-popup button {
+  background: var(--button-bg);
+  color: var(--text-color);
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
 /* ================= LOGIN PAGE ================= */
 
 body.login-page {
@@ -863,6 +891,7 @@ body.login-page {
 .stay-signed-in label {
   font-size: 0.8rem;
   margin: 0; /* gap controlled by flex */
+  color: #444;
 }
 
 

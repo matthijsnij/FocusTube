@@ -136,6 +136,11 @@
     <div id="player"></div>
   </div>
 
+  <div id="searchLimitPopup" class="search-limit-popup" style="display: none;"> 
+    <span data-i18n="search-limit">You have used the guest search limit. Please log in or sign up to continue searching.</span>
+    <button id="popupLoginBtn" data-i18n="login-signup">Log In / Sign Up</button>
+  </div>
+
   <!-- Load the YouTube IFrame Player API (for embedding videos) -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -145,7 +150,7 @@
   <!-- Injects filter popup -->
   <script src="filters.js"></script>
   <!-- Then query logic -->
-  <script src="query.js"></script>
+  <script type="module" src="query.js"></script>
   <!-- Then results logic (search query, applying filters, videos) -->
   <script src="results.js"></script>
   <!-- Header/logo script can be last -->
