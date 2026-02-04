@@ -96,9 +96,9 @@ function formatViews(views) {
 // ====== HELPER FUNCTION: Format Duration ======
 // Convert ISO 8601 duration (PT#H#M#S) to simplified format: 10min or 1h30min
 function formatDuration(isoDuration) {
-  if (!isoDuration || typeof isoDuration !== 'string') return '<1min';
+  if (!isoDuration || typeof isoDuration !== 'string') return '<1min'; // backup if stats request fails
   const match = isoDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
-  if (!match) return '<1min';
+  if (!match) return '<1min'; // backup if stats request fails
   const hours = parseInt(match[1] || 0, 10);
   const minutes = parseInt(match[2] || 0, 10);
 
