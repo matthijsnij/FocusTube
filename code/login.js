@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hideElement('signUpButton');
     hideElement('recoverMessage');
     hideElement('sendResetEmailBtn');
-    hideElement('staySignedInButton');
+    document.querySelector('.stay-signed-in').style.display = 'none';
 
     // show base UI
     showElement('loginInstruction');
@@ -365,6 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideElement('continueButton');
         hideElement('passwordInput');
         hideElement('loginButton');
+        document.querySelector('.stay-signed-in').style.display = 'none';
         hideElement('firstNameInput');
         hideElement('lastNameInput');
         hideElement('signUpPasswordInput');

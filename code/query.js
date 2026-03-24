@@ -77,8 +77,6 @@ const popup = document.getElementById('searchLimitPopup');
 const popupLoginBtn = document.getElementById('popupLoginBtn');
 const popupDismissBtn = document.getElementById('popupDismissBtn');
 
-let searchLocked = false;
-
 function showLoginRequiredPopup() {
   if (!popup) return;
   popup.style.display = 'flex';
