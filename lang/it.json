@@ -1,6 +1,7 @@
 {
     "login-or-signup": "Accedi o registrati qui sotto",
     "login-signup": "Accedi / Registrati",
+    "stay-signed-in": "Resta connesso",
     "back-word": "Indietro",
     "login-password-error": "Password non corretta",
     "signup-password-error": "La password deve contenere almeno 8 caratteri",
@@ -58,6 +59,8 @@
     "sortfilter-rating": "Voto",
     "filtertip-sentence": "Suggerimento: trova canali rilevanti impostando il filtro Tipo su Canale. Nota che questa impostazione disattiva tutti gli altri filtri.",
     "loadmore-button": "Carica di più...",
+    "search-limit": "Hai raggiunto il limite di ricerche come ospite. Accedi o registrati per continuare a cercare.",
+    "not-now": "Non ora",
     "loadmore-filterchanged": "La selezione dei filtri è cambiata. Torna alla selezione originale per caricare di più. Usa la barra di ricerca per cercare con nuovi filtri.",
     "suggestions": [
         "Storia dell'Impero Romano",

@@ -110,9 +110,9 @@
       </div>
       <!-- Filter icon for opening the filter popup menu -->
       <div class="filter-button"></div>
-      <!-- Add settings button -->
-      <button class="settings-button" type="button" aria-label="Settings"></button>
     </div>
+    <!-- Settings button pinned to top right -->
+    <button class="settings-button results-settings-button" type="button" aria-label="Settings"></button>
   </div>
 
 
@@ -136,6 +136,12 @@
     <div id="player"></div>
   </div>
 
+  <div id="searchLimitPopup" class="search-limit-popup" style="display: none;"> 
+    <span data-i18n="search-limit">You have used the guest search limit. Please log in or sign up to continue searching.</span>
+    <button id="popupLoginBtn" data-i18n="login-signup">Log In / Sign Up</button>
+    <span id="popupDismissBtn" class="popup-dismiss" data-i18n="not-now">Not now</span>
+  </div>
+
   <!-- Load the YouTube IFrame Player API (for embedding videos) -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -145,7 +151,7 @@
   <!-- Injects filter popup -->
   <script src="filters.js"></script>
   <!-- Then query logic -->
-  <script src="query.js"></script>
+  <script type="module" src="query.js"></script>
   <!-- Then results logic (search query, applying filters, videos) -->
   <script src="results.js"></script>
   <!-- Header/logo script can be last -->

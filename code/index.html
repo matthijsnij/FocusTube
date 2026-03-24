@@ -79,9 +79,15 @@
     </div>
   </main>
 
+  <div id="searchLimitPopup" class="search-limit-popup" style="display: none;"> 
+    <span data-i18n="search-limit">You have used the guest search limit. Please log in or sign up to continue searching.</span>
+    <button id="popupLoginBtn" data-i18n="login-signup">Log In / Sign Up</button>
+    <span id="popupDismissBtn" class="popup-dismiss" data-i18n="not-now">Not now</span>
+  </div>
+
   <!-- Order is important here -->
   <!-- Link to external JavaScript file for handling search query -->
-  <script src="query.js"></script>
+  <script type="module" src="query.js"></script>
   <!-- Link to external JavaScript which handles auth state -->
   <script  type="module" src="authState.js"></script>
   <!-- Link to external JavaScript which dynamically loads logo -->

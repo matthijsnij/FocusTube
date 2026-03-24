@@ -1,6 +1,7 @@
 {
     "login-or-signup": "Hieronder inloggen of aanmelden",
     "login-signup": "Inloggen / Aanmelden",
+    "stay-signed-in": "Blijf ingelogd",
     "back-word": "Terug",
     "login-password-error": "Onjuist wachtwoord",
     "signup-password-error": "Het wachtwoord moet minimaal 8 tekens bevatten",
@@ -58,6 +59,8 @@
     "sortfilter-rating": "Beoordeling",
     "filtertip-sentence": "Tip: vind relevante kanalen voor je zoekopdracht door de Type-filter op Kanaal te zetten. Let op: deze instelling schakelt alle andere filters uit.",
     "loadmore-button": "Meer laden...",
+    "search-limit": "Je hebt de zoekopdrachten als gast opgebruikt. Log in of meld je aan om door te zoeken.",
+    "not-now": "Niet nu",
     "loadmore-filterchanged": "De filterselectie is gewijzigd. Om meer te laden, herstel de oorspronkelijke filters. Om met de nieuwe filters te zoeken, gebruik de zoekbalk.",
     "suggestions": [
     "Geschiedenis van het Romijnse Rijk",

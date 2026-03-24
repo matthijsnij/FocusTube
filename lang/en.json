@@ -1,6 +1,7 @@
 {
     "login-or-signup": "Log in or sign up below",
     "login-signup": "Log In / Sign Up",
+    "stay-signed-in": "Stay signed in",
     "back-word": "Back",
     "login-password-error": "Incorrect password",
     "signup-password-error": "Password must be at least 8 characters",
@@ -58,6 +59,8 @@
     "sortfilter-rating": "Rating",
     "filtertip-sentence": "Tip: find relevant channels for your search by setting the Type filter to Channel. Note that this setting disables all other filters.",
     "loadmore-button": "Load more...",
+    "search-limit": "You have used the guest search limit. Please log in or sign up to continue searching.",
+    "not-now": "Not now",
     "loadmore-filterchanged": "The filter selection has changed. To load more, revert to your original filter selection. To search with new filters, use the search bar.",
     "suggestions": [
     "History of the Roman Empire",

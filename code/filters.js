@@ -7,7 +7,7 @@ const filtersPopupHTML = `
 
   <!-- Popup title -->
   <div class="popup-title-container">
-    <img src="../images/filter-icon-dik-transparent.png" alt="" class="popup-icon">
+    <div class="filter-popup-icon" aria-hidden="true"></div>
     <h2 data-i18n="searchfilters-title">Search filters</h2>
   </div>
 
@@ -140,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FILTER BUTTON
     filterButton.addEventListener('click', () => {
+      // Block filter if search limit is reached
+      if (filterButton.classList.contains('filter-blocked')) return;
 
       // set initial filters
       initialFilters = { ...appliedFilters };
