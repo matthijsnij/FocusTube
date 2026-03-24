@@ -59,6 +59,8 @@
     "sortfilter-rating": "Avis",
     "filtertip-sentence": "Astuce : trouvez des chaînes pertinentes en réglant le filtre Type sur Chaîne. Notez que cela désactive tous les autres filtres.",
     "loadmore-button": "Charger plus...",
+    "search-limit": "Vous avez atteint la limite de recherches en tant qu'invité. Connectez-vous ou inscrivez-vous pour continuer.",
+    "not-now": "Pas maintenant",
     "loadmore-filterchanged": "La sélection des filtres a changé. Revenez à la sélection originale pour charger plus. Utilisez la barre de recherche pour chercher avec de nouveaux filtres.",
     "suggestions": [
         "Histoire de l'Empire romain",

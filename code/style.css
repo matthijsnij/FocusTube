@@ -686,32 +686,80 @@ body.results-page .search-wrapper-results {
   transform: translateY(-50%) scale(1.1);
 }
 
-/* ================================ SARCH LIMIT POPUP ================================== */
-.login-limit-popup {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--popup-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  padding: 0.75rem 1rem;
-  border-radius: 0.6rem;
-  display: none;
-  align-items: center;
-  gap: 0.8rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  z-index: 2000;
-  font-size: 0.9rem;
+/* ================================ SEARCH LIMIT POPUP ================================== */
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(1rem); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-.login-limit-popup button {
-  background: var(--button-bg);
+.search-limit-popup {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--popup-bg);
   color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  display: none;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  animation: slideUp 0.25s ease;
+}
+
+.search-limit-popup span {
+  color: var(--secondary-text);
+  font-weight: 300;
+}
+
+.search-limit-popup button {
+  background-color: transparent;
+  color: #4a90d9;
   border: none;
-  padding: 0.4rem 0.7rem;
-  border-radius: 0.4rem;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 700;
   cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.search-limit-popup button:hover {
+  opacity: 0.75;
+}
+
+.popup-dismiss {
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.popup-dismiss:hover {
+  opacity: 0.7;
+}
+
+.search-locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.filter-blocked {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ================= LOGIN PAGE ================= */

@@ -140,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FILTER BUTTON
     filterButton.addEventListener('click', () => {
+      // Block filter if search limit is reached
+      if (filterButton.classList.contains('filter-blocked')) return;
 
       // set initial filters
       initialFilters = { ...appliedFilters };

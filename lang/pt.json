@@ -59,6 +59,8 @@
     "sortfilter-rating": "Classificação",
     "filtertip-sentence": "Dica: encontre canais relevantes definindo o filtro Tipo como Canal. Observe que essa configuração desativa todos os outros filtros.",
     "loadmore-button": "Carregar mais...",
+    "search-limit": "Você atingiu o limite de pesquisas como visitante. Faça login ou registre-se para continuar pesquisando.",
+    "not-now": "Agora não",
     "loadmore-filterchanged": "A seleção de filtros foi alterada. Volte à seleção original para carregar mais. Use a barra de pesquisa para buscar com novos filtros.",
     "suggestions": [
         "História do Império Romano",

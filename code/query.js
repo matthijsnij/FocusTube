@@ -68,14 +68,31 @@ document.getElementById('searchButton').addEventListener('click', performSearch)
 
 const popup = document.getElementById('searchLimitPopup');
 const popupLoginBtn = document.getElementById('popupLoginBtn');
+const popupDismissBtn = document.getElementById('popupDismissBtn');
+
+let searchLocked = false;
 
 function showLoginRequiredPopup() {
   if (!popup) return;
   popup.style.display = 'flex';
 }
 
+function lockSearchBar() {
+  searchLocked = true;
+  searchInput.disabled = true;
+  searchInput.classList.add('search-locked');
+  // Block filter button
+  const filterButton = document.querySelector('.filter-button');
+  if (filterButton) filterButton.classList.add('filter-blocked');
+}
+
 popupLoginBtn?.addEventListener('click', () => {
   window.location.href = 'login.html';
+});
+
+popupDismissBtn?.addEventListener('click', () => {
+  popup.style.display = 'none';
+  lockSearchBar();
 });
 
 
