@@ -274,6 +274,11 @@ body.results-page #logo-placeholder {
   padding: 0.5rem 1rem;
 }
 
+.results-settings-button {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 #loadMoreButton {
   background: transparent;
   color: var(--text-color);

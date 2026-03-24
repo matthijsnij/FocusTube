@@ -7,7 +7,14 @@ let isLoggedIn = false;
   isLoggedIn = !!data.session;
 })();
 
-const MAX_FREE_SEARCHES = 0;
+supabase.auth.onAuthStateChange((_event, session) => {
+  isLoggedIn = !!session;
+  if (session) {
+    localStorage.removeItem('searchCount');
+  }
+});
+
+const MAX_FREE_SEARCHES = 2;
 
 function getSearchCount() {
   return Number(localStorage.getItem('searchCount') || 0);
