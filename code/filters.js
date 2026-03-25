@@ -16,7 +16,7 @@ const filtersPopupHTML = `
     <span class="filter-name" data-i18n="typefilter-title">Type</span>
     <div class="filter-options">
       <button type="button" class="filter-option" data-i18n="typefilter-video" data-filterkey="video">Video</button>
-      <button type="button" class="filter-option" data-i18n="typefilter-channel" data-filterkey="channel" style="display:none;">Channel</button>
+      <button type="button" class="filter-option" data-i18n="typefilter-channel" data-filterkey="channel">Channel</button>
     </div>
   </div>
 
@@ -57,9 +57,20 @@ const filtersPopupHTML = `
 `;
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Function to disable/enable all filters except type filter if that is chosen as "Channel" NOTE Not used currently
+  // Local copy of getCurrentFilters (query.js is a module so its version isn't global)
+  function getCurrentFilters() {
+    const filters = {};
+    document.querySelectorAll('.filter-row').forEach(row => {
+      const filterKey = row.dataset.filterkey;
+      const selectedButtons = [...row.querySelectorAll('.filter-option.selected')].map(btn => btn.dataset.filterkey);
+      filters[filterKey] = selectedButtons.length > 0 ? selectedButtons[0] : null;
+    });
+    return filters;
+  }
+
+  // Function to disable/enable all filters except type filter if that is chosen as "Channel"
     function updateFiltersState() {
-        const isChannel = document.querySelector('.type-filter .filter-option.selected')?.textContent.trim() === "Channel";
+        const isChannel = document.querySelector('.type-filter .filter-option.selected')?.dataset.filterkey === 'channel';
         const otherFilters = document.querySelectorAll('.filter-row:not(.type-filter)');
 
         otherFilters.forEach(row => {
@@ -71,10 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // restore Sort on default when switching back to Video
         if (!isChannel) {
-            const sortRow = document.querySelector('.filter-row.single-select:last-of-type');
-            const firstBtn = sortRow?.querySelector('.filter-option');
-            if (sortRow && !sortRow.querySelector('.selected') && firstBtn) {
-            firstBtn.classList.add('selected'); // Relevance
+            const sortRow = document.querySelector('.filter-row[data-filterkey="order"]');
+            if (sortRow && !sortRow.querySelector('.filter-option.selected')) {
+                const firstBtn = sortRow.querySelector('.filter-option');
+                if (firstBtn) firstBtn.classList.add('selected'); // Relevance
             }
         }
     }

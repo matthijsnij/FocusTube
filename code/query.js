@@ -59,7 +59,16 @@ function performSearch() {
       const filters = getCurrentFilters();
       const API_KEY = "AIzaSyDPxNfirzwZqgXCXza_jsRCL2G3nKn00VU" // add API key
       const filterParams = encodeURIComponent(JSON.stringify(filters));
-      window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}&key=${encodeURIComponent(API_KEY)}`;
+
+      // Preserve channel scope if we're currently searching within a channel
+      const urlParams = new URLSearchParams(window.location.search);
+      const existingChannelId = urlParams.get('channelId');
+      const existingChannelName = urlParams.get('channelName');
+      const channelPart = existingChannelId
+        ? `&channelId=${encodeURIComponent(existingChannelId)}&channelName=${encodeURIComponent(existingChannelName)}`
+        : '';
+
+      window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}${channelPart}&key=${encodeURIComponent(API_KEY)}`;
   }
 }
 

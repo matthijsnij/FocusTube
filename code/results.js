@@ -9,6 +9,9 @@ let isLoading = false;         // Loading state to prevent multiple fetches
 let query = '';                // Current search query
 let filtersFromURL = {};       // Filters parsed from URL
 let apiKey = '';               // YouTube API key
+let channelId = '';            // Channel ID for scoped video search
+let channelName = '';          // Channel name for display in chip
+let isChannelSearch = false;   // True when searching for channels (type=channel)
 
 // Cached results to avoid repeated search.list calls
 let cachedSearchItems = [];    // YouTube search.items[] for the current query/filters
@@ -66,20 +69,36 @@ function closeVideo() {
 // ====== HELPER FUNCTION: Relative Time ======
 // Convert ISO date string into a relative time (e.g., "2 months ago")
 function timeAgo(dateString) {
+  const t = (key, vars = {}) => {
+    let str = window.languageManager?.getTranslation(key);
+    if (!str || str === key) str = null; // fall back if not loaded or key returned as-is
+    const fallbacks = {
+      'time-today': 'Today',
+      'time-day-ago': '1 day ago',
+      'time-days-ago': '{n} days ago',
+      'time-month-ago': '1 month ago',
+      'time-months-ago': '{n} months ago',
+      'time-year-ago': '1 year ago',
+      'time-years-ago': '{n} years ago',
+    };
+    str = str || fallbacks[key] || key;
+    return str.replace('{n}', vars.n ?? '');
+  };
+
   const date = new Date(dateString);
   const now = new Date();
-  const diffMs = now - date;                           // difference in milliseconds
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24)); // difference in days
+  const diffMs = now - date;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-  if (diffDays < 1) return "Today";
-  if (diffDays === 1) return "1 day ago";
-  if (diffDays < 30) return `${diffDays} days ago`;
+  if (diffDays < 1) return t('time-today');
+  if (diffDays === 1) return t('time-day-ago');
+  if (diffDays < 30) return t('time-days-ago', { n: diffDays });
   if (diffDays < 365) {
     const months = Math.floor(diffDays / 30);
-    return months === 1 ? "1 month ago" : `${months} months ago`;
+    return months === 1 ? t('time-month-ago') : t('time-months-ago', { n: months });
   }
   const years = Math.floor(diffDays / 365);
-  return years === 1 ? "1 year ago" : `${years} years ago`;
+  return years === 1 ? t('time-year-ago') : t('time-years-ago', { n: years });
 }
 
 // ====== HELPER FUNCTION: Format View Count ======
@@ -146,6 +165,11 @@ async function displayVideos(videos, container = resultsContainer, append = fals
     const videoElement = document.createElement('div');
     videoElement.classList.add('video-item');
 
+    const viewsLabel = (() => {
+      const raw = window.languageManager?.getTranslation('views-word');
+      return (!raw || raw === 'views-word') ? 'views' : raw;
+    })();
+
     // Inner HTML mimicking YouTube style:
     videoElement.innerHTML = `
       <div class="thumbnail-container" style="position: relative; display: inline-block; cursor:pointer;">
@@ -164,7 +188,7 @@ async function displayVideos(videos, container = resultsContainer, append = fals
       </div>
       <h3>${title}</h3>
       <p>${channel}</p>
-      <p>${formatViews(stats.views)} views • ${timeAgo(publishedAt)}</p>
+      <p>${formatViews(stats.views)} ${viewsLabel} • ${timeAgo(publishedAt)}</p>
     `;
 
     // Open video modal on click
@@ -257,8 +281,6 @@ function createPayload(query, filters, key) {
   let order = filters["order"] || "relevance";
 
   // ===== Return final payload =====
-  // Ensure we always ask for videos; otherwise the API may return channels/playlists,
-  // which don't have id.videoId and won't render in our UI.
   const type = filters["type"] || "video";
   return {
     q: query,
@@ -269,8 +291,120 @@ function createPayload(query, filters, key) {
     order,
     ...(videoDuration && { videoDuration }),
     ...(publishedAfter && { publishedAfter }),
+    ...(channelId && { channelId }),
     key: key
   };
+}
+
+// ====== DISPLAY CHANNEL RESULTS ======
+function displayChannels(channels, append = false) {
+  if (!append) resultsContainer.innerHTML = '';
+
+  channels.forEach(channel => {
+    const chId = channel.id.channelId;
+    const title = channel.snippet.title;
+    const description = channel.snippet.description;
+    const thumbnail = channel.snippet.thumbnails?.medium?.url || '';
+    const stats = cachedStatsMap[chId] || {};
+    const subs = stats.subscribers !== undefined ? formatViews(stats.subscribers) + ' subscribers' : '';
+    const videos = stats.videoCount !== undefined ? stats.videoCount + ' videos' : '';
+    const meta = [subs, videos].filter(Boolean).join(' • ');
+
+    const el = document.createElement('div');
+    el.classList.add('channel-item');
+    el.innerHTML = `
+      <img src="${thumbnail}" alt="${title}" class="channel-avatar">
+      <div class="channel-info">
+        <h3>${title}</h3>
+        ${meta ? `<p class="channel-meta">${meta}</p>` : ''}
+        ${description ? `<p class="channel-description">${description}</p>` : ''}
+      </div>
+    `;
+
+    el.addEventListener('click', () => {
+      const scopedFilters = { type: 'video', order: 'relevance', videoDuration: null, uploadDate: null };
+      const filterParams = encodeURIComponent(JSON.stringify(scopedFilters));
+      window.location.href = `results.html?search=&filters=${filterParams}&channelId=${encodeURIComponent(chId)}&channelName=${encodeURIComponent(title)}&key=${encodeURIComponent(apiKey)}`;
+    });
+
+    resultsContainer.appendChild(el);
+  });
+}
+
+// ====== RENDER CHANNELS FROM CACHE ======
+async function renderChannelsFromCache() {
+  if (visibleCount >= cachedSearchItems.length) {
+    if (nextPageToken) await fetchChannels(nextPageToken);
+    return;
+  }
+  const startIdx = visibleCount;
+  const endIdx = Math.min(visibleCount + PAGE_SIZE, cachedSearchItems.length);
+  const slice = cachedSearchItems.slice(startIdx, endIdx);
+  if (slice.length === 0) return;
+
+  visibleCount = endIdx;
+  displayChannels(slice, startIdx > 0);
+
+  loadMoreButton.style.display = (visibleCount >= cachedSearchItems.length && !nextPageToken) ? 'none' : '';
+}
+
+// ====== FETCH CHANNELS FUNCTION ======
+async function fetchChannels(pageToken = null) {
+  if (isLoading) return;
+  isLoading = true;
+  loadMoreButton.disabled = true;
+
+  try {
+    const payload = { q: query, type: 'channel', part: 'snippet', maxResults: 50, key: apiKey };
+    if (pageToken) payload.pageToken = pageToken;
+
+    const url = `https://www.googleapis.com/youtube/v3/search?${new URLSearchParams(payload)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data?.error) {
+      console.error('YouTube API error:', data.error);
+      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${data.error.message}</p>`;
+      loadMoreButton.style.display = 'none';
+      return;
+    }
+
+    const items = (data.items || []).filter(i => i?.id?.channelId);
+    if (items.length === 0 && !pageToken) {
+      resultsContainer.innerHTML = `<p>No channels found for "${query}".</p>`;
+      loadMoreButton.style.display = 'none';
+      return;
+    }
+
+    nextPageToken = data.nextPageToken || null;
+
+    if (pageToken) {
+      cachedSearchItems = [...cachedSearchItems, ...items];
+    } else {
+      cachedSearchItems = items;
+      visibleCount = 0;
+    }
+
+    // Fetch subscriber + video counts
+    const ids = items.map(i => i.id.channelId).join(',');
+    const statsUrl = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${ids}&key=${apiKey}`;
+    const statsRes = await fetch(statsUrl);
+    const statsData = await statsRes.json();
+    (statsData.items || []).forEach(item => {
+      cachedStatsMap[item.id] = {
+        subscribers: item.statistics.subscriberCount,
+        videoCount: item.statistics.videoCount
+      };
+    });
+
+    await renderChannelsFromCache();
+  } catch (error) {
+    console.error('Error fetching channels:', error);
+    resultsContainer.innerHTML = `<p class="error-message">Error fetching channels.</p>`;
+  } finally {
+    isLoading = false;
+    loadMoreButton.disabled = false;
+  }
 }
 
 // ====== FETCH VIDEOS FUNCTION ======
@@ -357,12 +491,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   query = urlParams.get('search');        // Get search query from URL
   apiKey = urlParams.get('key');          // Get API key from URL
+  channelId = urlParams.get('channelId') || '';
+  channelName = urlParams.get('channelName') || '';
 
   const filtersParam = urlParams.get('filters'); // string
   filtersFromURL = {};
   if (filtersParam) {
-    try { filtersFromURL = JSON.parse(filtersParam); } 
+    try { filtersFromURL = JSON.parse(filtersParam); }
     catch (e) { console.error('Failed to parse filters from URL', e); }
+  }
+
+  isChannelSearch = filtersFromURL.type === 'channel';
+
+  // ====== CHANNEL SCOPE CHIP ======
+  const scopeChip = document.getElementById('channel-scope-chip');
+  if (channelId && channelName && scopeChip) {
+    function renderChipLabel() {
+      const raw = window.languageManager?.getTranslation('searching-in');
+      const label = (!raw || raw === 'searching-in') ? 'Searching in:' : raw;
+      const btn = scopeChip.querySelector('#clearChannelScope');
+      scopeChip.querySelector('span').textContent = `${label} `;
+      const strong = document.createElement('strong');
+      strong.textContent = channelName;
+      scopeChip.querySelector('span').appendChild(strong);
+    }
+
+    scopeChip.innerHTML = `<span></span><button id="clearChannelScope" aria-label="Clear channel scope">&times;</button>`;
+    scopeChip.style.display = 'flex';
+    renderChipLabel();
+
+    document.addEventListener('languageChanged', renderChipLabel);
+
+    document.getElementById('clearChannelScope').addEventListener('click', () => {
+      const baseFilters = { type: 'video', order: 'relevance', videoDuration: null, uploadDate: null };
+      const filterParams = encodeURIComponent(JSON.stringify(baseFilters));
+      window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}&key=${encodeURIComponent(apiKey)}`;
+    });
   }
 
   // STORE ORIGINAL FILTERS
@@ -422,11 +586,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ====== LOAD MORE BUTTON CLICK ======
-  loadMoreButton.addEventListener('click', () => renderNextPageFromCache());
+  loadMoreButton.addEventListener('click', () => {
+    if (isChannelSearch) renderChannelsFromCache();
+    else renderNextPageFromCache();
+  });
+
+  // ====== RE-RENDER ON LANGUAGE CHANGE (no API call needed) ======
+  document.addEventListener('languageChanged', () => {
+    if (!isChannelSearch && cachedSearchItems.length > 0) {
+      const visible = cachedSearchItems.slice(0, visibleCount);
+      displayVideos(visible, resultsContainer, false, cachedStatsMap);
+    }
+  });
 
   // ====== INITIAL LOAD ======
-  if (query && resultsContainer && apiKey) {
-    fetchVideos(); // one API call, then local pagination
+  if (resultsContainer && apiKey) {
+    if (isChannelSearch && query) {
+      fetchChannels();
+    } else if (!isChannelSearch && (query || channelId)) {
+      fetchVideos();
+    }
   }
 });
 
