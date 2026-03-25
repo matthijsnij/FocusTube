@@ -157,11 +157,11 @@ body.landing-page #logo-placeholder {
 /* Search title (heading above search bar) */
 #search-title {
     color: var(--text-color);
-    font-size: 3rem;
+    font-size: 4rem;
     margin: 0;
     text-align: center;
-    font-family: "Montserrat", sans-serif; /* Apply Montserrat */
-    font-weight: 600; /* SemiBold */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
 }
 
 /* Logo image */
@@ -172,9 +172,10 @@ body.landing-page #logo-placeholder {
 
 #search-subtitle {
     color: var(--secondary-text);
-    font-size: 1.2rem;       /* increased from 24px */
-    margin: 10px 0 40px;     /* more spacing above and below */
+    font-size: 1.2rem;
+    margin: 2.5rem 0 3rem;
     text-align: center;
+    font-weight: 200;
 }
 
 #user-greeting {
