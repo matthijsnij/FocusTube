@@ -14,6 +14,7 @@ let apiKey = '';               // YouTube API key
 let cachedSearchItems = [];    // YouTube search.items[] for the current query/filters
 let cachedStatsMap = {};       // videoId -> { views, duration }
 let visibleCount = 0;
+let nextPageToken = null;      // Token for fetching next batch of 50 from YouTube
 const PAGE_SIZE = 20;          // How many results we reveal per "Load more"
 
 let player; // YouTube player instance, initialized later
@@ -194,6 +195,14 @@ async function fetchVideoStatsMap(videoIds) {
 }
 
 async function renderNextPageFromCache() {
+  // If cache is exhausted but more pages exist, fetch next batch first
+  if (visibleCount >= cachedSearchItems.length) {
+    if (nextPageToken) {
+      await fetchVideos(nextPageToken);
+    }
+    return;
+  }
+
   const startIdx = visibleCount;
   const endIdx = Math.min(visibleCount + PAGE_SIZE, cachedSearchItems.length);
   const slice = cachedSearchItems.slice(startIdx, endIdx);
@@ -202,7 +211,7 @@ async function renderNextPageFromCache() {
   visibleCount = endIdx;
   await displayVideos(slice, resultsContainer, startIdx > 0, cachedStatsMap);
 
-  if (visibleCount >= cachedSearchItems.length) {
+  if (visibleCount >= cachedSearchItems.length && !nextPageToken) {
     loadMoreButton.style.display = 'none';
   } else {
     loadMoreButton.style.display = '';
@@ -265,13 +274,14 @@ function createPayload(query, filters, key) {
 }
 
 // ====== FETCH VIDEOS FUNCTION ======
-async function fetchVideos() {
+async function fetchVideos(pageToken = null) {
   if (isLoading) return;                   // Prevent multiple simultaneous requests
   isLoading = true;
   loadMoreButton.disabled = true;          // Disable load more button during fetch
 
   try {
     const payload = createPayload(query, filtersFromURL, apiKey);
+    if (pageToken) payload.pageToken = pageToken;
 
     const queryString = new URLSearchParams(payload);
     const url = `https://www.googleapis.com/youtube/v3/search?${queryString}`;
@@ -297,21 +307,33 @@ async function fetchVideos() {
     }
 
     // Cache results for local pagination (no repeated search.list on "Load more")
-    cachedSearchItems = data.items.filter(v => v?.id?.videoId);
-    if (cachedSearchItems.length === 0) {
+    const newItems = data.items.filter(v => v?.id?.videoId);
+    if (newItems.length === 0 && !pageToken) {
       resultsContainer.innerHTML = `<p>No video results found for "${query}".</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
-    visibleCount = 0;
 
-    // Pre-fetch stats once so "Load more" doesn't re-fetch them either
-    const ids = cachedSearchItems.map(v => v.id.videoId);
+    // Store next page token for when current cache is exhausted
+    nextPageToken = data.nextPageToken || null;
+
+    if (pageToken) {
+      // Append to existing cache
+      cachedSearchItems = [...cachedSearchItems, ...newItems];
+    } else {
+      // Fresh search — reset everything
+      cachedSearchItems = newItems;
+      cachedStatsMap = {};
+      visibleCount = 0;
+    }
+
+    // Pre-fetch stats for new items, merge into cachedStatsMap
+    const ids = newItems.map(v => v.id.videoId);
     try {
-      cachedStatsMap = await fetchVideoStatsMap(ids);
+      const newStats = await fetchVideoStatsMap(ids);
+      cachedStatsMap = { ...cachedStatsMap, ...newStats };
     } catch (e) {
       console.error('Failed to fetch video stats:', e);
-      cachedStatsMap = {}; // still render videos without stats
     }
 
     // Render first page from cache
