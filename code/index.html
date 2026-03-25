@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Roboto font -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300&display=swap" rel="stylesheet">
 
   <!-- Page title shown in browser tab -->
   <title>FocusTube</title>
@@ -44,6 +44,9 @@
     <div class="landing-page-content"> 
       <!-- Main heading of the page -->
       <h1 id="search-title"> FocusTube</h1>
+      <!-- Greeting shown when logged in -->
+      <h1 id="user-greeting" style="display:none;"></h1>
+      <p id="user-greeting-sub" style="display:none;"></p>
       <!-- <img id="search-title" src="../images/Focused Learning draft.png" alt="Focused learning" class="landing-logo"> -->
       <h3 id="search-subtitle" data-i18n="subtitle">Search YouTube distraction-free</h3>
 
@@ -88,14 +91,14 @@
   <!-- Order is important here -->
   <!-- Link to external JavaScript file for handling search query -->
   <script type="module" src="query.js"></script>
-  <!-- Link to external JavaScript which handles auth state -->
-  <script  type="module" src="authState.js"></script>
   <!-- Link to external JavaScript which dynamically loads logo -->
   <script src="header.js"></script>
   <!-- Link to external JavaScript which injects filter popup -->
   <script src="filters.js"></script>
   <!-- Link to external JavaScript which contains language manager logic -->
   <script src="languageManager.js"></script>
+  <!-- Link to external JavaScript which handles auth state (must be after languageManager) -->
+  <script type="module" src="authState.js"></script>
   <!-- Link to external JavaScript which injects settings popup -->
   <script type="module" src="settings.js"></script>
   <!-- Link to external JavaScript which cycles suggestions -->

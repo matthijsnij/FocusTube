@@ -60,5 +60,7 @@ const languageManager = (() => {
   return { loadLanguage, init, getTranslation: key => translations[key] || key };
 })();
 
+window.languageManager = languageManager;
+
 // initialize after DOM is ready
 document.addEventListener('DOMContentLoaded', languageManager.init);

@@ -177,6 +177,23 @@ body.landing-page #logo-placeholder {
     text-align: center;
 }
 
+#user-greeting {
+    color: var(--text-color);
+    font-size: 4rem;
+    margin: 0;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+}
+
+#user-greeting-sub {
+    color: var(--secondary-text);
+    font-size: 1.2rem;
+    margin: 0.5rem 0 3rem;
+    text-align: center;
+    font-weight: 200;
+}
+
 .search-wrapper-landing {
   display: flex;
   justify-content: center; /* centers the whole block */
