@@ -16,7 +16,7 @@ const filtersPopupHTML = `
     <span class="filter-name" data-i18n="typefilter-title">Type</span>
     <div class="filter-options">
       <button type="button" class="filter-option" data-i18n="typefilter-video" data-filterkey="video">Video</button>
-      <button type="button" class="filter-option" data-i18n="typefilter-channel" data-filterkey="channel">Channel</button>
+      <button type="button" class="filter-option" data-i18n="typefilter-channel" data-filterkey="channel" style="display:none;">Channel</button>
     </div>
   </div>
 
