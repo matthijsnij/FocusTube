@@ -116,6 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // inject popup
   document.body.insertAdjacentHTML('beforeend', filtersPopupHTML);
 
+  // Hide the "Channel" type option when already in channel mode
+  if (new URLSearchParams(window.location.search).get('channelId')) {
+    const channelTypeBtn = document.querySelector('.type-filter .filter-option[data-filterkey="channel"]');
+    if (channelTypeBtn) channelTypeBtn.style.display = 'none';
+  }
+
   if (document.body.classList.contains('results-page')) {
     const urlParams = new URLSearchParams(window.location.search);
     const filtersParam = urlParams.get('filters');
