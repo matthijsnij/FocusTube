@@ -289,14 +289,22 @@ body.results-page #logo-placeholder {
 #channel-scope-chip {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    justify-content: center;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
     background-color: var(--background-color);
     color: var(--text-color);
     border: 1px solid var(--secondary-text);
     border-radius: 999px;
     padding: 0.35rem 0.9rem;
     font-size: 0.9rem;
+    margin-top: 1.4rem;
     margin-bottom: 1.2rem;
+}
+
+.channel-mode #user-greeting {
+    margin-bottom: 3rem;
 }
 
 #channel-scope-chip strong {
@@ -307,7 +315,8 @@ body.results-page #logo-placeholder {
     background: none;
     border: none;
     color: var(--secondary-text);
-    font-size: 1.1rem;
+    font-size: 0.9rem;
+    font-family: inherit;
     cursor: pointer;
     padding: 0;
     line-height: 1;
@@ -781,8 +790,8 @@ body.results-page .search-wrapper-results {
 }
 
 .search-icon button {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   background-image: var(--search-icon);
   background-size: contain;
   background-repeat: no-repeat;

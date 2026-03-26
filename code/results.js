@@ -322,9 +322,7 @@ function displayChannels(channels, append = false) {
     `;
 
     el.addEventListener('click', () => {
-      const scopedFilters = { type: 'video', order: 'relevance', videoDuration: null, uploadDate: null };
-      const filterParams = encodeURIComponent(JSON.stringify(scopedFilters));
-      window.location.href = `results.html?search=&filters=${filterParams}&channelId=${encodeURIComponent(chId)}&channelName=${encodeURIComponent(title)}&key=${encodeURIComponent(apiKey)}`;
+      window.location.href = `index.html?channelId=${encodeURIComponent(chId)}&channelName=${encodeURIComponent(title)}`;
     });
 
     resultsContainer.appendChild(el);
@@ -506,27 +504,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // ====== CHANNEL SCOPE CHIP ======
   const scopeChip = document.getElementById('channel-scope-chip');
   if (channelId && channelName && scopeChip) {
-    function renderChipLabel() {
-      const raw = window.languageManager?.getTranslation('searching-in');
-      const label = (!raw || raw === 'searching-in') ? 'Searching in:' : raw;
-      const btn = scopeChip.querySelector('#clearChannelScope');
-      scopeChip.querySelector('span').textContent = `${label} `;
-      const strong = document.createElement('strong');
-      strong.textContent = channelName;
-      scopeChip.querySelector('span').appendChild(strong);
+    // Set search bar placeholder
+    const searchInputEl = document.getElementById('searchInput');
+    if (searchInputEl) {
+      const searchingInLabel = window.languageManager?.getTranslation('searching-in') || 'Searching in:';
+      searchInputEl.placeholder = `${searchingInLabel} ${channelName}`;
     }
 
-    scopeChip.innerHTML = `<span></span><button id="clearChannelScope" aria-label="Clear channel scope">&times;</button>`;
-    scopeChip.style.display = 'flex';
-    renderChipLabel();
+    function renderExitButton() {
+      const exitLabel = window.languageManager?.getTranslation('exit-channel-mode') || 'Exit channel mode';
+      scopeChip.innerHTML = `<button id="clearChannelScope" aria-label="Exit channel mode">${exitLabel}</button>`;
+      scopeChip.style.display = 'flex';
+      document.getElementById('clearChannelScope').addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
+    }
 
-    document.addEventListener('languageChanged', renderChipLabel);
-
-    document.getElementById('clearChannelScope').addEventListener('click', () => {
-      const baseFilters = { type: 'video', order: 'relevance', videoDuration: null, uploadDate: null };
-      const filterParams = encodeURIComponent(JSON.stringify(baseFilters));
-      window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}&key=${encodeURIComponent(apiKey)}`;
-    });
+    renderExitButton();
+    document.addEventListener('languageChanged', renderExitButton);
   }
 
   // STORE ORIGINAL FILTERS
@@ -603,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (resultsContainer && apiKey) {
     if (isChannelSearch && query) {
       fetchChannels();
-    } else if (!isChannelSearch && (query || channelId)) {
+    } else if (!isChannelSearch && query) {
       fetchVideos();
     }
   }

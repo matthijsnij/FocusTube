@@ -28,6 +28,9 @@ const placeholder = (() => {
         const searchInput = document.getElementById('searchInput');
         if (!searchInput) return; // exit if input not found
 
+        // Don't override custom placeholder when in channel mode
+        if (new URLSearchParams(window.location.search).get('channelId')) return;
+
         // fetch suggestions in current language from languageManager
         suggestions = languageManager.getTranslation("suggestions") || [];
 
