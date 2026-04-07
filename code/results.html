@@ -13,7 +13,7 @@
   <!-- Defines character encoding -->
   <meta charset="UTF-8">
   <!-- Apply theme immediately to prevent black flash on navigation -->
-  <script>(function(){var t=localStorage.getItem('theme');var m={'standard-light':'light','gradient-dark':'gradient-dark','gradient-light':'gradient-light'};document.documentElement.setAttribute('data-theme',m[t]||'');})();</script>
+  <script>(function(){var t=localStorage.getItem('theme');var m={'standard-light':'light','gradient-dark':'gradient-dark','gradient-light':'gradient-light'};var v=m[t];if(v){document.documentElement.setAttribute('data-theme',v);}else{document.documentElement.removeAttribute('data-theme');}})();</script>
 
   <!-- Ensure proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

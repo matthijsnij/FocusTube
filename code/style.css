@@ -14,6 +14,18 @@ CSS selectors
 }
 
 /* ============================================================= */
+/* ========================= NPROGRESS ========================= */
+/* ============================================================= */
+
+#nprogress .bar { height: 4px; }
+
+/* White bar on dark themes */
+:root:not([data-theme]) #nprogress .bar,
+:root[data-theme="gradient-dark"] #nprogress .bar { background: #fff; }
+:root:not([data-theme]) #nprogress .peg,
+:root[data-theme="gradient-dark"] #nprogress .peg { box-shadow: 0 0 10px #fff, 0 0 5px #fff; }
+
+/* ============================================================= */
 /* ====================== THEME VARIABLES ====================== */
 /* ============================================================= */
 

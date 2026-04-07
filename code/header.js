@@ -5,6 +5,10 @@ fetch('header.html')
     const placeholder = document.getElementById('logo-placeholder');
     if (placeholder) {
       placeholder.innerHTML = data;
+      const logoLink = document.getElementById('logoLink');
+      if (logoLink) {
+        logoLink.addEventListener('click', () => NProgress.start());
+      }
     }
   })
   .catch(error => console.error('Error loading header:', error));
