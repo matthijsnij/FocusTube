@@ -1151,6 +1151,126 @@ html[data-theme="light"] body.login-page {
 }
 
 
+/* ============================================================= */
+/* ====================== MOBILE (≤768px) ====================== */
+/* ============================================================= */
+
+@media (max-width: 768px) {
+
+  /* ── Landing page ── */
+
+  /* Shrink large headings */
+  #search-title,
+  #user-greeting {
+    font-size: 2.2rem;
+    height: auto; /* override the fixed 3.2rem height that causes overlap on wrap */
+  }
+
+  #search-subtitle,
+  #user-greeting-sub {
+    font-size: 1rem;
+    margin: 1.2rem 0 2rem;
+  }
+
+  /* Move top-right controls so they don't overlap the centred content */
+  .top-right-controls {
+    top: 1rem;
+    right: 1rem;
+    gap: 0.75rem;
+  }
+
+  /* Shift content slightly above centre so it doesn't look bottom-heavy */
+  body.landing-page {
+    align-items: center;
+    padding-bottom: 15vh;
+  }
+
+  /* Make the logo smaller */
+  .theme-logo {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  /* Widen search bar to fill the screen */
+  .search-container {
+    width: 90%;
+  }
+
+  /* Keep wrapper centred and full-width */
+  .search-wrapper-landing {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  /* ── Results page top bar ── */
+
+  .top-bar-results {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  /* Remove the large left margin so the search bar isn't squished */
+  .search-wrapper-results {
+    margin-left: 0;
+    flex: 1 1 100%; /* take full row on its own line */
+    order: 3;       /* push below logo + settings icon */
+  }
+
+  /* Keep logo and settings on the same line above the search bar */
+  body.results-page #logo-placeholder {
+    order: 1;
+  }
+
+  .results-settings-button {
+    order: 2;
+    margin-left: auto;
+  }
+
+  /* Full-width video cards (1 per row instead of 3) */
+  .video-item {
+    width: 90vw;
+    max-width: 420px;
+  }
+
+  /* Channel cards already have max-width: 90vw – just ensure padding is tight */
+  .channel-item {
+    padding: 0.6rem;
+  }
+
+  /* ── Filter / settings popup ── */
+
+  /* Prevent the label from forcing a wide popup */
+  .filter-name {
+    min-width: 7rem;
+    font-size: 1rem;
+  }
+
+  .filter-row {
+    gap: 1rem;
+  }
+
+  /* ── Search limit popup ── */
+
+  .search-limit-popup {
+    white-space: normal;    /* allow wrapping */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    width: 90vw;
+    left: 50%;
+  }
+
+  /* ── Login page ── */
+
+  .login-container {
+    width: 92vw;
+    padding: 2rem 1.5rem;
+    min-width: unset;
+  }
+}
+
+
 
 
 

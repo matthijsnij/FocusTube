@@ -575,7 +575,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== DETECT FILTER CHANGES =====
   document.querySelectorAll('.filter-option').forEach(btn => {
     btn.addEventListener('click', () => {
-      const currentFilters = getCurrentFilters(); 
+      const currentFilters = {};
+      document.querySelectorAll('.filter-row').forEach(row => {
+        const key = row.dataset.filterkey;
+        const selected = [...row.querySelectorAll('.filter-option.selected')].map(b => b.dataset.filterkey);
+        currentFilters[key] = selected.length > 0 ? selected[0] : null;
+      });
       const filtersChanged = JSON.stringify(currentFilters) !== JSON.stringify(originalFilters);
       
       const filterChangedText = languageManager.getTranslation('loadmore-filterchanged');

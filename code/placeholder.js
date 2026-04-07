@@ -28,6 +28,9 @@ const placeholder = (() => {
         const searchInput = document.getElementById('searchInput');
         if (!searchInput) return; // exit if input not found
 
+        // Don't show animated suggestions on mobile — they're too long for the search bar
+        if (window.innerWidth <= 768) return;
+
         // Don't override custom placeholder when in channel mode
         if (new URLSearchParams(window.location.search).get('channelId')) return;
 
