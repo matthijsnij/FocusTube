@@ -68,7 +68,8 @@ function performSearch() {
         ? `&channelId=${encodeURIComponent(existingChannelId)}&channelName=${encodeURIComponent(existingChannelName)}`
         : '';
 
-      window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}${channelPart}&key=${encodeURIComponent(API_KEY)}`;
+      NProgress.start();
+      window.location.href = `results.html?search=${encodeURIComponent(query)}&filters=${filterParams}${channelPart}`;
   }
 }
 
@@ -101,6 +102,7 @@ function lockSearchBar() {
 }
 
 popupLoginBtn?.addEventListener('click', () => {
+  NProgress.start();
   window.location.href = 'login.html';
 });
 

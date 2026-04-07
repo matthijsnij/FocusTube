@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Logout link
   logoutLink.addEventListener('click', async () => {
+    localStorage.removeItem('ft_stay_signed_in');
     await supabase.auth.signOut();
   
     // Hide logout link

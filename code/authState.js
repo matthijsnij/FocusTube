@@ -40,6 +40,7 @@ function setupChannelModeUI() {
     scopeChip.innerHTML = `<button id="clearChannelScope" aria-label="Exit channel mode">${exitLabel}</button>`;
     scopeChip.style.display = 'flex';
     document.getElementById('clearChannelScope').addEventListener('click', () => {
+      NProgress.start();
       window.location.href = 'index.html';
     });
   }
@@ -109,6 +110,7 @@ supabase.auth.onAuthStateChange((_event, session) => {
 
 // Navigate to login page
 authButton.addEventListener('click', () => {
+  NProgress.start();
   window.location.href = 'login.html';
 });
 

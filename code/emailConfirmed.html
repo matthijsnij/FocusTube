@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <title>Email confirmed</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- NProgress: page transition loading bar -->
+  <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
+  <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
 </head>
 <body class="landing-page">
   <div class="login-container">
@@ -29,8 +32,10 @@
     document
     .getElementById('goToLoginBtn')
     .addEventListener('click', () => {
+      NProgress.start();
       window.location.href = 'login.html';
     });
   </script>
+  <script>NProgress.done(true);</script>
 </body>
 </html>

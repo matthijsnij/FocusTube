@@ -26,16 +26,11 @@ async function checkEmailExists(email) {
 }
 
 // Login via supabase
-async function loginWithPassword(email, password, staySignedIn = false) {
-    const { data, error } = await supabase.auth.signInWithPassword(
-      {
+async function loginWithPassword(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
-      },
-      {
-        persistSession: staySignedIn  
-      }
-    );
+    });
   
     if (error) {
       return { success: false, message: error.message };
@@ -51,7 +46,7 @@ async function signUpWithPassword(email, password, firstName, lastName) {
     email,
     password,
     options: {
-      emailRedirectTo: 'http://127.0.0.1:5500/code/emailConfirmed.html',
+      emailRedirectTo: 'http://127.0.0.1:5500/code/emailConfirmed.html', // TODO: replace with production URL
       data: {
         firstName: firstName,
         lastName: lastName
@@ -256,7 +251,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = passwordInput.value.trim();
         const staySignedIn = document.getElementById('staySignedIn').checked;
 
-        const result = await loginWithPassword(email, password, staySignedIn);
+        // Set flag BEFORE login so the custom storage routes the session correctly
+        localStorage.setItem('ft_stay_signed_in', staySignedIn ? 'true' : 'false');
+
+        const result = await loginWithPassword(email, password);
 
         if (!result.success) {
             loginPasswordError.style.display = 'block';
@@ -293,12 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (profileInsertError) {
                 console.error("Profile creation failed:", profileInsertError.message);
-            } else {
-                console.log("Profile created successfully!");
             }
         }
 
         // Succesful login; go to index.html
+        NProgress.start();
         window.location.href = 'index.html';
     });
 
@@ -355,6 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById("goToLoginButton").addEventListener("click", () => {
+        NProgress.start();
         window.location.href = "login.html";
     });
 
@@ -418,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: 'http://127.0.0.1:5500/code/resetPassword.html'
+                redirectTo: 'http://127.0.0.1:5500/code/resetPassword.html' // TODO to prod domain 
             });
 
             if (error) {

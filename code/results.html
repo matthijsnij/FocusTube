@@ -12,6 +12,8 @@
 <head>
   <!-- Defines character encoding -->
   <meta charset="UTF-8">
+  <!-- Apply theme immediately to prevent black flash on navigation -->
+  <script>(function(){var t=localStorage.getItem('theme');var m={'standard-light':'light','gradient-dark':'gradient-dark','gradient-light':'gradient-light'};document.documentElement.setAttribute('data-theme',m[t]||'');})();</script>
 
   <!-- Ensure proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,6 +92,9 @@
       cursor: pointer;              /* Shows that X is clickable */
     }
   </style>
+  <!-- NProgress: page transition loading bar -->
+  <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
+  <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
 </head>
 
 <body class="results-page">
@@ -161,5 +166,6 @@
   <script src="header.js"></script>
   <!-- Link to external JavaScript which injects settings popup -->
   <script type="module" src="settings.js"></script>
+  <script>NProgress.done(true);</script>
 </body>
 </html>

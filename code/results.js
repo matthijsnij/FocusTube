@@ -130,6 +130,18 @@ function formatDuration(isoDuration) {
   }
 }
 
+// ====== HELPER FUNCTION: Escape HTML ======
+// Prevents XSS by escaping special characters before inserting into innerHTML
+function escapeHTML(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // ====== FUNCTION TO DISPLAY VIDEO RESULTS ======
 async function displayVideos(videos, container = resultsContainer, append = false, precomputedStatsMap = null) {
   if (!append) {
@@ -173,7 +185,7 @@ async function displayVideos(videos, container = resultsContainer, append = fals
     // Inner HTML mimicking YouTube style:
     videoElement.innerHTML = `
       <div class="thumbnail-container" style="position: relative; display: inline-block; cursor:pointer;">
-        <img src="${thumbnail}" alt="${title}">
+        <img src="${escapeHTML(thumbnail)}" alt="${escapeHTML(title)}">
         <span class="duration" style="
           position: absolute;
           bottom: 4px;
@@ -186,8 +198,8 @@ async function displayVideos(videos, container = resultsContainer, append = fals
           font-weight: bold;
         ">${stats.duration}</span>
       </div>
-      <h3>${title}</h3>
-      <p>${channel}</p>
+      <h3>${escapeHTML(title)}</h3>
+      <p>${escapeHTML(channel)}</p>
       <p>${formatViews(stats.views)} ${viewsLabel} • ${timeAgo(publishedAt)}</p>
     `;
 
@@ -313,15 +325,16 @@ function displayChannels(channels, append = false) {
     const el = document.createElement('div');
     el.classList.add('channel-item');
     el.innerHTML = `
-      <img src="${thumbnail}" alt="${title}" class="channel-avatar">
+      <img src="${escapeHTML(thumbnail)}" alt="${escapeHTML(title)}" class="channel-avatar">
       <div class="channel-info">
-        <h3>${title}</h3>
-        ${meta ? `<p class="channel-meta">${meta}</p>` : ''}
-        ${description ? `<p class="channel-description">${description}</p>` : ''}
+        <h3>${escapeHTML(title)}</h3>
+        ${meta ? `<p class="channel-meta">${escapeHTML(meta)}</p>` : ''}
+        ${description ? `<p class="channel-description">${escapeHTML(description)}</p>` : ''}
       </div>
     `;
 
     el.addEventListener('click', () => {
+      NProgress.start();
       window.location.href = `index.html?channelId=${encodeURIComponent(chId)}&channelName=${encodeURIComponent(title)}`;
     });
 
@@ -362,14 +375,14 @@ async function fetchChannels(pageToken = null) {
 
     if (data?.error) {
       console.error('YouTube API error:', data.error);
-      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${data.error.message}</p>`;
+      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${escapeHTML(data.error.message)}</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
 
     const items = (data.items || []).filter(i => i?.id?.channelId);
     if (items.length === 0 && !pageToken) {
-      resultsContainer.innerHTML = `<p>No channels found for "${query}".</p>`;
+      resultsContainer.innerHTML = `<p>No channels found for "${escapeHTML(query)}".</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
@@ -427,13 +440,13 @@ async function fetchVideos(pageToken = null) {
         data.error?.errors?.[0]?.message ||
         data.error?.message ||
         'Unknown YouTube API error.';
-      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${msg}</p>`;
+      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${escapeHTML(msg)}</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
 
     if (!data.items || data.items.length === 0) {
-      resultsContainer.innerHTML = `<p>No results found for "${query}".</p>`;
+      resultsContainer.innerHTML = `<p>No results found for "${escapeHTML(query)}".</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
@@ -441,7 +454,7 @@ async function fetchVideos(pageToken = null) {
     // Cache results for local pagination (no repeated search.list on "Load more")
     const newItems = data.items.filter(v => v?.id?.videoId);
     if (newItems.length === 0 && !pageToken) {
-      resultsContainer.innerHTML = `<p>No video results found for "${query}".</p>`;
+      resultsContainer.innerHTML = `<p>No video results found for "${escapeHTML(query)}".</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
@@ -473,8 +486,7 @@ async function fetchVideos(pageToken = null) {
 
   } catch (error) {
     console.error('Error fetching videos:', error);
-    const msg = (error && error.message) ? error.message : String(error);
-    resultsContainer.innerHTML = `<p class="error-message">Error fetching videos.</p><p class="error-message">Details: ${msg}</p>`;
+    resultsContainer.innerHTML = `<p class="error-message">Error fetching videos. Please try again.</p>`;
   } finally {
     isLoading = false;
     loadMoreButton.disabled = false;
@@ -488,7 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ====== GET SEARCH QUERY & FILTERS ======
   const urlParams = new URLSearchParams(window.location.search);
   query = urlParams.get('search');        // Get search query from URL
-  apiKey = urlParams.get('key');          // Get API key from URL
+  apiKey = 'AIzaSyDPxNfirzwZqgXCXza_jsRCL2G3nKn00VU'; // YouTube API key
   channelId = urlParams.get('channelId') || '';
   channelName = urlParams.get('channelName') || '';
 
@@ -516,6 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scopeChip.innerHTML = `<button id="clearChannelScope" aria-label="Exit channel mode">${exitLabel}</button>`;
       scopeChip.style.display = 'flex';
       document.getElementById('clearChannelScope').addEventListener('click', () => {
+        NProgress.start();
         window.location.href = 'index.html';
       });
     }
