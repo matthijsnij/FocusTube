@@ -46,7 +46,7 @@ async function signUpWithPassword(email, password, firstName, lastName) {
     email,
     password,
     options: {
-      emailRedirectTo: 'http://127.0.0.1:5500/code/emailConfirmed.html', // TODO: replace with production URL
+      emailRedirectTo: 'https://focustube.data-wolf.nl/emailConfirmed.html',
       data: {
         firstName: firstName,
         lastName: lastName
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: 'http://127.0.0.1:5500/code/resetPassword.html' // TODO to prod domain 
+                redirectTo: 'https://focustube.data-wolf.nl/resetPassword.html'
             });
 
             if (error) {

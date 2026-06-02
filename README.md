@@ -1,75 +1,111 @@
-# FocusTube HTML Structure Guide
+# FocusTube
 
-This document explains the purpose of the main HTML elements used in the FocusTube project.  
-
----
-
-## `<!DOCTYPE html>`
-Declares that the document uses **HTML5** so the browser renders it with modern standards.
+A distraction-free YouTube search interface. No recommendations, suggestions, sidebar, or other noise, only get results you explicitly search for.
 
 ---
 
-## `<html>`
-The root of the HTML page. Everything inside belongs to the web document.  
+## What it does
 
-- Attribute `lang="en"` specifies the language (English).
+FocusTube wraps the YouTube Data API in a clean, minimal UI. You search for videos or channels, apply filters, and watch inline without ever touching the YouTube homepage. Guest users get 2 free searches before being prompted to log in.
 
----
-
-## `<head>`
-Contains **metadata** and resources the browser needs but which are not directly displayed on the page (title, CSS, viewport settings, etc.).
-
----
-
-## `<meta>`
-Provides metadata such as character encoding and viewport settings for mobile scaling.
+**Features:**
+- Search YouTube videos and channels with all YouTube native filters (duration, upload date, sort order)
+- Scope searches to a specific channel
+- Watch videos in an inline modal player
+- 4 themes (light/dark, minimal/gradient)
+- 7 languages (EN, ES, FR, DE, IT, NL, PT)
+- Account system — sign up, log in, reset password, email confirmation
 
 ---
 
-## `<title>`
-Defines the **page title** shown in the browser tab or bookmarks.
+## Tech stack
+
+- Vanilla JavaScript (ES modules), HTML, CSS — no build tools
+- [Supabase](https://supabase.com) — auth and user profiles
+- [YouTube Data API v3](https://developers.google.com/youtube/v3) — search and video metadata
+- NProgress — loading bar
+- All dependencies loaded via CDN (no `npm install` needed)
 
 ---
 
-## `<link>`
-Links an external resource such as a **CSS stylesheet**.
+## Project structure
+
+```
+code/
+  index.html          # Landing page (search + filters + settings)
+  results.html        # Results grid + inline video player
+  login.html          # Login / sign up / password recovery
+  emailConfirmed.html # Post-email-verification landing
+  resetPassword.html  # Password reset form (opened from email link)
+  header.html         # Logo header, loaded dynamically
+
+  supabaseClient.js   # Supabase init and session storage routing
+  authState.js        # Auth UI (login button, user greeting, channel mode)
+  query.js            # Search logic and guest limit enforcement
+  results.js          # YouTube API calls, result rendering, pagination
+  filters.js          # Filter panel UI and state
+  settings.js         # Theme, language, logout
+  login.js            # Auth flow (login, signup, password reset)
+  languageManager.js  # i18n — loads lang/*.json, translates data-i18n elements
+  header.js           # Injects header.html into pages
+  placeholder.js      # Typewriter animation for search suggestions
+  style.css           # All styling — 4 theme variants via CSS variables
+
+lang/
+  en.json, es.json, fr.json, de.json, it.json, nl.json, pt.json
+
+images/
+  # Logos, icons, gradient backgrounds
+```
 
 ---
 
-## `<style>`
-Allows you to add **internal CSS styles** directly inside the HTML document.
+## Running locally
+
+A proper HTTP server is required — `file://` won't work due to ES module imports.
+
+**Option 1: VS Code Live Server:**  
+Open `code/index.html` → right-click → *Open with Live Server*
+
+**Option 2: Python:**
+```bash
+python -m http.server 5500
+```
+Then open `http://127.0.0.1:5500/code/index.html`
 
 ---
 
-## `<body>`
-The main container where **all visible content** is placed (what the user sees in the browser).
+## Webpage
+
+FocusTube is currently being hosted live on https://focustube.data-wolf.nl/.
+
+## Configuration
+
+API keys are currently hardcoded in the source files:
+
+| Key | Location | Service |
+|-----|----------|---------|
+| `SUPABASE_URL` + `ANON_KEY` | `supabaseClient.js` | Supabase project |
+| `API_KEY` | `query.js`, `results.js` | YouTube Data API v3 |
+
+The YouTube API key is hardcoded in the client-side JS, which is unavoidable for a frontend-only app. It is secured via an **HTTP referrer restriction** in Google Cloud Console, meaning the key will only work for requests originating from the allowed domain.
+
+The email confirmation and password reset redirect URLs point to `https://focustube.data-wolf.nl`.
 
 ---
 
-## `<div>`
-A **generic block container** used for grouping elements.  
+## Auth flow
 
-- In this project:  
-  - `results-container` holds the search results.  
-  - `videoModal` acts as the modal overlay.
+1. Enter email on the login page
+2. If the email is new → sign-up form (first name, last name, password)
+3. Confirmation email sent → user clicks link → account activated
+4. Login stores session in `localStorage` (if "stay signed in") or `sessionStorage`
+5. Password reset sends a link via Supabase; the reset form lives at `resetPassword.html`
 
----
-
-## `<h2>`
-A **heading element (second-level)**. Used for titles or section headings.
+User profile data (name, email) is stored in a `focustube_profiles` table in Supabase, created on first login.
 
 ---
 
-## `<span>`
-An **inline container**, usually for styling or interaction.  
+## Guest limits
 
-- In this project: it holds the **“×” close button** for the modal.
-
----
-
-## `<script>`
-Loads **JavaScript files** or embeds code to add interactivity.  
-
-- In this project:  
-  - The YouTube IFrame API is loaded.  
-  - A local script (`results.js`) handles results logic and modal functionality.
+Unauthenticated users can run **2 searches** before being redirected to the login page. The count is tracked in `localStorage` under `searchCount`.
