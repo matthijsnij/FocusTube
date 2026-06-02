@@ -375,12 +375,7 @@ async function fetchChannels(pageToken = null) {
 
     if (data?.error) {
       console.error('YouTube API error:', data.error);
-      const reason = data.error?.errors?.[0]?.reason || '';
-      const isQuota = reason === 'quotaExceeded' || reason === 'dailyLimitExceeded' || data.error?.code === 403;
-      const msg = isQuota
-        ? "Search is temporarily unavailable — the daily YouTube API quota has been reached. Please try again tomorrow."
-        : `YouTube API error: ${escapeHTML(data.error?.message || 'Unknown error.')}`;
-      resultsContainer.innerHTML = `<p class="error-message">${isQuota ? msg : escapeHTML(msg)}</p>`;
+      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${escapeHTML(data.error.message)}</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
@@ -441,12 +436,11 @@ async function fetchVideos(pageToken = null) {
 
     if (data?.error) {
       console.error('YouTube API error:', data.error);
-      const reason = data.error?.errors?.[0]?.reason || '';
-      const isQuota = reason === 'quotaExceeded' || reason === 'dailyLimitExceeded' || data.error?.code === 403;
-      const msg = isQuota
-        ? "Search is temporarily unavailable — the daily YouTube API quota has been reached. Please try again tomorrow."
-        : `YouTube API error: ${escapeHTML(data.error?.errors?.[0]?.message || data.error?.message || 'Unknown error.')}`;
-      resultsContainer.innerHTML = `<p class="error-message">${isQuota ? msg : escapeHTML(msg)}</p>`;
+      const msg =
+        data.error?.errors?.[0]?.message ||
+        data.error?.message ||
+        'Unknown YouTube API error.';
+      resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${escapeHTML(msg)}</p>`;
       loadMoreButton.style.display = 'none';
       return;
     }
