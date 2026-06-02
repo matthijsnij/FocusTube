@@ -374,7 +374,8 @@ async function fetchChannels(pageToken = null) {
     const data = await res.json();
 
     if (data?.error) {
-      console.error('YouTube API error:', data.error);
+      console.error('YouTube API error (403 = quota limit reached):', data.error);
+      // Error code 403 typically means the daily API quota has been reached
       resultsContainer.innerHTML = `<p class="error-message">YouTube API error: ${escapeHTML(data.error.message)}</p>`;
       loadMoreButton.style.display = 'none';
       return;
@@ -435,7 +436,7 @@ async function fetchVideos(pageToken = null) {
     const data = await res.json();
 
     if (data?.error) {
-      console.error('YouTube API error:', data.error);
+      console.error('YouTube API error (403 = quota limit reached):', data.error);
       const msg =
         data.error?.errors?.[0]?.message ||
         data.error?.message ||
