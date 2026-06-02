@@ -60,21 +60,6 @@ images/
 
 ---
 
-## Running locally
-
-A proper HTTP server is required — `file://` won't work due to ES module imports.
-
-**Option 1: VS Code Live Server:**  
-Open `code/index.html` → right-click → *Open with Live Server*
-
-**Option 2: Python:**
-```bash
-python -m http.server 5500
-```
-Then open `http://127.0.0.1:5500/code/index.html`
-
----
-
 ## Webpage
 
 FocusTube is currently being hosted live on https://focustube.data-wolf.nl/.
@@ -89,6 +74,8 @@ API keys are currently hardcoded in the source files:
 | `API_KEY` | `query.js`, `results.js` | YouTube Data API v3 |
 
 The YouTube API key is hardcoded in the client-side JS, which is unavoidable for a frontend-only app. It is secured via an **HTTP referrer restriction** in Google Cloud Console, meaning the key will only work for requests originating from the allowed domain.
+
+The Supabase URL and anon key are also hardcoded and visible in source. This is fine since the URL is just the project's API endpoint, and the anon key is intended to be public. It only grants the permissions that Supabase's Row Level Security (RLS) policies allow, so the actual data security is enforced server-side.
 
 The email confirmation and password reset redirect URLs point to `https://focustube.data-wolf.nl`.
 
